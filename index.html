@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Seus estudos</title>
+<meta name="theme-color" content="#09090C">
+<meta name="color-scheme" content="dark">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%2309090C'/%3E%3Cpath d='M24 18l24 14-24 14z' fill='%23E4F06E'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#09090C;
+  --text:#F4F3F6; --muted:rgba(244,243,246,.56); --faint:rgba(244,243,246,.32); --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
+  --acc:#E4F06E; --acc-dim:rgba(228,240,110,.5); --bad:#FF8A7A;
+  --glass:linear-gradient(180deg,rgba(255,255,255,.085),rgba(255,255,255,.03));
+  --font:'Inter Tight',system-ui,-apple-system,sans-serif;
+  --r:28px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--text);font:400 15px/1.45 var(--font);-webkit-font-smoothing:antialiased;font-feature-settings:"tnum" 1}
+button,input{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:1.5px solid var(--text);outline-offset:3px}
+[hidden]{display:none!important}
+h2.sec{margin:6px 6px 0;font:400 24px/1.1 var(--font);letter-spacing:-.015em}
+h2.sec span{color:var(--muted)}
+
+/* luz ambiente */
+.amb{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;background:var(--bg)}
+.amb i{position:absolute;border-radius:50%}
+.amb .b1{width:70vmax;height:70vmax;left:-22vmax;top:-34vmax;background:radial-gradient(closest-side,rgba(110,72,150,.55),transparent)}
+.amb .b2{width:55vmax;height:55vmax;right:-18vmax;top:-12vmax;background:radial-gradient(closest-side,rgba(184,98,140,.42),transparent)}
+.amb .b3{width:46vmax;height:46vmax;right:8vmax;bottom:-30vmax;background:radial-gradient(closest-side,rgba(226,140,90,.28),transparent)}
+.amb .b4{width:40vmax;height:40vmax;left:-12vmax;bottom:-22vmax;background:radial-gradient(closest-side,rgba(70,90,200,.22),transparent)}
+.amb img{position:absolute;left:-10%;top:-10%;width:120%;height:70%;object-fit:cover;filter:blur(70px) saturate(1.35);opacity:0;transition:opacity 1s}
+.amb img.ok{opacity:.42}
+.amb::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,12,.05) 0%,rgba(9,9,12,.55) 55%,rgba(9,9,12,.92) 100%)}
+
+/* base */
+.glass{background:var(--glass);border:1px solid var(--hair);border-radius:var(--r);
+  -webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.07),0 30px 70px -40px rgba(0,0,0,.85)}
+.rbtn{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;color:var(--text);
+  background:rgba(255,255,255,.07);border:1px solid var(--hair2);-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px);transition:background .15s}
+.rbtn:hover:not(:disabled){background:rgba(255,255,255,.13)}
+.rbtn:disabled{opacity:.3;cursor:default}
+.wbtn{height:46px;border-radius:999px;border:0;padding:0 20px;display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  background:#F4F3F6;color:#0B0B0E;font:500 15px/1 var(--font);white-space:nowrap;transition:transform .12s,background .15s}
+.wbtn:hover:not(:disabled){background:#fff}
+.wbtn:active{transform:scale(.98)}
+.wbtn:disabled{opacity:.35;cursor:default}
+.wbtn.done{background:rgba(228,240,110,.14);color:var(--acc);box-shadow:inset 0 0 0 1px rgba(228,240,110,.4)}
+.gbtn{height:46px;border-radius:999px;padding:0 18px;display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;
+  background:rgba(255,255,255,.07);border:1px solid var(--hair2);color:var(--text);font:500 15px/1 var(--font)}
+.gbtn:hover:not(:disabled){background:rgba(255,255,255,.13)}
+.gbtn:disabled{opacity:.35;cursor:default}
+.tag{display:inline-flex;align-items:center;height:28px;padding:0 12px;border-radius:999px;background:rgba(255,255,255,.1);font:500 13px var(--font);white-space:nowrap}
+.tag.w{background:#F4F3F6;color:#0B0B0E}
+.tag.ok{background:rgba(228,240,110,.16);color:var(--acc)}
+.ic{width:44px;height:44px;flex:none;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.08);border:1px solid var(--hair)}
+.ic.w{background:#F4F3F6;color:#0B0B0E;border-color:transparent}
+.dline{height:3px;border-radius:3px;background:rgba(255,255,255,.14);overflow:hidden}
+.dline i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--acc);border-radius:3px;transition:width .6s cubic-bezier(.2,.8,.2,1)}
+
+/* layout */
+.app{position:relative;z-index:1;max-width:1440px;margin:0 auto;padding:22px 28px 48px;display:grid;grid-template-columns:minmax(0,1fr) 384px;grid-template-areas:"top top" "main side";gap:22px 28px}
+.app:not([data-view="aulas"]){grid-template-columns:minmax(0,1fr);grid-template-areas:"top" "main"}
+.app:not([data-view="aulas"]) .side{display:none}
+.top{grid-area:top;display:flex;align-items:center;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0;flex:1;background:none;border:0;padding:0;text-align:left;color:var(--text)}
+.mark{width:46px;height:46px;flex:none;border-radius:50%;display:grid;place-items:center;font:500 16px/1 var(--font);letter-spacing:-.02em;
+  background:conic-gradient(from 200deg,#E4F06E,#E28C5A,#B8628C,#6E4896,#E4F06E);padding:2px}
+.mark span{width:100%;height:100%;border-radius:50%;display:grid;place-items:center;background:#111015}
+.brand b{display:block;font:500 17px/1.15 var(--font);letter-spacing:-.01em;white-space:nowrap}
+.brand small{display:block;font-size:13px;color:var(--muted)}
+.seg{display:flex;padding:4px;gap:2px;border-radius:999px}
+.seg button{height:38px;padding:0 16px;border:0;border-radius:999px;background:none;color:var(--muted);font:500 14px var(--font);white-space:nowrap}
+.seg button.on{background:rgba(255,255,255,.14);color:var(--text);box-shadow:inset 0 1px 0 rgba(255,255,255,.12)}
+.seg button:hover:not(.on){color:var(--text)}
+.seg sup,.nav sup{display:inline-grid;place-items:center;min-width:17px;height:17px;padding:0 4px;margin-left:5px;border-radius:9px;background:var(--bad);color:#1a0b08;font:600 10px/1 var(--font);vertical-align:2px}
+.top .right{flex:1;display:flex;justify-content:flex-end;gap:10px}
+.main{grid-area:main;min-width:0}
+.side{grid-area:side;display:flex;flex-direction:column;gap:14px;position:sticky;top:22px;align-self:start}
+.view{display:flex;flex-direction:column;gap:22px}
+.subseg{align-self:flex-start;display:flex;padding:4px;gap:2px;border-radius:999px}
+.subseg button{height:34px;padding:0 14px;border:0;border-radius:999px;background:none;color:var(--muted);font:500 13px var(--font)}
+.subseg button.on{background:rgba(255,255,255,.14);color:var(--text)}
+
+/* início */
+.home-top{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:16px}
+.cont{position:relative;overflow:hidden;min-height:330px;padding:28px;display:flex;flex-direction:column;justify-content:flex-end;border-radius:32px;border:1px solid var(--hair);
+  background:radial-gradient(70% 90% at 20% 0%,rgba(184,98,140,.55),transparent 70%),radial-gradient(60% 80% at 90% 20%,rgba(110,72,150,.6),transparent 70%),radial-gradient(60% 70% at 60% 110%,rgba(226,140,90,.35),transparent 70%),#17131C}
+.cont img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s}
+.cont img.ok{opacity:.7}
+.cont::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,12,0) 20%,rgba(9,9,12,.85) 100%)}
+.cont>*:not(img){position:relative;z-index:1}
+.cont .tag{align-self:flex-start;margin-bottom:auto}
+.cont small{color:rgba(255,255,255,.75);font-size:14px}
+.cont h1{margin:6px 0 18px;font:300 clamp(28px,3vw,40px)/1.08 var(--font);letter-spacing:-.025em;max-width:22ch}
+.cont .row{display:flex;align-items:center;gap:16px}
+.cont .row .dline{flex:1;height:4px}
+.cont .row span{font-size:13px;color:rgba(255,255,255,.8);white-space:nowrap}
+.tiles{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.tile{padding:18px;border-radius:24px}
+.tile .ic{width:38px;height:38px;margin-bottom:16px}
+.tile b{display:block;font:300 32px/1 var(--font);letter-spacing:-.03em}
+.tile small{display:block;margin-top:6px;font-size:13px;color:var(--muted)}
+.train{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.tr{display:flex;flex-direction:column;gap:14px;text-align:left;padding:20px;border-radius:26px;color:var(--text);border:1px solid var(--hair);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px);transition:background .15s}
+.tr:hover{background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.04))}
+.tr .r{display:flex;justify-content:space-between;align-items:flex-start}
+.tr b{display:block;font:400 22px/1.1 var(--font);letter-spacing:-.01em}
+.tr small{display:block;margin-top:4px;color:var(--muted);font-size:14px}
+.tr .go{display:flex;align-items:center;gap:6px;font-size:14px;margin-top:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.wk{padding:22px 18px}
+.wk .rings{grid-template-columns:repeat(7,1fr)}
+.subj{padding:8px 20px}
+.srow{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;padding:13px 0;border-bottom:1px solid var(--hair)}
+.srow:last-child{border-bottom:0}
+.srow b{display:block;font:500 15px var(--font);margin-bottom:8px}
+.srow .pc{font-size:14px;color:var(--muted);min-width:40px;text-align:right}
+.course{display:flex;align-items:center;gap:18px;padding:18px 22px;border-radius:28px;width:100%;text-align:left;color:var(--text)}
+.course .tx{flex:1;min-width:0}
+.course b{display:block;font:500 17px var(--font)}
+.course small{color:var(--muted);font-size:14px}
+.bigring{--p:0;position:relative;width:64px;height:64px;flex:none;border-radius:50%;display:grid;place-items:center;font:500 15px var(--font)}
+.bigring::before{content:"";position:absolute;inset:0;border-radius:50%;background:conic-gradient(var(--acc) calc(var(--p)*1turn),rgba(255,255,255,.13) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px))}
+
+/* aulas: player */
+.player{position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#141218;border:1px solid var(--hair);box-shadow:0 50px 100px -50px rgba(0,0,0,.9)}
+.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.poster{position:absolute;inset:0;width:100%;border:0;padding:0;color:var(--text);text-align:left;
+  background:radial-gradient(70% 90% at 25% 10%,rgba(184,98,140,.55),transparent 70%),radial-gradient(60% 80% at 85% 30%,rgba(110,72,150,.6),transparent 70%),radial-gradient(60% 70% at 60% 110%,rgba(226,140,90,.35),transparent 70%),#17131C}
+.poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+.poster img.ok{opacity:1}
+.poster::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.25),rgba(0,0,0,0) 30%,rgba(0,0,0,0) 55%,rgba(0,0,0,.6))}
+.poster .bar{position:absolute;z-index:1;left:18px;right:18px;bottom:18px;height:62px;border-radius:999px;display:flex;align-items:center;gap:14px;padding:0 10px;
+  background:rgba(30,26,36,.38);border:1px solid rgba(255,255,255,.14);-webkit-backdrop-filter:blur(22px) saturate(160%);backdrop-filter:blur(22px) saturate(160%)}
+.poster .play{width:44px;height:44px;border-radius:50%;flex:none;display:grid;place-items:center;background:#F4F3F6;color:#0B0B0E}
+.poster .bar b{font:500 15px var(--font);white-space:nowrap}
+.poster .line{flex:1;height:3px;border-radius:3px;background:rgba(255,255,255,.22);position:relative}
+.poster .line i{position:absolute;left:0;top:0;bottom:0;width:calc(var(--p,0)*100%);border-radius:3px;background:#fff}
+.poster .line i::after{content:"";position:absolute;right:-5px;top:50%;width:10px;height:10px;margin-top:-5px;border-radius:50%;background:#fff;box-shadow:0 0 0 4px rgba(255,255,255,.18)}
+.poster .bar small{font-size:13px;color:rgba(255,255,255,.75);white-space:nowrap;padding-right:8px}
+.poster .corner{position:absolute;z-index:1;top:18px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center}
+.rest{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;
+  background:radial-gradient(60% 80% at 30% 0%,rgba(110,72,150,.5),transparent 70%),radial-gradient(60% 80% at 90% 100%,rgba(226,140,90,.25),transparent 70%),#141218}
+.rest h3{margin:0 0 8px;font:300 34px/1.05 var(--font);letter-spacing:-.02em}
+.rest p{margin:0;color:var(--muted);max-width:42ch}
+.actions{display:flex;align-items:center;gap:10px;padding:8px;border-radius:999px}
+.actions .info{flex:1;min-width:0;padding:0 10px;display:flex;flex-direction:column;gap:6px}
+.actions .info span{font-size:13px;color:var(--muted)}
+.lhead h1{margin:0;font:300 clamp(28px,3.2vw,42px)/1.08 var(--font);letter-spacing:-.025em;max-width:26ch}
+.lhead p{margin:12px 0 0;color:var(--muted);max-width:60ch}
+.meta{display:flex;align-items:center;gap:12px;margin-top:20px}
+.meta .who{flex:1;min-width:0}
+.meta .who small{display:block;font-size:13px;color:var(--muted)}
+.meta .who b{display:block;font:500 16px var(--font)}
+.meta .score{font:400 15px var(--font);color:var(--muted);white-space:nowrap}
+.meta .score b{color:var(--text);font-weight:500}
+.lsthead{display:flex;justify-content:space-between;align-items:baseline;padding:0 6px;font:500 15px var(--font)}
+.lsthead span+span{color:var(--muted);font-weight:400}
+.lessons{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.lesson{display:flex;align-items:center;gap:14px;padding:10px 12px 10px 10px;border-radius:999px;cursor:pointer;transition:background .15s}
+.lesson:hover{background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.05))}
+.lesson .ic{font:500 15px/1 var(--font)}
+.lesson .tx{flex:1;min-width:0}
+.lesson .tx b{display:block;font:500 15px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lesson .tx small{display:block;font-size:13px;color:var(--muted)}
+.chk{width:36px;height:36px;flex:none;border-radius:50%;border:1px solid var(--hair2);background:none;display:grid;place-items:center;color:transparent;padding:0}
+.chk:hover{border-color:var(--text);color:var(--faint)}
+.chk.on{background:var(--acc);border-color:var(--acc);color:#14160A}
+.lesson.cur{border-color:rgba(255,255,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06))}
+.lesson.seen .tx b{color:var(--muted)}
+
+/* anéis */
+.strip{padding:20px 18px 18px}
+.strip-head{display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:18px}
+.strip-head h3{margin:0;font:400 22px var(--font);letter-spacing:-.01em}
+.strip-head h3 span{color:var(--muted)}
+.strip-head button{width:32px;height:32px;border:0;border-radius:50%;background:none;color:var(--text);display:grid;place-items:center}
+.strip-head button:disabled{opacity:.25;cursor:default}
+.rings{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;text-align:center}
+.rings .lbl{font-size:12px;color:var(--muted);margin-bottom:10px;white-space:nowrap}
+.rings .col.sel .lbl{color:var(--text);font-weight:500}
+.ring{--p:0;--rc:var(--acc);position:relative;width:38px;height:38px;margin:0 auto;border-radius:50%;border:0;padding:0;background:none;display:grid;place-items:center;font:400 12px var(--font);color:var(--muted);transition:transform .2s}
+.ring::before{content:"";position:absolute;inset:0;border-radius:50%;
+  background:conic-gradient(var(--rc) calc(var(--p)*1turn),rgba(255,255,255,.13) 0);
+  -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 calc(100% - 2.5px))}
+.ring.full{--rc:var(--acc-dim);color:var(--acc)}
+.ring.none::before{background:none;border:1.5px dashed rgba(255,255,255,.16);-webkit-mask:none;mask:none}
+.ring.sel{transform:scale(1.22);color:var(--text);font-weight:500}
+.ring.sel::before{-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px))}
+.ring.sel.full::before{background:var(--acc)}
+.ring.sel.p0::before{background:conic-gradient(var(--acc) .03turn,rgba(255,255,255,.2) 0)}
+button.ring:hover{color:var(--text)}
+
+/* agenda */
+.ag-head{display:flex;justify-content:center;gap:8px;font:500 15px var(--font);margin:10px 0 0}
+.ag-head span{color:var(--muted);font-weight:400}
+.ag{display:flex;flex-direction:column;gap:12px}
+.agc{display:block;width:100%;text-align:left;padding:16px 18px 14px;border-radius:26px;border:1px solid var(--hair);color:var(--text);
+  background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));-webkit-backdrop-filter:blur(22px);backdrop-filter:blur(22px)}
+.agc.now{border-color:rgba(255,255,255,.18);background:radial-gradient(90% 120% at 100% 100%,rgba(226,140,90,.35),transparent 60%),radial-gradient(90% 120% at 30% 120%,rgba(184,98,140,.45),transparent 70%),linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05))}
+.agc .r1{display:flex;align-items:flex-start;gap:12px}
+.agc .r1 .tx{flex:1;min-width:0}
+.agc .r1 b{display:block;font:500 15px/1.25 var(--font)}
+.agc .r1 small{display:block;font-size:13px;color:var(--muted)}
+.agc .pct{display:flex;align-items:center;gap:6px;font-size:13px}
+.agc .pct i{width:18px;height:18px;border-radius:50%;display:grid;place-items:center;background:rgba(255,255,255,.25);color:#111}
+.agc.now .pct i{background:#fff}
+.agc .r2{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:14px}
+.agc .r2 span:last-child{display:flex;align-items:center;gap:4px}
+.agc:not(.now){opacity:.7}
+.agc:hover{opacity:1}
+
+/* mapa + busca */
+.searchw{position:relative;display:block}
+.search{width:100%;height:52px;border-radius:999px;padding:0 20px 0 50px;outline:none;color:var(--text);
+  background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.04));border:1px solid var(--hair);-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px)}
+.search::placeholder{color:var(--faint)}
+.search:focus{border-color:var(--hair2)}
+.searchw svg{position:absolute;left:20px;top:50%;transform:translateY(-50%);color:var(--muted)}
+.cycles{display:flex;flex-direction:column;gap:12px}
+.cycle{display:grid;grid-template-columns:150px 1fr;align-items:center;gap:16px;padding:18px 20px;border-radius:26px}
+.cycle .cl b{display:block;font:500 15px var(--font)}
+.cycle .cl small{font-size:13px;color:var(--muted)}
+.cycle .ring{width:44px;height:44px;font-size:13px}
+.cycle .lbl{margin:10px 0 0;font-size:11px}
+.xlist{display:flex;flex-direction:column;gap:10px}
+.xlist h4,.results h4{margin:10px 6px 0;font:500 15px var(--font)}
+.results{display:flex;flex-direction:column;gap:10px}
+.rrow{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:10px 18px 10px 10px;border-radius:999px;border:1px solid var(--hair);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.03));color:var(--text)}
+.rrow:hover{background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05))}
+.rrow .tx{flex:1;min-width:0}
+.rrow b{display:block;font:500 15px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rrow small{font-size:13px;color:var(--muted)}
+.empty{color:var(--muted);padding:6px}
+
+/* simulados */
+.sims{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.sim{padding:22px;border-radius:28px;display:flex;flex-direction:column;gap:16px}
+.sim .top2{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sim h3{margin:0;font:300 30px/1 var(--font);letter-spacing:-.025em}
+.sim p{margin:4px 0 0;color:var(--muted);font-size:14px}
+.sim .mix{display:flex;gap:6px;flex-wrap:wrap}
+.sim .btns{display:flex;gap:8px;margin-top:auto}
+.sim .btns .wbtn{flex:1}
+.note{color:var(--muted);font-size:14px;max-width:70ch;padding:0 6px;margin:0}
+.quiz{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;align-items:start}
+.qcard{padding:28px;border-radius:32px}
+.qhead{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.qhead .tx{flex:1;min-width:0}
+.qhead small{display:block;color:var(--muted);font-size:13px}
+.qhead b{display:block;font:500 16px var(--font)}
+.qtext{margin:0 0 18px;padding:16px 18px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid var(--hair);color:rgba(244,243,246,.82);font-size:15px;line-height:1.6}
+.qtext summary{cursor:pointer;color:var(--text);font-weight:500;list-style:none}
+.qtext summary::-webkit-details-marker{display:none}
+.qtext p{margin:10px 0 0;max-width:72ch}
+.qe{margin:0 0 20px;font:300 clamp(20px,2vw,26px)/1.3 var(--font);letter-spacing:-.01em;max-width:60ch}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;padding:10px 18px 10px 10px;border-radius:24px;border:1px solid var(--hair);color:var(--text);
+  background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.02));font:400 15px/1.4 var(--font);transition:background .15s,border-color .15s}
+.opt:hover:not(:disabled){background:linear-gradient(180deg,rgba(255,255,255,.12),rgba(255,255,255,.05))}
+.opt:disabled{cursor:default}
+.opt .l{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;border:1px solid var(--hair2);font:500 14px var(--font)}
+.opt.right{border-color:rgba(228,240,110,.55);background:linear-gradient(90deg,rgba(228,240,110,.14),rgba(228,240,110,.02))}
+.opt.right .l{background:var(--acc);border-color:var(--acc);color:#14160A}
+.opt.wrong{border-color:rgba(255,138,122,.55);background:linear-gradient(90deg,rgba(255,138,122,.14),rgba(255,138,122,.02))}
+.opt.wrong .l{background:var(--bad);border-color:var(--bad);color:#1a0b08}
+.opt.dim{opacity:.5}
+.fb{margin-top:18px;padding:16px 18px;border-radius:20px;border:1px solid var(--hair);background:rgba(255,255,255,.04)}
+.fb b{display:block;font:500 15px var(--font);margin-bottom:4px}
+.fb b.ok{color:var(--acc)}
+.fb b.no{color:var(--bad)}
+.fb p{margin:0;color:rgba(244,243,246,.8);max-width:72ch}
+.qnav{display:flex;align-items:center;gap:10px;margin-top:22px}
+.qnav .sp{flex:1}
+.qside{padding:20px;border-radius:28px;position:sticky;top:22px}
+.qside h4{margin:0 0 4px;font:500 15px var(--font)}
+.qside p{margin:0 0 16px;color:var(--muted);font-size:13px}
+.qgrid{display:grid;grid-template-columns:repeat(8,1fr);gap:6px}
+.qn{aspect-ratio:1;border-radius:50%;border:1px solid var(--hair2);background:none;color:var(--muted);font:500 12px var(--font);padding:0}
+.qn.r{background:var(--acc-dim);border-color:transparent;color:#14160A}
+.qn.w{background:rgba(255,138,122,.55);border-color:transparent;color:#1a0b08}
+.qn.c{border-color:var(--text);color:var(--text);box-shadow:0 0 0 2px rgba(255,255,255,.15)}
+.qside .wbtn{width:100%;margin-top:18px}
+.result{padding:30px;border-radius:32px;display:grid;grid-template-columns:auto 1fr;gap:30px;align-items:center}
+.result .big{font:200 clamp(84px,10vw,128px)/.9 var(--font);letter-spacing:-.05em}
+.result .big span{font-size:.4em;color:var(--muted);margin-left:4px}
+.result h3{margin:0 0 6px;font:400 24px var(--font)}
+.result p{margin:0 0 16px;color:var(--muted)}
+.result .btns{display:flex;gap:10px;flex-wrap:wrap}
+
+/* resumos */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{height:38px;padding:0 16px;border-radius:999px;border:1px solid var(--hair2);background:rgba(255,255,255,.05);color:var(--muted);font:500 14px var(--font)}
+.chip.on{background:#F4F3F6;border-color:#F4F3F6;color:#0B0B0E}
+.cards{columns:2 340px;column-gap:14px}
+.card{break-inside:avoid;margin:0 0 14px;padding:22px;border-radius:26px}
+.card .h{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.card .h b{font:500 17px/1.2 var(--font)}
+.card .h small{display:block;color:var(--muted);font-size:13px}
+.card ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:9px}
+.card li{position:relative;padding-left:16px;color:rgba(244,243,246,.85);line-height:1.5}
+.card li::before{content:"";position:absolute;left:0;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--acc-dim)}
+mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;padding:0 2px}
+
+/* erros */
+.errhead{display:flex;align-items:center;gap:16px;padding:22px 24px;border-radius:28px}
+.errhead .tx{flex:1}
+.errhead b{display:block;font:300 34px/1 var(--font);letter-spacing:-.02em}
+.errhead small{color:var(--muted)}
+
+/* pin */
+.gate{position:fixed;inset:0;z-index:5;display:grid;place-items:center;padding:24px}
+.gate form{width:min(400px,100%);padding:36px 28px 28px;text-align:center}
+.gate .mark{width:72px;height:72px;margin:0 auto 22px;font-size:22px}
+.gate h1{margin:0;font:300 34px/1.05 var(--font);letter-spacing:-.025em}
+.gate p{margin:10px 0 24px;color:var(--muted)}
+.gate input{width:100%;height:58px;border-radius:999px;text-align:center;font:300 26px var(--font);letter-spacing:.4em;outline:none;color:var(--text);
+  background:rgba(255,255,255,.06);border:1px solid var(--hair2)}
+.gate input:focus{border-color:rgba(255,255,255,.4)}
+.gate .wbtn{width:100%;height:54px;margin-top:12px}
+.gate .err{min-height:22px;margin:14px 0 0;color:var(--bad);font-size:14px}
+.toast{position:fixed;left:50%;bottom:30px;z-index:9;transform:translate(-50%,14px);opacity:0;pointer-events:none;transition:.25s;padding:12px 20px;border-radius:999px;background:#F4F3F6;color:#0B0B0E;font:500 14px var(--font)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.nav{display:none}
+.only-m{display:none!important}
+
+@media (max-width:1180px){
+  .app{grid-template-columns:minmax(0,1fr) 340px;padding:20px}
+  .cycle{grid-template-columns:1fr}
+  .sims{grid-template-columns:1fr 1fr}
+  .quiz{grid-template-columns:1fr}
+  .qside{position:static}
+  .qgrid{grid-template-columns:repeat(10,1fr)}
+}
+@media (max-width:899px){
+  .app{display:block;padding:14px 14px 120px}
+  .only-m{display:block!important}
+  .top{margin-bottom:16px}
+  .brand small{display:none}
+  .brand b{font-size:16px}
+  .seg,.side{display:none}
+  .view{gap:16px}
+  .home-top,.two,.train,.sims{grid-template-columns:1fr}
+  .cont{min-height:280px;padding:22px;border-radius:28px}
+  .tr{flex-direction:row;align-items:center;padding:16px}
+  .tr .r{flex-direction:row-reverse;gap:14px;align-items:center;flex:1}
+  .tr .r>div{flex:1}
+  .tr .go span{display:none}
+  .tr b{font-size:18px}
+  .player{border-radius:26px}
+  .poster .bar{left:10px;right:10px;bottom:10px;height:54px;gap:10px}
+  .poster .play{width:38px;height:38px}
+  .poster .bar small{display:none}
+  .poster .corner{top:12px;left:12px;right:12px}
+  .poster .corner .rbtn{width:40px;height:40px}
+  .actions .info{display:none}
+  .actions{padding:6px}
+  .actions .wbtn{flex:1}
+  .lhead h1{font-size:30px}
+  .lesson{border-radius:24px}
+  .lesson .tx b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+  .strip{padding:18px 10px 16px}
+  .ring{width:34px;height:34px;font-size:11px}
+  .rings .lbl{font-size:11px}
+  .cycle{padding:16px 12px;gap:12px}
+  .cycle .ring{width:34px;height:34px;font-size:12px}
+  .cycle .lbl{font-size:10px}
+  .qcard{padding:20px;border-radius:26px}
+  .qgrid{grid-template-columns:repeat(8,1fr)}
+  .qnav .gbtn span{display:none}
+  .result{grid-template-columns:1fr;gap:12px;padding:24px}
+  .errhead{flex-wrap:wrap}
+  .nav{display:flex;position:fixed;left:50%;transform:translateX(-50%);bottom:max(16px,env(safe-area-inset-bottom));z-index:6}
+  .nav .pillnav{display:flex;gap:2px;padding:6px;border-radius:999px;background:rgba(22,19,27,.78)}
+  .nav .pillnav button{position:relative;width:56px;height:48px;border:0;border-radius:999px;background:none;color:var(--muted);display:grid;place-items:center}
+  .nav .pillnav button.on{background:#F4F3F6;color:#0B0B0E}
+  .nav sup{position:absolute;top:4px;right:6px;margin:0}
+}
+@media (max-width:360px){ .nav .pillnav button{width:50px} }
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="amb" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><img id="ambImg" alt=""></div>
+
+<div class="gate" id="gate" hidden>
+  <form class="glass" id="gateForm" autocomplete="off">
+    <div class="mark"><span>80</span></div>
+    <h1>Seus estudos</h1>
+    <p>Digite o seu PIN para abrir as aulas.</p>
+    <input id="pin" type="password" inputmode="numeric" maxlength="12" aria-label="PIN" placeholder="••••">
+    <button class="wbtn" type="submit" id="pinBtn">Entrar</button>
+    <p class="err" id="pinErr" role="alert"></p>
+  </form>
+</div>
+
+<div class="app" id="app" data-view="inicio" hidden>
+  <header class="top">
+    <button class="brand" id="brand"><div class="mark"><span>80</span></div><div><b>Seus estudos</b><small id="brandSub"></small></div></button>
+    <nav class="seg glass" id="seg" aria-label="Seções">
+      <button data-v="inicio" class="on">Início</button><button data-v="aulas">Aulas</button><button data-v="simulados">Simulados</button><button data-v="resumos">Resumos</button><button data-v="erros">Caderno de erros<sup id="errBadge" hidden></sup></button>
+    </nav>
+    <div class="right"><button class="rbtn" id="searchBtn" aria-label="Buscar aula"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div>
+  </header>
+
+  <main class="main">
+    <!-- início -->
+    <section class="view" id="vInicio">
+      <div class="home-top">
+        <div class="cont" id="cont"></div>
+        <div class="tiles" id="tiles"></div>
+      </div>
+      <h2 class="sec">Treinar</h2>
+      <div class="train" id="train"></div>
+      <div class="two">
+        <div class="glass wk" id="week"></div>
+        <div class="glass subj" id="subj"></div>
+      </div>
+      <h2 class="sec">Cursos</h2>
+      <div id="courses"></div>
+    </section>
+
+    <!-- aulas -->
+    <section class="view" id="vAulas" hidden>
+      <div class="subseg glass" id="aulasSeg"><button data-s="aula" class="on">Aula</button><button data-s="mapa">Mapa dos 80 dias</button></div>
+      <div class="view" id="vAula">
+        <div class="player" id="player"></div>
+        <div class="actions glass">
+          <button class="rbtn" id="prevLesson" aria-label="Aula anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+          <div class="info"><span id="dayInfo"></span><div class="dline" id="dayLine"><i></i></div></div>
+          <button class="wbtn" id="mark"></button>
+          <button class="rbtn" id="nextLesson" aria-label="Próxima aula"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
+        </div>
+        <div class="lhead">
+          <h1 id="lTitle"></h1>
+          <p id="lDesc"></p>
+          <div class="meta"><span class="ic" id="mIcon"></span><div class="who"><small id="mDay"></small><b id="mSubj"></b></div><div class="score" id="mScore"></div></div>
+        </div>
+        <div class="glass strip only-m" id="stripM"></div>
+        <div class="lsthead"><span>Aulas do dia</span><span id="lCount"></span></div>
+        <ul class="lessons" id="lessons"></ul>
+      </div>
+      <div class="view" id="vMapa" hidden>
+        <label class="searchw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+          <input class="search" id="q" type="search" placeholder="Buscar aula por assunto" autocomplete="off" aria-label="Buscar aula"></label>
+        <div id="mapBody"><div class="cycles" id="cycles"></div><div class="xlist" id="extras"></div></div>
+        <div class="results" id="results" hidden></div>
+      </div>
+    </section>
+
+    <!-- simulados -->
+    <section class="view" id="vSim" hidden>
+      <div id="simList" class="view"></div>
+      <div id="quizBox" hidden></div>
+    </section>
+
+    <!-- resumos -->
+    <section class="view" id="vRes" hidden>
+      <h2 class="sec">Resumos rápidos <span id="resCount"></span></h2>
+      <label class="searchw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input class="search" id="rq" type="search" placeholder="Buscar nos resumos" autocomplete="off" aria-label="Buscar nos resumos"></label>
+      <div class="chips" id="resChips"></div>
+      <div class="cards" id="resCards"></div>
+    </section>
+
+    <!-- erros -->
+    <section class="view" id="vErr" hidden></section>
+  </main>
+
+  <aside class="side">
+    <div class="glass strip" id="stripD"></div>
+    <div class="ag-head" id="agHead"></div>
+    <div class="ag" id="agD"></div>
+  </aside>
+
+  <nav class="nav" id="nav" aria-label="Seções">
+    <div class="pillnav glass">
+      <button data-v="inicio" class="on" aria-label="Início"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 10.5 12 4l8 6.5V20h-5v-6h-6v6H4z"/></svg></button>
+      <button data-v="aulas" aria-label="Aulas"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7 5.5v13l11-6.5z"/></svg></button>
+      <button data-v="simulados" aria-label="Simulados"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="m9 12 2 2 4-4M9 7.5h6"/></svg></button>
+      <button data-v="resumos" aria-label="Resumos"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M9 9h5M9 13h5"/></svg></button>
+      <button data-v="erros" aria-label="Caderno de erros"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M12 8v4.5M12 16h.01"/></svg><sup id="errBadgeM" hidden></sup></button>
+    </div>
+  </nav>
+</div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+var SIMULADOS=[{"id":"s1","nome":"Simulado 1","textos":{"t1":"Nas unidades básicas de saúde, o primeiro contato do usuário raramente começa pela consulta. Começa na recepção, no olhar de quem o atende e na forma como sua queixa é ouvida. Por isso, o acolhimento não é uma etapa burocrática, mas uma postura que atravessa todo o serviço. Quando a equipe escuta com atenção, identifica riscos mais cedo e evita que casos simples se agravem. Ainda assim, muitos profissionais tratam a escuta como perda de tempo, embora ela costume economizar retornos, exames desnecessários e encaminhamentos mal feitos."},"q":[{"m":"pt","tx":"t1","e":"De acordo com o texto, o acolhimento:","o":["é uma etapa administrativa restrita à recepção.","substitui a consulta nos casos simples.","aumenta a quantidade de exames solicitados.","é uma postura que deve estar presente em todo o serviço."],"a":3,"c":"O texto afirma que o acolhimento \"não é uma etapa burocrática, mas uma postura que atravessa todo o serviço\"."},
+{"m":"pt","tx":"t1","e":"No trecho \"embora ela costume economizar retornos\", a conjunção \"embora\" estabelece relação de:","o":["concessão.","conclusão.","condição.","causa."],"a":0,"c":"\"Embora\" é conjunção concessiva: admite um fato contrário sem impedir o que se afirma na oração principal."},
+{"m":"pt","tx":"t1","e":"A expressão \"Por isso\", no terceiro período, introduz uma ideia de:","o":["oposição.","conclusão.","finalidade.","adição."],"a":1,"c":"\"Por isso\" retoma o que foi dito antes e apresenta a consequência ou conclusão."},
+{"m":"pt","e":"Assinale a alternativa em que o acento indicativo de crase está empregado corretamente.","o":["Refiro-me à esta situação.","Fomos à pé até a unidade.","O técnico entregou o laudo à paciente do leito 3.","O atendimento começa à partir das 8h."],"a":2,"c":"\"Entregar algo a alguém\" + artigo \"a\" (a paciente) = à. Não há crase antes de verbo (partir), de palavra masculina (pé) nem de pronome demonstrativo \"esta\"."},
+{"m":"pt","e":"Assinale a frase que está de acordo com a norma-padrão quanto à concordância verbal.","o":["Houveram muitas faltas no plantão de ontem.","Existem poucos leitos disponíveis na enfermaria.","Aluga-se salas no centro da cidade.","Fazem dois anos que trabalho nesta unidade."],"a":1,"c":"\"Existir\" concorda com o sujeito (leitos). \"Fazer\" indicando tempo e \"haver\" no sentido de existir são impessoais (faz, houve). Em \"alugam-se salas\", o verbo concorda com o sujeito paciente."},
+{"m":"pt","e":"Quanto à regência verbal, está correta a frase:","o":["Esqueci-me o horário da medicação.","Ele assistiu o jogo no intervalo do plantão.","A equipe obedeceu ao protocolo de segurança.","Prefiro trabalhar de dia do que à noite."],"a":2,"c":"\"Obedecer\" é transitivo indireto (obedecer a algo). O correto seria: \"prefiro trabalhar de dia a trabalhar à noite\", \"assistiu ao jogo\" e \"esqueci-me do horário\"."},
+{"m":"pt","e":"Assinale a alternativa em que a colocação do pronome oblíquo está de acordo com a norma-padrão.","o":["Tudo fez-se como previsto.","Quem chamou-te ao setor?","Me disseram que a escala mudou.","Não se esqueça de conferir a escala."],"a":3,"c":"A palavra negativa \"não\" atrai o pronome (próclise). Pela norma-padrão, não se inicia frase com pronome oblíquo, e \"tudo\" e \"quem\" também atraem o pronome."},
+{"m":"pt","e":"De acordo com o Acordo Ortográfico vigente, está corretamente grafada a palavra:","o":["heroico","vôo","idéia","pára (verbo parar)"],"a":0,"c":"O acordo eliminou o acento dos ditongos abertos \"éi\" e \"ói\" em paroxítonas (ideia, heroico), do hiato \"oo\" (voo) e o acento diferencial de \"para\"."},
+{"m":"pt","e":"Assinale a frase corretamente pontuada.","o":["Chegamos cedo mas, a sala estava fechada.","O enfermeiro que é responsável pelo setor, saiu mais cedo.","Os técnicos, organizaram o almoxarifado.","Maria, traga o termômetro, por favor."],"a":3,"c":"O vocativo (Maria) é separado por vírgula. Não se separa sujeito de verbo por vírgula, e a vírgula vem antes do \"mas\", não depois."},
+{"m":"pt","e":"Na oração \"Os pacientes chegaram cansados\", o termo \"cansados\" exerce a função de:","o":["aposto.","predicativo do sujeito.","adjunto adverbial.","objeto direto."],"a":1,"c":"\"Cansados\" atribui uma característica ao sujeito (os pacientes) por meio de um verbo, sendo predicativo do sujeito."},
+{"m":"rl","e":"A negação lógica da proposição \"Todo técnico usa luvas\" é:","o":["Algum técnico não usa luvas.","Todo técnico não usa luvas.","Algum técnico usa luvas.","Nenhum técnico usa luvas."],"a":0,"c":"Para negar \"todo\", basta um caso contrário: \"algum (pelo menos um) não\"."},
+{"m":"rl","e":"Um medicamento custava R$ 80,00, teve aumento de 25% e, em seguida, desconto de 20% sobre o novo preço. O preço final é:","o":["R$ 85,00","R$ 76,00","R$ 80,00","R$ 84,00"],"a":2,"c":"80 × 1,25 = 100. Depois, 100 × 0,80 = 80."},
+{"m":"rl","e":"Em um grupo de 50 profissionais, 30 fizeram curso de sala de vacina, 25 fizeram curso de curativos e 10 fizeram os dois. Quantos não fizeram nenhum dos dois cursos?","o":["5","10","15","0"],"a":0,"c":"Fizeram pelo menos um: 30 + 25 − 10 = 45. Não fizeram nenhum: 50 − 45 = 5."},
+{"m":"rl","e":"Observe a sequência: 2, 6, 12, 20, 30, ... O próximo termo é:","o":["44","40","42","48"],"a":2,"c":"As diferenças crescem de 2 em 2 (4, 6, 8, 10). A próxima é 12: 30 + 12 = 42. Também é n × (n + 1): 6 × 7 = 42."},
+{"m":"rl","e":"Uma caixa tem 4 ampolas azuis e 6 brancas. Retirando-se 2 ampolas ao acaso, sem reposição, a probabilidade de as duas serem azuis é:","o":["4/15","2/15","1/5","4/25"],"a":1,"c":"4/10 × 3/9 = 12/90 = 2/15."},
+{"m":"in","e":"A memória do computador que é volátil, ou seja, perde seu conteúdo quando o equipamento é desligado, é a:","o":["SSD","HD","ROM","RAM"],"a":3,"c":"A RAM é a memória principal de trabalho e é volátil. ROM, SSD e HD guardam dados sem energia."},
+{"m":"in","e":"No Windows 10/11, o atalho que bloqueia a sessão do usuário é:","o":["Windows + E","Windows + L","Windows + D","Alt + F4"],"a":1,"c":"Windows + L bloqueia (Lock). Windows + D mostra a área de trabalho, Windows + E abre o Explorador de Arquivos e Alt + F4 fecha a janela ativa."},
+{"m":"in","e":"No Excel, a célula D2 contém a fórmula =B2*$C$1. Se ela for copiada para D3, a fórmula em D3 será:","o":["=C3*$D$1","=B2*$C$1","=B3*$C$1","=B3*$C$2"],"a":2,"c":"A referência relativa B2 vira B3 ao descer uma linha. A referência absoluta $C$1 não muda."},
+{"m":"in","e":"O software malicioso que criptografa os arquivos da vítima e exige pagamento para liberá-los é chamado de:","o":["ransomware","spyware","worm","adware"],"a":0,"c":"Ransomware \"sequestra\" os dados. Spyware espiona, worm se propaga sozinho pela rede e adware exibe propaganda."},
+{"m":"in","e":"Ao acessar um site cujo endereço começa com \"https://\", o usuário sabe que:","o":["a navegação é anônima.","o site não utiliza cookies.","o site é necessariamente de um órgão do governo.","a comunicação entre o navegador e o site é criptografada."],"a":3,"c":"O \"s\" de HTTPS indica conexão protegida por criptografia (TLS). Isso não garante que o site seja confiável nem anônimo."},
+{"m":"ce","e":"Segundo a Constituição Federal de 1988 (art. 196), a saúde é:","o":["direito apenas de quem contribui para a Previdência Social.","dever exclusivo dos municípios.","direito de todos e dever do Estado.","serviço prestado exclusivamente pela iniciativa privada conveniada."],"a":2,"c":"Art. 196: \"A saúde é direito de todos e dever do Estado, garantido mediante políticas sociais e econômicas...\""},
+{"m":"ce","e":"De acordo com o art. 7º da Lei nº 8.080/1990, NÃO é princípio do SUS:","o":["centralização político-administrativa.","universalidade de acesso aos serviços de saúde.","integralidade de assistência.","participação da comunidade."],"a":0,"c":"A lei prevê a descentralização político-administrativa, com direção única em cada esfera de governo."},
+{"m":"ce","e":"Conforme a Lei nº 8.142/1990, a Conferência de Saúde se reúne:","o":["a cada 2 anos.","a cada 5 anos.","a cada 3 anos.","a cada 4 anos."],"a":3,"c":"A Conferência se reúne a cada quatro anos, com representação dos vários segmentos sociais, para avaliar a situação de saúde e propor diretrizes."},
+{"m":"ce","e":"Segundo a Lei nº 8.142/1990, a representação dos usuários nos Conselhos e Conferências de Saúde é:","o":["de 25% das vagas.","paritária em relação ao conjunto dos demais segmentos.","definida livremente pelo gestor.","minoritária, por se tratar de órgão técnico."],"a":1,"c":"Os usuários ocupam metade das vagas (paridade com o conjunto dos demais segmentos)."},
+{"m":"ce","e":"\"Conjunto de ações que proporcionam o conhecimento, a detecção ou prevenção de qualquer mudança nos fatores determinantes e condicionantes de saúde individual ou coletiva, com a finalidade de recomendar e adotar as medidas de prevenção e controle das doenças ou agravos.\" A Lei nº 8.080/1990 define assim a:","o":["saúde do trabalhador.","vigilância sanitária.","assistência farmacêutica.","vigilância epidemiológica."],"a":3,"c":"É a definição de vigilância epidemiológica (art. 6º, § 2º). A vigilância sanitária atua sobre riscos ligados a produtos, serviços e meio ambiente."},
+{"m":"ce","e":"O Decreto nº 7.508/2011 define as Portas de Entrada do SUS. NÃO é uma delas o serviço de:","o":["atenção ambulatorial especializada.","atenção psicossocial.","atenção primária.","atenção de urgência e emergência."],"a":0,"c":"São portas de entrada: atenção primária, urgência e emergência, atenção psicossocial e serviços especiais de acesso aberto. A atenção especializada é acessada por referenciamento."},
+{"m":"ce","e":"Pela Lei nº 7.498/1986, é atividade privativa do enfermeiro:","o":["verificação de sinais vitais.","realização de curativos.","consulta de enfermagem.","administração de medicamentos prescritos."],"a":2,"c":"Consulta e prescrição da assistência de enfermagem são privativas do enfermeiro. As demais podem ser executadas pela equipe de nível médio."},
+{"m":"ce","e":"Segundo o Código de Ética dos Profissionais de Enfermagem (Resolução Cofen nº 564/2017), NÃO é penalidade prevista:","o":["advertência verbal.","demissão.","multa.","censura."],"a":1,"c":"As penalidades são: advertência verbal, multa, censura, suspensão do exercício profissional e cassação do direito ao exercício profissional. Demissão é sanção trabalhista, não ética."},
+{"m":"ce","e":"A frequência respiratória considerada normal (eupneia) em um adulto em repouso é de, aproximadamente:","o":["12 a 20 irpm.","8 a 10 irpm.","22 a 30 irpm.","30 a 40 irpm."],"a":0,"c":"Adulto: 12 a 20 incursões respiratórias por minuto. Abaixo disso é bradipneia; acima, taquipneia."},
+{"m":"ce","e":"Pelas Diretrizes Brasileiras de Hipertensão Arterial (2020), uma pressão de 145 x 92 mmHg em adulto é classificada como:","o":["hipertensão estágio 2.","pré-hipertensão.","hipertensão estágio 3.","hipertensão estágio 1."],"a":3,"c":"Estágio 1: 140–159 e/ou 90–99 mmHg. Estágio 2: 160–179 e/ou 100–109. Estágio 3: ≥ 180 e/ou ≥ 110."},
+{"m":"ce","e":"Em adultos com diabetes, considera-se hipoglicemia a glicemia capilar abaixo de:","o":["100 mg/dL","70 mg/dL","140 mg/dL","126 mg/dL"],"a":1,"c":"Glicemia < 70 mg/dL é hipoglicemia e exige correção imediata, como a \"regra dos 15\" (15 g de carboidrato de absorção rápida e nova medida em 15 minutos)."},
+{"m":"ce","e":"Foram prescritos 500 mL de soro fisiológico para correr em 8 horas. Em macrogotas, o gotejamento será de, aproximadamente:","o":["31 gotas/min","63 gotas/min","21 gotas/min","42 gotas/min"],"a":2,"c":"Gotas/min = volume ÷ (horas × 3) = 500 ÷ 24 ≈ 20,8, ou seja, cerca de 21 gotas/min."},
+{"m":"ce","e":"Na administração de medicamento por via intramuscular, o ângulo de inserção da agulha recomendado é de:","o":["15°","90°","30°","45°"],"a":1,"c":"IM: 90°. Intradérmica: cerca de 15°. Subcutânea: 45° ou 90°, conforme a agulha e o tecido."},
+{"m":"ce","e":"Para o atendimento de paciente com suspeita de tuberculose pulmonar bacilífera, o profissional deve usar:","o":["apenas avental descartável.","apenas luvas de procedimento.","máscara cirúrgica comum.","respirador N95/PFF2."],"a":3,"c":"Tuberculose exige precaução para aerossóis: respirador N95/PFF2 para o profissional e, de preferência, quarto privativo. A máscara cirúrgica é colocada no paciente durante o transporte."},
+{"m":"ce","e":"Pela classificação de Spaulding, os artigos que entram em contato com tecidos estéreis ou com o sistema vascular são:","o":["críticos, exigindo esterilização.","semicríticos, exigindo desinfecção de alto nível.","semicríticos, exigindo apenas limpeza.","não críticos, exigindo limpeza."],"a":0,"c":"Críticos (ex.: instrumentais cirúrgicos) exigem esterilização. Semicríticos tocam mucosa ou pele não íntegra. Não críticos tocam pele íntegra."},
+{"m":"ce","e":"Uma gestante informa a data da última menstruação (DUM) em 10/01/2026. Pela regra de Naegele, a data provável do parto é:","o":["17/11/2026","10/10/2026","17/10/2026","07/10/2026"],"a":2,"c":"Naegele: soma 7 dias e subtrai 3 meses (ou soma 9) da DUM. 10 + 7 = 17; janeiro − 3 meses = outubro. DPP: 17/10/2026."},
+{"m":"ce","e":"O Ministério da Saúde recomenda aleitamento materno exclusivo até:","o":["os 4 meses de vida.","2 anos de idade.","1 ano de idade.","os 6 meses de vida."],"a":3,"c":"Exclusivo até 6 meses e complementado até 2 anos ou mais."},
+{"m":"ce","e":"O teste do pezinho (triagem neonatal) deve ser realizado, idealmente:","o":["nas primeiras 24 horas de vida.","entre o 3º e o 5º dia de vida.","no 15º dia de vida.","no 30º dia de vida."],"a":1,"c":"Entre o 3º e o 5º dia, após o bebê ter sido amamentado, o que permite detectar alterações metabólicas com segurança."},
+{"m":"ce","e":"O agente etiológico da hanseníase é:","o":["Leptospira interrogans.","Treponema pallidum.","Mycobacterium leprae.","Mycobacterium tuberculosis."],"a":2,"c":"Mycobacterium leprae (bacilo de Hansen). M. tuberculosis causa tuberculose, T. pallidum causa sífilis e Leptospira causa leptospirose."},
+{"m":"ce","e":"Na reanimação cardiopulmonar de adultos, a frequência recomendada de compressões torácicas é de:","o":["100 a 120 por minuto.","60 a 80 por minuto.","80 a 100 por minuto.","120 a 150 por minuto."],"a":0,"c":"100 a 120 compressões/min, com profundidade de 5 a 6 cm e retorno total do tórax. Sem via aérea avançada, a relação é 30:2."}]},{"id":"s2","nome":"Simulado 2","textos":{"t1":"Durante décadas, o Brasil foi referência internacional em vacinação. Campanhas nacionais alcançavam cidades pequenas e comunidades distantes, e doenças que antes lotavam hospitais tornaram-se raras. Nos últimos anos, porém, as coberturas caíram. Parte da queda se explica por falhas de acesso, como horários de funcionamento restritos; outra parte, pela circulação de boatos nas redes sociais. Combater esse cenário exige mais do que informar: é preciso reconstruir a confiança entre a população e os serviços de saúde."},"q":[{"m":"pt","tx":"t1","e":"A ideia central do texto é que:","o":["basta divulgar mais informações para resolver o problema.","os boatos nas redes sociais são a única causa da queda das coberturas.","a queda das coberturas tem mais de uma causa e sua reversão depende de reconstruir a confiança.","o Brasil nunca teve boas coberturas vacinais."],"a":2,"c":"O texto aponta duas causas (acesso e boatos) e conclui que é preciso \"mais do que informar\"."},
+{"m":"pt","tx":"t1","e":"A palavra \"porém\", no terceiro período, pode ser substituída, sem prejuízo de sentido, por:","o":["portanto","no entanto","porque","assim"],"a":1,"c":"\"Porém\" e \"no entanto\" são conjunções adversativas. \"Portanto\" e \"assim\" são conclusivas; \"porque\" é causal ou explicativa."},
+{"m":"pt","tx":"t1","e":"No trecho \"doenças que antes lotavam hospitais\", a palavra \"que\" é:","o":["conjunção integrante.","preposição.","advérbio.","pronome relativo."],"a":3,"c":"Retoma \"doenças\" e introduz oração adjetiva: doenças as quais lotavam hospitais."},
+{"m":"pt","e":"Quanto à concordância nominal, está correta a frase:","o":["Seguem anexas as fichas de notificação.","É proibido a entrada de acompanhantes.","Ela mesmo fez o curativo.","O plantão termina ao meio-dia e meio."],"a":0,"c":"\"Anexo\" concorda com o substantivo (as fichas, anexas). Com artigo, diz-se \"é proibida a entrada\"; \"ela mesma\"; \"meio-dia e meia\" (meia hora)."},
+{"m":"pt","e":"Assinale a alternativa que completa corretamente a frase: \"Vou ___ farmácia e, depois, ___ Brasília.\"","o":["à / a","à / à","a / a","a / à"],"a":0,"c":"\"Ir à farmácia\" (a farmácia, com artigo). \"Ir a Brasília\" não tem crase: quem volta, volta \"de Brasília\", e não \"da Brasília\"."},
+{"m":"pt","e":"Transpondo para a voz ativa a oração \"O curativo foi feito pela técnica\", obtém-se:","o":["O curativo fez a técnica.","A técnica fez o curativo.","A técnica foi fazer o curativo.","Fez-se o curativo pela técnica."],"a":1,"c":"O agente da passiva (pela técnica) vira sujeito, e o sujeito paciente (o curativo) vira objeto direto, mantendo o tempo verbal."},
+{"m":"pt","e":"O plural de \"cidadão\", segundo a norma-padrão, é:","o":["cidadãns","cidadães","cidadões","cidadãos"],"a":3,"c":"Cidadão faz plural em \"-ãos\", como irmão e cristão."},
+{"m":"pt","e":"Assinale a alternativa que completa corretamente a frase: \"Não sei ___ ela faltou ao plantão.\"","o":["porque","porquê","por que","por quê"],"a":2,"c":"Na pergunta indireta, usa-se \"por que\" (equivale a \"por qual motivo\")."},
+{"m":"pt","e":"Na frase \"Li Machado de Assis durante as férias\", há uma figura de linguagem chamada:","o":["metáfora","metonímia","hipérbole","antítese"],"a":1,"c":"Metonímia: o autor é usado no lugar da obra."},
+{"m":"pt","e":"Em \"Espero que você chegue cedo\", a oração destacada \"que você chegue cedo\" é classificada como:","o":["subordinada substantiva objetiva direta.","subordinada adverbial causal.","coordenada explicativa.","subordinada adjetiva restritiva."],"a":0,"c":"Funciona como objeto direto de \"espero\" (espero isso)."},
+{"m":"rl","e":"Uma proposição equivalente a \"Se chove, então a escala muda\" é:","o":["Se a escala muda, então chove.","Chove e a escala não muda.","Se a escala não muda, então não chove.","Se não chove, então a escala não muda."],"a":2,"c":"A contrapositiva (se não q, então não p) é equivalente à condicional. A alternativa D é a negação."},
+{"m":"rl","e":"Quantos códigos de 3 letras distintas podem ser formados com as letras A, B, C, D e E, considerando que a ordem importa?","o":["120","10","125","60"],"a":3,"c":"Arranjo: 5 × 4 × 3 = 60."},
+{"m":"rl","e":"Três técnicos aplicam 90 vacinas em 2 horas. Mantido o mesmo ritmo, 5 técnicos aplicarão, em 3 horas:","o":["225 vacinas","200 vacinas","250 vacinas","150 vacinas"],"a":0,"c":"Cada técnico aplica 90 ÷ (3 × 2) = 15 vacinas por hora. Então 5 × 3 × 15 = 225."},
+{"m":"rl","e":"Sendo p uma proposição falsa e q uma proposição verdadeira, é verdadeira:","o":["~q","p ∧ q","p ↔ q","p ∨ q"],"a":3,"c":"A disjunção é verdadeira quando pelo menos uma parte é verdadeira. p ∧ q e p ↔ q são falsas, e ~q é falsa."},
+{"m":"rl","e":"Se 1º de março de um ano caiu em uma quarta-feira, então 1º de abril desse ano caiu em um(a):","o":["domingo","sábado","quinta-feira","sexta-feira"],"a":1,"c":"Março tem 31 dias: 31 = 4 semanas + 3 dias. Quarta + 3 dias = sábado."},
+{"m":"in","e":"No Microsoft Word em português, o atalho padrão para aplicar negrito ao texto selecionado é:","o":["Ctrl + G","Ctrl + S","Ctrl + N","Ctrl + B"],"a":2,"c":"Na versão em português: Ctrl + N (negrito), Ctrl + I (itálico), Ctrl + S (sublinhado) e Ctrl + B (salvar)."},
+{"m":"in","e":"No Excel, a célula A1 contém 6,5. A fórmula =SE(A1>=7;\"Aprovado\";\"Reprovado\") retorna:","o":["6,5","Reprovado","Aprovado","#VALOR!"],"a":1,"c":"6,5 não é maior ou igual a 7, então a função retorna o valor_se_falso, \"Reprovado\"."},
+{"m":"in","e":"O backup incremental copia:","o":["apenas os arquivos do sistema operacional.","os arquivos alterados desde o último backup completo.","os arquivos alterados desde o último backup de qualquer tipo.","todos os arquivos, sempre."],"a":2,"c":"Incremental: só o que mudou desde o último backup (completo ou incremental). O diferencial copia o que mudou desde o último backup completo."},
+{"m":"in","e":"Uma mensagem que imita um banco e pede que o usuário clique em um link e informe sua senha é exemplo de:","o":["backup","cookie","firewall","phishing"],"a":3,"c":"Phishing é o golpe que se passa por instituição confiável para \"pescar\" dados pessoais."},
+{"m":"in","e":"Sobre a navegação anônima (InPrivate, no Edge), é correto afirmar que:","o":["não grava o histórico no computador, mas o provedor e os sites ainda podem identificar o acesso.","criptografa todos os arquivos baixados.","impede a instalação de vírus.","torna o usuário invisível na internet."],"a":0,"c":"Ela só evita guardar histórico, cookies e dados de formulário no aparelho após fechar a janela."},
+{"m":"ce","e":"Pelo Decreto nº 7.508/2011, para ser instituída, a Região de Saúde deve conter, no mínimo, ações e serviços de atenção primária, urgência e emergência, atenção psicossocial, atenção ambulatorial especializada e hospitalar e vigilância em saúde. NÃO é exigência do decreto:","o":["urgência e emergência.","atenção primária.","instituição de ensino superior em saúde.","atenção psicossocial."],"a":2,"c":"O art. 5º lista as cinco áreas mínimas. Ensino superior não está entre elas."},
+{"m":"ce","e":"Está de acordo com a Lei nº 8.080/1990 a afirmação:","o":["Os níveis de saúde expressam a organização social e econômica do País.","A direção do SUS é centralizada no Ministério da Saúde.","A iniciativa privada é proibida de participar do SUS.","A vigilância sanitária não faz parte do campo de atuação do SUS."],"a":0,"c":"Art. 3º: saúde tem determinantes como alimentação, moradia, saneamento e renda. A iniciativa privada participa em caráter complementar, a vigilância sanitária é campo do SUS e a direção é única em cada esfera."},
+{"m":"ce","e":"Para receber os recursos do Fundo Nacional de Saúde de forma regular e automática, a Lei nº 8.142/1990 exige dos municípios, EXCETO:","o":["Conselho de Saúde.","hospital municipal próprio.","Plano de Saúde.","Fundo de Saúde."],"a":1,"c":"A lei exige Fundo, Conselho, Plano de Saúde, relatórios de gestão, contrapartida de recursos e comissão para elaborar o plano de carreira. Ter hospital próprio não é requisito."},
+{"m":"ce","e":"Segundo a Política Nacional de Atenção Básica (2017), a equipe de Saúde da Família deve ser composta, no mínimo, por:","o":["enfermeiro, nutricionista e agente de endemias.","médico, dentista, psicólogo e farmacêutico.","médico, enfermeiro e assistente social.","médico, enfermeiro, auxiliar e/ou técnico de enfermagem e agente comunitário de saúde."],"a":3,"c":"A equipe mínima tem médico, enfermeiro, auxiliar e/ou técnico de enfermagem e ACS. A saúde bucal pode ser agregada, mas não é obrigatória na composição mínima."},
+{"m":"ce","e":"Na Política Nacional de Humanização (PNH), o acolhimento é entendido como:","o":["uma atividade exclusiva do enfermeiro.","uma postura de escuta qualificada e responsabilização presente em todos os momentos do cuidado.","uma triagem administrativa feita apenas na recepção.","um procedimento realizado somente na porta de entrada da urgência."],"a":1,"c":"Acolhimento é diretriz ética e postura de toda a equipe, e não um setor ou etapa isolada."},
+{"m":"ce","e":"Conforme o Código de Ética dos Profissionais de Enfermagem (Res. Cofen nº 564/2017), constitui PROIBIÇÃO:","o":["ter acesso às informações necessárias ao exercício profissional.","recusar-se a executar atividades que não sejam de sua competência técnica, científica, ética e legal.","administrar medicamentos sem conhecer indicação, ação, via de administração e potenciais riscos.","participar de movimentos de defesa da dignidade profissional."],"a":2,"c":"As três primeiras são direitos do profissional. Administrar sem conhecer o medicamento é proibido."},
+{"m":"ce","e":"Um adulto em repouso apresenta frequência cardíaca de 52 bpm. Esse achado é denominado:","o":["taquisfigmia","normocardia","taquicardia","bradicardia"],"a":3,"c":"Frequência cardíaca normal no adulto: 60 a 100 bpm. Abaixo de 60 é bradicardia."},
+{"m":"ce","e":"Na Escala de Coma de Glasgow, o menor escore possível é:","o":["3","5","0","1"],"a":0,"c":"Cada componente (abertura ocular, resposta verbal e motora) vale no mínimo 1. A escala vai de 3 a 15."},
+{"m":"ce","e":"Devem ser infundidos 120 mL em 4 horas, em equipo de microgotas. O gotejamento será de:","o":["30 microgotas/min","10 microgotas/min","40 microgotas/min","90 microgotas/min"],"a":0,"c":"Microgotas/min = volume ÷ horas = 120 ÷ 4 = 30."},
+{"m":"ce","e":"Foram prescritos 250 mg de um antibiótico. Há disponível suspensão de 500 mg/5 mL. Deve-se administrar:","o":["2,0 mL","2,5 mL","5,0 mL","1,5 mL"],"a":1,"c":"500 mg estão em 5 mL, então 250 mg (metade) estão em 2,5 mL."},
+{"m":"ce","e":"O principal objetivo do rodízio dos locais de aplicação de insulina é:","o":["reduzir a dose necessária.","dispensar a antissepsia da pele.","acelerar a absorção da insulina.","prevenir lipodistrofia."],"a":3,"c":"Aplicar sempre no mesmo ponto causa lipodistrofia (alteração do tecido gorduroso), o que prejudica a absorção."},
+{"m":"ce","e":"O esquema básico de tratamento da tuberculose em adultos tem duração total de:","o":["4 meses","12 meses","6 meses","2 meses"],"a":2,"c":"2 meses de fase intensiva (RHZE) e 4 meses de manutenção (RH)."},
+{"m":"ce","e":"O vetor da dengue no Brasil é o mosquito:","o":["Aedes aegypti","Anopheles darlingi","Culex quinquefasciatus","Lutzomyia longipalpis"],"a":0,"c":"Aedes aegypti transmite dengue, zika e chikungunya. Anopheles transmite malária e Lutzomyia, leishmaniose."},
+{"m":"ce","e":"O medicamento de escolha para o tratamento da sífilis, inclusive na gestação, é:","o":["azitromicina","penicilina benzatina","metronidazol","ciprofloxacino"],"a":1,"c":"Penicilina benzatina é o único tratamento considerado adequado para a gestante prevenir a sífilis congênita."},
+{"m":"ce","e":"A leptospirose é transmitida principalmente por:","o":["transfusão de sangue.","picada de mosquito infectado.","gotículas respiratórias.","contato com água ou lama contaminadas pela urina de roedores."],"a":3,"c":"Por isso há aumento de casos após enchentes. A bactéria penetra pela pele ou mucosas."},
+{"m":"ce","e":"Pela regra dos nove, um adulto com queimadura em todo o membro superior direito e em toda a face anterior do tronco tem superfície corporal queimada de:","o":["45%","18%","27%","36%"],"a":2,"c":"Membro superior: 9%. Face anterior do tronco: 18%. Total: 27%."},
+{"m":"ce","e":"No Protocolo de Manchester, a cor que indica emergência, com atendimento imediato, é:","o":["verde","vermelho","amarelo","azul"],"a":1,"c":"Vermelho: emergência (imediato). Laranja: muito urgente. Amarelo: urgente. Verde: pouco urgente. Azul: não urgente."},
+{"m":"ce","e":"Corresponde a um dos cinco momentos para a higienização das mãos definidos pela OMS:","o":["após tocar superfícies próximas ao paciente.","apenas antes de procedimentos invasivos.","somente quando as mãos estiverem visivelmente sujas.","somente ao final do plantão."],"a":0,"c":"Os cinco momentos: antes de tocar o paciente, antes de procedimento limpo/asséptico, após risco de exposição a fluidos, após tocar o paciente e após tocar superfícies próximas a ele."},
+{"m":"ce","e":"Segundo a RDC Anvisa nº 222/2018, os resíduos perfurocortantes (agulhas, lâminas de bisturi) pertencem ao grupo:","o":["B","D","E","A"],"a":2,"c":"A: biológicos/infectantes. B: químicos. C: radioativos. D: comuns. E: perfurocortantes."},
+{"m":"ce","e":"Pelo Estatuto da Pessoa Idosa (Lei nº 10.741/2003), é considerada pessoa idosa quem tem idade igual ou superior a:","o":["70 anos","65 anos","80 anos","60 anos"],"a":3,"c":"60 anos ou mais. Pessoas com mais de 80 anos têm prioridade especial sobre os demais idosos."}]},{"id":"s3","nome":"Simulado 3","textos":{"t1":"O cansaço acumulado é um dos inimigos silenciosos da segurança do paciente. Profissionais que emendam plantões, dormem pouco e se alimentam mal tendem a cometer mais erros de medicação, sobretudo nas últimas horas da jornada. Não se trata de falta de competência, e sim de limites do próprio corpo. Instituições que respeitam intervalos e dimensionam corretamente suas equipes protegem, ao mesmo tempo, quem cuida e quem é cuidado."},"q":[{"m":"pt","tx":"t1","e":"Segundo o texto, os erros de medicação associados ao cansaço decorrem principalmente:","o":["da inexistência de protocolos.","da má-fé de alguns profissionais.","dos limites fisiológicos do corpo.","da falta de competência técnica."],"a":2,"c":"O texto diz: \"Não se trata de falta de competência, e sim de limites do próprio corpo\"."},
+{"m":"pt","tx":"t1","e":"No texto, a palavra \"sobretudo\" tem o sentido de:","o":["ao contrário","apenas","raramente","principalmente"],"a":3,"c":"\"Sobretudo\" indica destaque: os erros ocorrem principalmente nas últimas horas."},
+{"m":"pt","tx":"t1","e":"No período \"Não se trata de falta de competência, e sim de limites do próprio corpo\", a expressão \"e sim\" estabelece relação de:","o":["oposição","adição","conclusão","explicação"],"a":0,"c":"\"E sim\" tem valor adversativo: nega uma ideia e afirma a contrária."},
+{"m":"pt","e":"Quanto à regência nominal, está correta a frase:","o":["Tenho medo em agulhas.","Ele tem aversão a injeções.","Ela é residente à Rua Goiás.","O plantão diurno é preferível do que o noturno."],"a":1,"c":"\"Aversão\" rege a preposição \"a\". O correto seria: \"preferível ao noturno\", \"residente na Rua Goiás\" e \"medo de agulhas\"."},
+{"m":"pt","e":"Está de acordo com a norma-padrão a frase:","o":["Devem haver muitos casos novos.","Os Estados Unidos é um país populoso.","Mais de um paciente reclamou da demora.","Faltou dois técnicos no plantão."],"a":2,"c":"Com \"mais de um\", o verbo fica no singular. O correto seria: \"Os Estados Unidos são\", \"faltaram dois técnicos\" e \"deve haver\" (haver impessoal transmite a impessoalidade ao auxiliar)."},
+{"m":"pt","e":"Complete corretamente: \"Guarde ___ prontuário que está aí com você.\"","o":["esse","este","aquele","isto"],"a":0,"c":"\"Esse\" indica o que está próximo da pessoa com quem se fala (aí)."},
+{"m":"pt","e":"Assinale a frase corretamente acentuada.","o":["Ele têm plantão amanhã e vê a escala hoje.","Eles têm plantão amanhã e veem a escala hoje.","Eles tem plantão amanhã e vêem a escala hoje.","Eles têm plantão amanhã e vêem a escala hoje."],"a":1,"c":"\"Têm\" (plural) tem acento diferencial. Após o Acordo, \"veem\" perdeu o acento (hiato \"ee\")."},
+{"m":"pt","e":"Complete corretamente: \"O médico precisou ___ a prescrição, pois a dose estava errada.\"","o":["ratificar","homologar","endossar","retificar"],"a":3,"c":"Retificar = corrigir. Ratificar = confirmar."},
+{"m":"pt","e":"Pela norma-padrão, a colocação pronominal está correta em:","o":["Entregar-lhe-ei o relatório amanhã.","Entregarei-lhe o relatório amanhã.","Lhe entregarei o relatório amanhã.","Entregar-ei-lhe o relatório amanhã."],"a":0,"c":"Com o futuro do presente, sem palavra atrativa, usa-se mesóclise. Ênclise ao futuro é incorreta, e a norma-padrão não inicia frase com pronome oblíquo."},
+{"m":"pt","e":"Em \"A enfermeira conversou com a mãe e a orientou sobre a vacina\", o pronome \"a\" em \"a orientou\" retoma:","o":["a enfermeira","a conversa","a vacina","a mãe"],"a":3,"c":"Quem foi orientada foi a mãe. O pronome é elemento de coesão que retoma termo anterior (anáfora)."},
+{"m":"rl","e":"A negação de \"Se o paciente tem febre, então recebe antitérmico\" é:","o":["Se o paciente não tem febre, então não recebe antitérmico.","O paciente não tem febre ou recebe antitérmico.","O paciente tem febre e não recebe antitérmico.","Se o paciente recebe antitérmico, então tem febre."],"a":2,"c":"A negação de \"se p, então q\" é \"p e não q\"."},
+{"m":"rl","e":"Em uma turma de 60 alunos, 18 foram aprovados com nota máxima. Isso corresponde a:","o":["36%","30%","18%","25%"],"a":1,"c":"18 ÷ 60 = 0,30 = 30%."},
+{"m":"rl","e":"Ana, Bia e Caio são enfermeiro, técnico e médico, não necessariamente nessa ordem. Ana não é médica e Caio é o técnico. Logo, o médico é:","o":["Caio","não é possível determinar","Bia","Ana"],"a":2,"c":"Caio é técnico. Ana não é médica, então é a enfermeira. Sobra Bia como médica."},
+{"m":"rl","e":"Um aluno tirou 6, 8 e 10 em três provas com pesos 1, 2 e 2, respectivamente. Sua média ponderada é:","o":["8,6","8,4","8,0","8,2"],"a":1,"c":"(6×1 + 8×2 + 10×2) ÷ 5 = 42 ÷ 5 = 8,4."},
+{"m":"rl","e":"De quantas maneiras é possível escolher 2 técnicos, entre 6, para cobrir um plantão (a ordem não importa)?","o":["15","36","30","12"],"a":0,"c":"Combinação: C(6,2) = (6 × 5) ÷ 2 = 15."},
+{"m":"in","e":"No Windows, o atalho que abre diretamente o Gerenciador de Tarefas é:","o":["Alt + Tab","Ctrl + Alt + T","Windows + R","Ctrl + Shift + Esc"],"a":3,"c":"Windows + R abre o \"Executar\" e Alt + Tab alterna entre janelas."},
+{"m":"in","e":"No Excel, a fórmula =CONT.SE(A1:A10;\">5\") retorna:","o":["a quantidade de células com valores maiores que 5.","a soma dos valores maiores que 5.","a média dos valores maiores que 5.","o maior valor do intervalo."],"a":0,"c":"CONT.SE conta células que atendem ao critério. Para somar seria SOMASE."},
+{"m":"in","e":"Na função PROCV do Excel, para exigir correspondência exata, o último argumento deve ser:","o":["o número da coluna","1","VERDADEIRO","FALSO"],"a":3,"c":"=PROCV(valor; tabela; nº da coluna; FALSO). Com VERDADEIRO (ou omitido), a busca é aproximada."},
+{"m":"in","e":"É um serviço de armazenamento de arquivos em nuvem:","o":["Prompt de Comando","Bloco de Notas","OneDrive","Paint"],"a":2,"c":"OneDrive (assim como Google Drive e Dropbox) guarda arquivos em servidores na internet, acessíveis de vários dispositivos."},
+{"m":"in","e":"O firewall tem como principal função:","o":["fazer cópias de segurança dos arquivos.","controlar o tráfego de rede, permitindo ou bloqueando conexões conforme regras.","remover vírus de arquivos já infectados.","acelerar a conexão com a internet."],"a":1,"c":"O firewall filtra conexões de entrada e saída. Quem remove vírus é o antivírus."},
+{"m":"ce","e":"Segundo a Lei nº 8.080/1990, a iniciativa privada poderá participar do SUS em caráter:","o":["complementar","obrigatório","exclusivo","substitutivo"],"a":0,"c":"Art. 4º, § 2º: participação complementar, com preferência para entidades filantrópicas e sem fins lucrativos."},
+{"m":"ce","e":"No Decreto nº 7.508/2011, a sigla RENAME significa:","o":["Rede Nacional de Média Complexidade","Registro Nacional de Médicos","Relação Nacional de Ações e Serviços de Saúde","Relação Nacional de Medicamentos Essenciais"],"a":3,"c":"RENAME é a Relação Nacional de Medicamentos Essenciais. RENASES é a relação de ações e serviços de saúde."},
+{"m":"ce","e":"A Comissão Intergestores Bipartite (CIB) é composta por representantes:","o":["da União e dos estados.","do estado e dos municípios.","dos usuários e dos trabalhadores.","da União, dos estados e dos municípios."],"a":1,"c":"CIB: estado e municípios. CIT (tripartite): União, estados e municípios. CIR: estado e municípios de uma região de saúde."},
+{"m":"ce","e":"Segundo os níveis de prevenção de Leavell e Clark, a vacinação é exemplo de prevenção:","o":["quaternária","terciária","primária","secundária"],"a":2,"c":"Primária: promoção da saúde e proteção específica (vacinas), antes da doença. Secundária: diagnóstico precoce. Terciária: reabilitação."},
+{"m":"ce","e":"O coeficiente de mortalidade infantil é calculado pela razão entre:","o":["nascidos vivos e população feminina.","óbitos maternos e nascidos vivos, multiplicada por 100.000.","óbitos de menores de 5 anos e população total.","óbitos de menores de 1 ano e nascidos vivos, multiplicada por 1.000."],"a":3,"c":"Óbitos em menores de 1 ano ÷ nascidos vivos no mesmo período e local × 1.000."},
+{"m":"ce","e":"Em epidemiologia, a incidência corresponde:","o":["aos óbitos causados pela doença.","aos casos novos de uma doença em determinado período.","ao total de casos existentes em um momento.","aos casos curados no período."],"a":1,"c":"Incidência: casos novos. Prevalência: todos os casos existentes (novos e antigos)."},
+{"m":"ce","e":"Para as doenças de notificação compulsória imediata, a notificação deve ser feita em até:","o":["15 dias","30 dias","24 horas","7 dias"],"a":2,"c":"Notificação imediata: até 24 horas. As demais são semanais (até 7 dias)."},
+{"m":"ce","e":"Conforme a Lei nº 7.498/1986, cabe ao técnico de enfermagem:","o":["participar da orientação e supervisão do trabalho de enfermagem em grau auxiliar.","assumir a direção do serviço de enfermagem.","realizar a prescrição da assistência de enfermagem.","realizar consulta de enfermagem."],"a":0,"c":"Prescrição, consulta e direção do serviço de enfermagem são privativas do enfermeiro."},
+{"m":"ce","e":"Pelo Código de Ética dos Profissionais de Enfermagem, o sigilo profissional pode ser revelado, entre outras hipóteses:","o":["em redes sociais, desde que o nome seja omitido.","quando a família tiver curiosidade sobre o caso.","a pedido de colega de outro setor.","por determinação judicial."],"a":3,"c":"O sigilo pode ser quebrado nos casos previstos em lei, por determinação judicial ou com consentimento escrito da pessoa ou de seu representante legal."},
+{"m":"ce","e":"Na verificação da pressão arterial, é conduta correta:","o":["medir logo após o paciente tomar café.","colocar o manguito sobre a roupa grossa.","manter o braço apoiado na altura do coração.","deixar o braço pendente ao lado do corpo."],"a":2,"c":"O paciente deve estar sentado, em repouso de 3 a 5 minutos, com bexiga vazia, sem ter fumado ou tomado café nos 30 minutos anteriores, e com o braço na altura do coração."},
+{"m":"ce","e":"Para o diagnóstico de diabetes mellitus, considera-se alterada a glicemia de jejum igual ou superior a:","o":["110 mg/dL","126 mg/dL","200 mg/dL","99 mg/dL"],"a":1,"c":"Jejum ≥ 126 mg/dL (confirmado). Glicemia casual ≥ 200 mg/dL com sintomas também é critério."},
+{"m":"ce","e":"Segundo o Ministério da Saúde, a vacina dTpa deve ser aplicada na gestante:","o":["a partir da 20ª semana, em cada gestação.","somente após o parto.","nunca, pois é contraindicada.","apenas no primeiro trimestre."],"a":0,"c":"A dTpa a partir da 20ª semana protege o recém-nascido contra coqueluche por meio dos anticorpos maternos."},
+{"m":"ce","e":"O índice de Apgar do recém-nascido é avaliado:","o":["na 1ª e na 24ª hora.","no momento da alta.","no 1º e no 5º minuto de vida.","apenas ao nascer."],"a":2,"c":"Avaliam-se frequência cardíaca, esforço respiratório, tônus, irritabilidade reflexa e cor no 1º e no 5º minuto."},
+{"m":"ce","e":"As vacinas aplicadas ao nascer, na maternidade, são:","o":["BCG e hepatite B.","pentavalente e VIP.","rotavírus e pneumocócica.","tríplice viral e febre amarela."],"a":0,"c":"BCG (dose única) e hepatite B (preferencialmente nas primeiras 24 horas)."},
+{"m":"ce","e":"Pela classificação operacional da hanseníase para fins de tratamento, é considerado paucibacilar o caso com:","o":["baciloscopia positiva.","qualquer número de lesões e nervo acometido.","mais de 5 lesões de pele.","até 5 lesões de pele."],"a":3,"c":"Paucibacilar: até 5 lesões. Multibacilar: mais de 5 lesões ou baciloscopia positiva."},
+{"m":"ce","e":"Após mordedura por cão, a primeira medida a ser realizada no ferimento é:","o":["sutura imediata.","lavagem abundante com água e sabão.","aplicação de pomada antibiótica.","curativo oclusivo sem limpeza."],"a":1,"c":"A lavagem com água e sabão reduz a carga viral no local. Depois, avalia-se a profilaxia antirrábica."},
+{"m":"ce","e":"Diante de um adulto consciente com obstrução grave das vias aéreas por corpo estranho (não consegue falar nem tossir), deve-se:","o":["realizar a varredura às cegas com os dedos.","realizar compressões abdominais (manobra de Heimlich).","oferecer água para ajudar a descer.","deitar a vítima e aguardar."],"a":1,"c":"Compressões abdominais até desobstruir ou até a vítima ficar inconsciente, quando se inicia a RCP. A varredura às cegas não é recomendada."},
+{"m":"ce","e":"Para estimar o comprimento da sonda nasogástrica a ser introduzida, mede-se a distância:","o":["da boca ao umbigo.","da orelha ao ombro.","do queixo ao esterno.","da ponta do nariz ao lóbulo da orelha e daí ao apêndice xifoide."],"a":3,"c":"Nariz → lóbulo da orelha → apêndice xifoide."},
+{"m":"ce","e":"A autoclave realiza a esterilização por meio de:","o":["vapor saturado sob pressão.","imersão em álcool 70%.","calor seco em estufa.","radiação ultravioleta."],"a":0,"c":"O vapor saturado sob pressão é o método mais usado para materiais termorresistentes."},
+{"m":"ce","e":"A precaução de contato, indicada, por exemplo, para pacientes colonizados por bactérias multirressistentes, exige principalmente:","o":["óculos de sol.","máscara cirúrgica no paciente.","luvas e avental.","respirador N95."],"a":2,"c":"Contato: luvas e avental ao tocar o paciente ou o ambiente, de preferência com quarto privativo e materiais exclusivos."}]}];
+
+var RESUMOS=[
+{m:'ce',t:'Princípios do SUS',p:[
+ 'Doutrinários: universalidade (todos têm direito), integralidade (cuidado completo, da prevenção à reabilitação) e equidade (tratar desigualmente os desiguais, conforme a necessidade).',
+ 'Organizativos: descentralização com direção única em cada esfera, regionalização e hierarquização da rede, e participação da comunidade.',
+ 'CF/88, art. 196: saúde é direito de todos e dever do Estado.',
+ 'CF/88, art. 198: as ações formam uma rede regionalizada e hierarquizada, um sistema único.',
+ 'A iniciativa privada participa de forma complementar, com preferência para entidades filantrópicas e sem fins lucrativos.']},
+{m:'ce',t:'Lei 8.080/1990 (Lei Orgânica da Saúde)',p:[
+ 'Trata da promoção, proteção e recuperação da saúde e da organização e funcionamento dos serviços.',
+ 'Art. 3º: alimentação, moradia, saneamento, meio ambiente, trabalho, renda, educação, lazer e transporte são determinantes e condicionantes da saúde.',
+ 'Art. 6º: o campo de atuação inclui vigilância sanitária, epidemiológica, saúde do trabalhador e assistência terapêutica integral, inclusive farmacêutica.',
+ 'Vigilância epidemiológica: conhecer, detectar e prevenir mudanças nos fatores que influem na saúde, para recomendar medidas de controle.',
+ 'Vigilância sanitária: eliminar, diminuir ou prevenir riscos ligados ao meio ambiente, à produção e circulação de bens e à prestação de serviços.',
+ 'Art. 7º: princípios como universalidade, integralidade, igualdade sem privilégios, direito à informação, descentralização e participação da comunidade.',
+ 'Direção única: Ministério da Saúde (União), secretarias estaduais e secretarias municipais.']},
+{m:'ce',t:'Lei 8.142/1990 (participação e financiamento)',p:[
+ 'Instâncias colegiadas: Conferência de Saúde e Conselho de Saúde.',
+ 'Conferência: reúne-se a cada 4 anos para avaliar a situação de saúde e propor diretrizes.',
+ 'Conselho: caráter permanente e deliberativo; formula estratégias e controla a execução da política, inclusive financeira.',
+ 'Usuários ocupam vagas paritárias em relação ao conjunto dos demais segmentos (50%).',
+ 'Para receber recursos do Fundo Nacional de forma regular e automática, o município precisa de: Fundo de Saúde, Conselho, Plano de Saúde, relatórios de gestão, contrapartida de recursos e comissão para o plano de carreira (PCCS).']},
+{m:'ce',t:'Decreto 7.508/2011',p:[
+ 'Regulamenta a Lei 8.080 quanto à organização do SUS, ao planejamento, à assistência e à articulação interfederativa.',
+ 'Região de Saúde: municípios limítrofes agrupados. Deve ter, no mínimo, atenção primária, urgência e emergência, atenção psicossocial, atenção ambulatorial especializada e hospitalar, e vigilância em saúde.',
+ 'Portas de entrada: atenção primária, urgência e emergência, atenção psicossocial e serviços especiais de acesso aberto.',
+ 'RENASES: relação de ações e serviços de saúde. RENAME: relação de medicamentos essenciais.',
+ 'Comissões intergestores: CIT (União, estados e municípios), CIB (estado e municípios) e CIR (estado e municípios da região).',
+ 'COAP: Contrato Organizativo da Ação Pública da Saúde, acordo entre os entes de uma região.']},
+{m:'ce',t:'Atenção Básica e Estratégia Saúde da Família',p:[
+ 'A atenção básica é a principal porta de entrada e a ordenadora da rede.',
+ 'Equipe mínima de Saúde da Família: médico, enfermeiro, auxiliar e/ou técnico de enfermagem e agente comunitário de saúde.',
+ 'Profissionais de saúde bucal e agente de combate às endemias podem integrar a equipe.',
+ 'População de referência por equipe (PNAB 2017): 2.000 a 3.500 pessoas.',
+ 'Base do trabalho: território adscrito, vínculo, longitudinalidade e coordenação do cuidado.']},
+{m:'ce',t:'Política Nacional de Humanização (HumanizaSUS)',p:[
+ 'Princípios: transversalidade, indissociabilidade entre atenção e gestão, e protagonismo dos sujeitos.',
+ 'Diretrizes: acolhimento, gestão participativa, ambiência, clínica ampliada, valorização do trabalhador e defesa dos direitos dos usuários.',
+ 'Acolhimento é postura de escuta qualificada de toda a equipe, e não um setor ou uma triagem.',
+ 'Acolhimento com classificação de risco organiza a ordem de atendimento pela gravidade, não pela ordem de chegada.']},
+{m:'ce',t:'Exercício profissional (Lei 7.498/1986)',p:[
+ 'Privativo do enfermeiro: consulta e prescrição de enfermagem, direção do serviço de enfermagem e cuidados de maior complexidade técnica a pacientes graves.',
+ 'Técnico de enfermagem: atividade de nível médio, com orientação e acompanhamento do trabalho em grau auxiliar e participação no planejamento da assistência.',
+ 'O técnico executa ações assistenciais, exceto as privativas do enfermeiro, e participa da equipe de saúde.',
+ 'Auxiliar de enfermagem: atividades de nível médio de natureza repetitiva, sob supervisão.',
+ 'O Decreto 94.406/1987 regulamenta a lei.']},
+{m:'ce',t:'Código de Ética (Res. Cofen 564/2017)',p:[
+ 'Direito: recusar-se a executar atividades fora de sua competência técnica, científica, ética e legal.',
+ 'Proibido: administrar medicamento sem conhecer indicação, ação, via e riscos; executar prescrição ilegível ou sem assinatura, salvo urgência.',
+ 'Sigilo: pode ser revelado nos casos previstos em lei, por ordem judicial ou com consentimento escrito da pessoa ou do representante legal.',
+ 'Penalidades: advertência verbal, multa, censura, suspensão (até 90 dias) e cassação (até 30 anos).',
+ 'Infrações são classificadas em leves, graves e gravíssimas.']},
+{m:'ce',t:'Sinais vitais no adulto',p:[
+ 'Pulso: 60 a 100 bpm. Abaixo é bradicardia, acima é taquicardia.',
+ 'Respiração: 12 a 20 irpm (eupneia). Abaixo é bradipneia, acima é taquipneia. Ausência é apneia.',
+ 'Temperatura axilar: em torno de 36 a 37 °C. Os limites para febre variam conforme a referência usada.',
+ 'Saturação de O2: em geral, 95% ou mais em ar ambiente.',
+ 'Dor é considerada o 5º sinal vital.']},
+{m:'ce',t:'Hipertensão arterial',p:[
+ 'Classificação (Diretrizes 2020): ótima < 120/80; normal 120–129/80–84; pré-hipertensão 130–139/85–89.',
+ 'Estágio 1: 140–159 e/ou 90–99. Estágio 2: 160–179 e/ou 100–109. Estágio 3: ≥ 180 e/ou ≥ 110.',
+ 'Técnica: paciente sentado, em repouso de 3 a 5 min, bexiga vazia, sem café ou cigarro nos 30 min anteriores, pernas descruzadas e braço apoiado na altura do coração.',
+ 'O manguito fica 2 a 3 cm acima da fossa cubital, sem roupa apertando o braço.']},
+{m:'ce',t:'Diabetes mellitus',p:[
+ 'Diagnóstico: glicemia de jejum ≥ 126 mg/dL, HbA1c ≥ 6,5%, glicemia 2 h após sobrecarga ≥ 200 ou glicemia casual ≥ 200 com sintomas.',
+ 'Hipoglicemia: < 70 mg/dL. Sinais: sudorese, tremor, palidez, confusão. Corrigir com 15 g de carboidrato rápido e medir de novo em 15 min.',
+ 'Insulina regular é límpida; NPH é turva. Na mistura na mesma seringa, aspira-se primeiro a regular.',
+ 'Aplicação subcutânea com rodízio de locais para prevenir lipodistrofia.',
+ 'Pé diabético: inspecionar diariamente, secar entre os dedos e não andar descalço.']},
+{m:'ce',t:'Cálculos de medicação',p:[
+ 'Macrogotas/min = volume (mL) ÷ (tempo em horas × 3).',
+ 'Microgotas/min = volume (mL) ÷ tempo em horas.',
+ '1 mL = 20 gotas = 60 microgotas.',
+ 'Regra de três: o que tenho está para o volume que tenho, assim como o prescrito está para x.',
+ 'Penicilina cristalina: atenção à diluição informada no frasco. Confira sempre a unidade (UI, mg ou mL).']},
+{m:'ce',t:'Vias de administração',p:[
+ 'Intradérmica: cerca de 15°, pequeno volume (ex.: BCG, PPD).',
+ 'Subcutânea: 45° ou 90°, conforme a agulha e o tecido (ex.: insulina, heparina).',
+ 'Intramuscular: 90°. Deltoide só para pequenos volumes; ventroglútea é região segura para volumes maiores.',
+ 'Endovenosa: ação imediata, exige técnica asséptica rigorosa.',
+ 'Os "certos" da medicação incluem paciente, medicamento, dose, via, hora, registro, orientação, forma e resposta.']},
+{m:'ce',t:'Biossegurança',p:[
+ 'Precaução padrão: para todos os pacientes (higiene das mãos, EPI conforme o risco, descarte seguro).',
+ 'Contato: luvas e avental (ex.: bactérias multirresistentes, escabiose).',
+ 'Gotículas: máscara cirúrgica (ex.: influenza, meningite meningocócica, coqueluche).',
+ 'Aerossóis: respirador N95/PFF2 e quarto privativo (ex.: tuberculose, sarampo, varicela).',
+ 'Spaulding: crítico → esterilização; semicrítico → desinfecção de alto nível; não crítico → limpeza ou desinfecção de baixo nível.',
+ 'RDC 222/2018: grupo A infectante, B químico, C radioativo, D comum, E perfurocortante.']},
+{m:'ce',t:'Saúde da mulher',p:[
+ 'Regra de Naegele: DUM + 7 dias e − 3 meses (ou + 9 meses).',
+ 'Vacina dTpa: a partir da 20ª semana, em cada gestação, para proteger o bebê contra coqueluche.',
+ 'Sífilis na gestação: tratar com penicilina benzatina e tratar também a parceria sexual.',
+ 'Citopatológico (diretriz de 2016): 25 a 64 anos; após dois exames anuais normais, a cada 3 anos. O Ministério da Saúde vem adotando o teste de DNA-HPV, repetido a cada 5 anos quando negativo.',
+ 'Climatério: transição do período reprodutivo para o não reprodutivo. A menopausa é a última menstruação, confirmada após 12 meses sem menstruar.']},
+{m:'ce',t:'Saúde da criança',p:[
+ 'Apgar no 1º e no 5º minuto: frequência cardíaca, respiração, tônus, irritabilidade reflexa e cor.',
+ 'Teste do pezinho: entre o 3º e o 5º dia de vida. Teste do coraçãozinho: entre 24 e 48 horas.',
+ 'Ao nascer: vacinas BCG e hepatite B (esta, de preferência, nas primeiras 24 horas).',
+ 'Aleitamento materno exclusivo até 6 meses e complementado até 2 anos ou mais.',
+ 'Método Canguru: contato pele a pele com o recém-nascido de baixo peso.']},
+{m:'ce',t:'Doenças transmissíveis',p:[
+ 'Dengue: Aedes aegypti. Tratamento com hidratação. Evitar AAS e anti-inflamatórios.',
+ 'Tuberculose: transmissão por aerossóis. Esquema básico de 6 meses (2 RHZE + 4 RH).',
+ 'Hanseníase: Mycobacterium leprae. Paucibacilar até 5 lesões (6 doses), multibacilar mais de 5 lesões (12 doses).',
+ 'Sífilis: Treponema pallidum. Penicilina benzatina.',
+ 'Leptospirose: contato com água ou lama contaminada por urina de roedores.',
+ 'Raiva: lavar o ferimento com água e sabão e avaliar a profilaxia.',
+ 'Febre maculosa: carrapato-estrela (Amblyomma), bactéria Rickettsia rickettsii.',
+ 'Hepatite A: transmissão fecal-oral. Hepatite B: sangue e via sexual, com vacina disponível.']},
+{m:'ce',t:'Urgência e emergência',p:[
+ 'RCP no adulto: 100 a 120 compressões/min, 5 a 6 cm de profundidade, 30:2 sem via aérea avançada, e DEA assim que disponível.',
+ 'Manchester: vermelho (imediato), laranja (até 10 min), amarelo (até 60 min), verde (até 120 min), azul (até 240 min).',
+ 'Regra dos nove (adulto): cabeça 9%, cada braço 9%, tronco anterior 18%, posterior 18%, cada perna 18%, períneo 1%.',
+ 'OVACE em adulto consciente com obstrução grave: compressões abdominais (Heimlich).',
+ 'Escala de Glasgow: 3 a 15 pontos. Escore igual ou menor que 8 sugere necessidade de proteger a via aérea.']},
+{m:'ce',t:'Vigilância e indicadores',p:[
+ 'Incidência: casos novos em um período. Prevalência: todos os casos existentes.',
+ 'Mortalidade infantil: óbitos de menores de 1 ano ÷ nascidos vivos × 1.000.',
+ 'Letalidade: óbitos pela doença ÷ casos da doença.',
+ 'Notificação compulsória imediata: até 24 horas. Semanal: até 7 dias.',
+ 'Prevenção (Leavell e Clark): primária (promoção e proteção, ex.: vacina), secundária (diagnóstico precoce), terciária (reabilitação).']},
+{m:'pt',t:'Crase',p:[
+ 'Ocorre quando a preposição "a" encontra o artigo feminino "a": vou à farmácia.',
+ 'Não ocorre antes de palavra masculina, verbo, pronome pessoal, "esta/essa" e "a" no singular antes de palavra no plural.',
+ 'Horas exatas: às 8h. Locuções femininas: à noite, às pressas, à medida que.',
+ 'Teste da volta: "vou a Brasília, volto de Brasília" (sem crase); "vou à Bahia, volto da Bahia" (com crase).']},
+{m:'pt',t:'Concordância verbal',p:[
+ '"Haver" no sentido de existir e "fazer" indicando tempo são impessoais: houve faltas, faz dois anos.',
+ 'Com "se" apassivador, o verbo concorda com o sujeito: alugam-se salas.',
+ 'Com "se" índice de indeterminação do sujeito, o verbo fica no singular: precisa-se de técnicos.',
+ '"Mais de um" pede o verbo no singular: mais de um paciente reclamou.',
+ 'Nomes próprios no plural com artigo levam o verbo ao plural: os Estados Unidos são.']},
+{m:'pt',t:'Regência',p:[
+ 'Assistir (ver) a: assistiu ao jogo. Assistir (ajudar) é transitivo direto: assistiu o paciente.',
+ 'Obedecer e desobedecer a. Visar (pretender) a.',
+ 'Preferir uma coisa a outra, sem "do que" e sem "mais".',
+ 'Esquecer algo, ou esquecer-se de algo.',
+ 'Aversão a, medo de, residente em.']},
+{m:'pt',t:'Colocação pronominal',p:[
+ 'Pela norma-padrão, não se inicia frase com pronome oblíquo.',
+ 'Próclise (antes do verbo) com palavras atrativas: negação, pronomes relativos e indefinidos, advérbios e conjunções subordinativas.',
+ 'Mesóclise com futuro do presente e do pretérito sem palavra atrativa: entregar-lhe-ei.',
+ 'Não se usa ênclise com verbo no futuro nem no particípio.']},
+{m:'pt',t:'Porquês e acentuação',p:[
+ 'Por que: perguntas e "pelo qual". Por quê: fim de frase. Porque: explicação/causa. Porquê: substantivo (o porquê).',
+ 'Após o Acordo: ideia, heroico, voo, veem, leem e para (verbo) sem acento.',
+ 'Mantêm acento: têm e vêm (plural), pôr (verbo) e pôde (passado).']},
+{m:'rl',t:'Lógica proposicional',p:[
+ 'Negação de "todo" é "algum não". Negação de "nenhum" é "algum".',
+ '~(p ∧ q) = ~p ∨ ~q. ~(p ∨ q) = ~p ∧ ~q.',
+ '~(p → q) = p ∧ ~q.',
+ 'p → q equivale a ~q → ~p (contrapositiva) e a ~p ∨ q.',
+ 'A condicional só é falsa quando a primeira parte é verdadeira e a segunda é falsa.',
+ 'A conjunção (∧) só é verdadeira se ambas forem verdadeiras; a disjunção (∨), se ao menos uma for.']},
+{m:'rl',t:'Fórmulas que mais caem',p:[
+ 'Aumentos e descontos sucessivos: multiplique os fatores (ex.: +25% e −20% = 1,25 × 0,8 = 1, sem variação).',
+ 'Permutação: n!. Arranjo (ordem importa): n!/(n−p)!. Combinação (ordem não importa): n!/[p!(n−p)!].',
+ 'Probabilidade = casos favoráveis ÷ casos possíveis. Eventos sucessivos: multiplique as probabilidades.',
+ 'União de conjuntos: n(A ∪ B) = n(A) + n(B) − n(A ∩ B).',
+ 'Média ponderada: soma de (valor × peso) ÷ soma dos pesos.']},
+{m:'in',t:'Atalhos essenciais',p:[
+ 'Windows: Win + E (Explorador), Win + D (área de trabalho), Win + L (bloquear), Ctrl + Shift + Esc (Gerenciador de Tarefas), Alt + Tab (alternar janelas).',
+ 'Word em português: Ctrl + N (negrito), Ctrl + I (itálico), Ctrl + S (sublinhado), Ctrl + B (salvar), Ctrl + P (imprimir).',
+ 'Gerais: Ctrl + C, Ctrl + X, Ctrl + V (copiar, recortar, colar) e Ctrl + Z (desfazer).']},
+{m:'in',t:'Excel',p:[
+ 'Toda fórmula começa com "=". Referência absoluta usa cifrão: $A$1 não muda ao copiar.',
+ 'SOMA, MÉDIA, MÁXIMO, MÍNIMO.',
+ 'SE(teste; valor_se_verdadeiro; valor_se_falso).',
+ 'CONT.SE conta as células que atendem ao critério. SOMASE soma.',
+ 'PROCV(valor; tabela; nº da coluna; FALSO) busca com correspondência exata.']},
+{m:'in',t:'Segurança da informação',p:[
+ 'Vírus precisa de um arquivo hospedeiro; worm se propaga sozinho; cavalo de troia se disfarça de programa legítimo.',
+ 'Spyware espiona; ransomware criptografa dados e pede resgate; phishing imita instituições para roubar dados.',
+ 'Firewall filtra conexões. Antivírus detecta e remove malware.',
+ 'Backup completo copia tudo; incremental copia o que mudou desde o último backup; diferencial, o que mudou desde o último completo.',
+ 'HTTPS indica conexão criptografada. A navegação anônima só evita guardar dados no aparelho.']}
+];
+
+var COURSE={nome:'Técnico em Enfermagem',orgao:'Prefeitura de Paracatu–MG',plano:'Aprovação em 80 dias'};
+var MAT={pt:'Português',rl:'Raciocínio Lógico',in:'Informática',ce:'Conhecimentos Específicos',lm:'Legislação Municipal'};
+var MATIC={pt:'lp',rl:'rl',in:'ni',ce:'ce',lm:'lm'};
+var SUBJ={'Língua Portuguesa':['Port','lp'],'Raciocínio Lógico':['Lóg','rl'],'Noções de Informática':['Info','ni'],'Conhecimentos Específicos':['Esp','ce'],'Legislação Municipal':['Leg','lm'],'Revisão Geral':['Rev','rg'],'1º Simulado':['Sim','sm'],'2º Simulado':['Sim','sm']};
+function svg(p,s){s=s||20;return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">'+p+'</svg>'}
+var ICON={
+  lp:svg('<path d="M4 18 9 6l5 12M5.8 14h6.4M16.5 12c.6-.6 1.3-.9 2.2-.9 1.5 0 2.3.9 2.3 2.3V18m0-3.2c-.6 1.7-1.6 2.7-3 2.7-1.1 0-1.9-.7-1.9-1.7 0-1.2 1-1.8 4.9-1.8"/>'),
+  rl:svg('<path d="M17 5H7l6 7-6 7h10"/>'),
+  ni:svg('<rect x="3" y="4.5" width="18" height="12" rx="2.5"/><path d="M9 20h6M12 16.5V20"/>'),
+  ce:svg('<path d="M3 12h4l2-5 3.5 10 2.5-6 1.5 1H21"/>'),
+  lm:svg('<path d="M3 9.5 12 4l9 5.5M5 10v8M9.7 10v8M14.3 10v8M19 10v8M3 20.5h18"/>'),
+  rg:svg('<path d="M20 11a8 8 0 1 0-2.3 5.7M20 5v6h-6"/>'),
+  sm:svg('<rect x="5" y="3.5" width="14" height="17" rx="2.5"/><path d="m9 12 2 2 4-4M9 7.5h6"/>'),
+  x:svg('<path d="M12 5v14M5 12h14"/>'),
+  book:svg('<path d="M5 4.5h10a3 3 0 0 1 3 3V20H8a3 3 0 0 1-3-3z"/><path d="M9 9h5M9 13h5"/>'),
+  alert:svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 8v4.5M12 16h.01"/>'),
+  flame:svg('<path d="M12 3c1 3.5 5 5.5 5 10a5 5 0 0 1-10 0c0-2.2 1.2-3.6 2.5-4.6.2 1.8 1 2.9 2.2 3.2C11 9 11.2 5.8 12 3z"/>'),
+  target:svg('<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1"/>'),
+  play:svg('<path d="M7 5.5v13l11-6.5z"/>')};
+function check(s){s=s||15;return '<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>'}
+var CHEV='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>';
+var PLAY='<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.6-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/></svg>';
+var ARR_L='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg>';
+var ARR_R='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>';
+function sk(s){return SUBJ[s]||['Extra','x']}
+var $=function(id){return document.getElementById(id)};
+var store={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
+var S={days:[],extras:[],w:store.get('a80w',{}),last:store.get('a80l',null),ans:store.get('a80q',{}),sel:null,idx:0,playing:false,view:'inicio',sub:'aula',block:0,quiz:null,resF:'todos'};
+
+function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+function fold(s){return String(s).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'')}
+var UP={sus:'SUS',rq:'RQ',lei:'Lei',pnab:'PNAB',ist:'IST',ists:'ISTs',rn:'RN',acs:'ACS',ovace:'OVACE',pcr:'PCR',rcp:'RCP',cpu:'CPU',ssd:'SSD',hd:'HD',hdx:'HDx',ia:'IA',vpn:'VPN',nob:'NOB',noas:'NOAS',pnaism:'PNAISM',pnaisc:'PNAISC',lc:'LC',mmc:'MMC',mdc:'MDC',word:'Word',excel:'Excel',calc:'Calc',windows:'Windows',cofen:'COFEN',coren:'COREN',paracatu:'Paracatu',procv:'PROCV',sbd:'SBD',pa:'PA',utm:'UTM',hip:'HIP'};
+function pretty(t){var s=String(t).toLowerCase();s=s.charAt(0).toUpperCase()+s.slice(1);
+  return s.replace(/\b[a-zà-ú0-9]+\b/gi,function(m){return UP[m.toLowerCase()]||m}).replace(/covid-19/gi,'Covid-19')}
+function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clearTimeout(toast.h);toast.h=setTimeout(function(){t.classList.remove('show')},2000)}
+function thumb(id){return 'https://drive.google.com/thumbnail?id='+id+'&sz=w1600'}
+function plural(n,a,b){return n+' '+(n===1?a:b)}
+
+/* ---------- dados das aulas ---------- */
+function dayOf(d){return S.days[d-1]}
+function seen(l){var c=0;l.f.forEach(function(x){if(S.w[x[0]])c++});return c}
+function vdays(){return S.days.filter(function(d){return d.f.length})}
+function nextDay(){var v=vdays();for(var i=0;i<v.length;i++)if(seen(v[i])<v[i].f.length)return v[i].d;return v.length?v[v.length-1].d:1}
+function firstUnseen(l){for(var i=0;i<l.f.length;i++)if(!S.w[l.f[i][0]])return i;return 0}
+function cur(){if(!S.sel)return null;return S.sel.x!=null?S.extras[S.sel.x]:dayOf(S.sel.d)}
+function dkey(t){var d=new Date(t);return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function activity(){var m={};function add(t){var q=dkey(t);m[q]=(m[q]||0)+1}Object.keys(S.w).forEach(function(k){add(S.w[k])});Object.keys(S.ans).forEach(function(k){if(S.ans[k].t)add(S.ans[k].t)});return m}
+function streaks(){var m=activity(),c=0,d=new Date();d.setHours(12,0,0,0);if(!m[dkey(d)])d.setDate(d.getDate()-1);while(m[dkey(d)]){c++;d.setDate(d.getDate()-1)}
+  var ks=Object.keys(m).map(function(k){var p=k.split('-');return new Date(+p[0],p[1]-1,+p[2],12).getTime()}).sort(function(a,b){return a-b});
+  var best=0,run=0,prev=null;ks.forEach(function(t){run=(prev&&Math.round((t-prev)/864e5)===1)?run+1:1;best=Math.max(best,run);prev=t});return {cur:c,best:best,m:m}}
+function restRange(d){var a=d-1;while(a>1&&dayOf(a-1).f.length)a--;return [a,d-1]}
+function hasPrev(d){for(var i=d-1;i>=1;i--)if(dayOf(i).f.length)return true;return false}
+function hasNext(d){for(var i=d+1;i<=80;i++)if(dayOf(i).f.length)return true;return false}
+function courseStats(){var v=vdays(),tot=0,c=0,full=0;v.forEach(function(d){tot+=d.f.length;var k=seen(d);c+=k;if(k===d.f.length)full++});return {tot:tot,c:c,full:full,days:v.length}}
+
+/* ---------- dados das questões ---------- */
+function qkey(sid,i){return sid+':'+i}
+function qget(key){var p=key.split(':'),s=SIMULADOS.filter(function(x){return x.id===p[0]})[0];return s?{s:s,q:s.q[+p[1]],i:+p[1]}:null}
+function qstats(){var n=0,ok=0;Object.keys(S.ans).forEach(function(k){var g=qget(k);if(!g)return;n++;if(S.ans[k].c===g.q.a)ok++});return {n:n,ok:ok}}
+function wrongKeys(){return Object.keys(S.ans).filter(function(k){var g=qget(k);return g&&S.ans[k].c!==g.q.a}).sort(function(a,b){var x=a.split(':'),y=b.split(':');return x[0]===y[0]?(+x[1])-(+y[1]):(x[0]<y[0]?-1:1)})}
+function simStats(s){var n=0,ok=0;s.q.forEach(function(q,i){var a=S.ans[qkey(s.id,i)];if(a){n++;if(a.c===q.a)ok++}});return {n:n,ok:ok}}
+function saveAns(){store.set('a80q',S.ans)}
+
+/* ---------- anéis ---------- */
+function ring(d,sel){var n=d.f.length,c=seen(d);var cls='ring'+(n?(c===n?' full':''):' none')+(sel?' sel':'')+(sel&&!c&&n?' p0':'');
+  var inner=sel&&n&&c<n?(c+'/'+n):(n&&c===n?check(sel?14:13):d.d);
+  var tip='Dia '+d.d+', '+d.s+(n?' ('+c+' de '+n+' aulas)':'');
+  return '<button class="'+cls+'" data-d="'+d.d+'" style="--p:'+(n?c/n:0)+'" title="'+esc(tip)+'" aria-label="'+esc(tip)+'">'+inner+'</button>'}
+
+/* ---------- INÍCIO ---------- */
+function renderInicio(){
+  var nd=nextDay(),d=dayOf(nd),i=firstUnseen(d),f=d.f[i],cs=courseStats(),st=streaks(),qs=qstats(),wk=wrongKeys().length;
+  var foundLast=null;if(S.last)S.days.forEach(function(x){x.f.forEach(function(y,j){if(y[0]===S.last&&!S.w[y[0]])foundLast={d:x,i:j}})});
+  if(foundLast){d=foundLast.d;i=foundLast.i;f=d.f[i]}
+  $('cont').innerHTML=(f?'<img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">':'')+
+    '<span class="tag w">'+(cs.c?'Continue de onde parou':'Comece por aqui')+'</span>'+
+    '<small>Dia '+d.d+', '+esc(d.s)+', aula '+(i+1)+' de '+d.f.length+'</small><h1>'+esc(f?pretty(f[1]):'Dia '+d.d)+'</h1>'+
+    '<div class="row"><button class="wbtn" id="contGo">'+PLAY+' Continuar aula</button><div class="dline" style="--p:'+(cs.tot?cs.c/cs.tot:0)+'"><i></i></div><span>'+Math.round(cs.tot?cs.c/cs.tot*100:0)+'% do curso</span></div>';
+  $('contGo').onclick=function(){openDay(d.d,i,true)};
+  var acc=qs.n?Math.round(qs.ok/qs.n*100)+'%':'–';
+  var T=[[ICON.play,cs.c+'/'+cs.tot,'aulas assistidas'],[ICON.flame,plural(st.cur,'dia','dias'),'sequência atual'],[ICON.sm,qs.n,'questões respondidas'],[ICON.target,acc,'de acerto nas questões']];
+  $('tiles').innerHTML=T.map(function(t){return '<div class="glass tile"><span class="ic">'+t[0]+'</span><b>'+t[1]+'</b><small>'+t[2]+'</small></div>'}).join('');
+  var nsim=SIMULADOS.length,nq=SIMULADOS.reduce(function(a,s){return a+s.q.length},0);
+  $('train').innerHTML=
+    '<button class="tr" data-go="simulados"><div class="r"><div><b>Simulados</b><small>'+nsim+' simulados, '+nq+' questões comentadas</small></div><span class="ic">'+ICON.sm+'</span></div><span class="go"><span>Treinar agora</span> '+CHEV+'</span></button>'+
+    '<button class="tr" data-go="resumos"><div class="r"><div><b>Resumos rápidos</b><small>'+RESUMOS.length+' temas, direto ao ponto</small></div><span class="ic">'+ICON.book+'</span></div><span class="go"><span>Revisar</span> '+CHEV+'</span></button>'+
+    '<button class="tr" data-go="erros"><div class="r"><div><b>Caderno de erros</b><small>'+(wk?plural(wk,'questão para refazer','questões para refazer'):'Nenhum erro guardado')+'</small></div><span class="ic">'+ICON.alert+'</span></div><span class="go"><span>Abrir</span> '+CHEV+'</span></button>';
+  var now=new Date();now.setHours(12,0,0,0);var start=new Date(now);start.setDate(now.getDate()-now.getDay());var end=new Date(start);end.setDate(start.getDate()+6);
+  var L=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],M=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+  var h='<div class="strip-head"><h3>Esta semana <span>'+start.getDate()+(start.getMonth()!==end.getMonth()?' '+M[start.getMonth()]:'')+'–'+end.getDate()+' '+M[end.getMonth()]+'</span></h3></div><div class="rings">';
+  for(var k=0;k<7;k++){var x=new Date(start);x.setDate(start.getDate()+k);var cnt=st.m[dkey(x)]||0,isNow=k===now.getDay();
+    h+='<div class="col'+(isNow?' sel':'')+'"><div class="lbl">'+L[k]+'</div><span class="ring'+(isNow?' sel':'')+(isNow&&!cnt?' p0':'')+'" style="--p:'+Math.min(cnt/10,1)+'" title="'+plural(cnt,'atividade','atividades')+'">'+(cnt||'')+'</span></div>'}
+  $('week').innerHTML=h+'</div><p class="note" style="text-align:center;margin-top:16px">Cada anel enche com as aulas assistidas e as questões respondidas no dia.</p>';
+  var v=vdays();
+  $('subj').innerHTML=['Língua Portuguesa','Raciocínio Lógico','Noções de Informática','Conhecimentos Específicos','Legislação Municipal'].map(function(s){var t2=0,c2=0;v.forEach(function(dd){if(dd.s===s){t2+=dd.f.length;c2+=seen(dd)}});if(!t2)return'';var p=c2/t2;
+    return '<div class="srow"><span class="ic">'+ICON[sk(s)[1]]+'</span><div><b>'+s+'</b><div class="dline" style="--p:'+p+'"><i></i></div></div><span class="pc">'+Math.round(p*100)+'%</span></div>'}).join('');
+  $('courses').innerHTML='<button class="glass course" id="courseCard"><span class="bigring" style="--p:'+(cs.tot?cs.c/cs.tot:0)+'">'+Math.round(cs.tot?cs.c/cs.tot*100:0)+'%</span><span class="tx"><b>'+COURSE.nome+'</b><small>'+COURSE.orgao+', '+COURSE.plano+'. '+cs.full+' de '+cs.days+' dias concluídos.</small></span>'+CHEV+'</button>';
+  $('courseCard').onclick=function(){setView('aulas')};
+}
+
+/* ---------- AULAS ---------- */
+function renderPlayer(){
+  var l=cur(),f=l.f[S.idx],p=$('player'),n=l.f.length;
+  if(f){
+    if(S.playing){var src='https://drive.google.com/file/d/'+f[0]+'/preview',ifr=p.querySelector('iframe');
+      if(!ifr||ifr.getAttribute('src')!==src)p.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen title="'+esc(pretty(f[1]))+'"></iframe>'}
+    else{p.innerHTML='<button class="poster" id="poster" aria-label="Assistir aula '+(S.idx+1)+'"><img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">'+
+      '<span class="corner"><span class="rbtn" aria-hidden="true">'+ICON[l.d?sk(l.s)[1]:'x']+'</span><span class="tag w">Aula '+(S.idx+1)+' de '+n+'</span></span>'+
+      '<span class="bar"><span class="play">'+PLAY+'</span><b>Assistir</b><span class="line" style="--p:'+(S.idx+.5)/n+'"><i></i></span><small>'+(l.d?'Dia '+l.d:'Extra')+'</small></span></button>';
+      $('poster').onclick=function(){S.playing=true;renderAula()}}
+    var a=$('ambImg');if(a.getAttribute('src')!==thumb(f[0])){a.className='';a.onload=function(){a.className='ok'};a.onerror=function(){a.className=''};a.setAttribute('src',thumb(f[0]))}
+    if(S.last!==f[0]){S.last=f[0];store.set('a80l',f[0])}
+  } else {
+    var ttl,msg,s=l.s||'';
+    if(/Simulado/.test(s)){ttl='Dia de simulado';msg='Faça um dos simulados da aba Simulados para treinar no formato da prova.'}
+    else if(/Revisão/.test(s)){var r=restRange(l.d);ttl='Dia de revisão';msg='Sem videoaula hoje. Revise as aulas dos dias '+r[0]+' a '+r[1]+' e os resumos rápidos.'}
+    else{ttl='Sem vídeos';msg='Esta pasta do Drive ainda não tem vídeos.'}
+    p.innerHTML='<div class="rest"><div><h3>'+ttl+'</h3><p>'+msg+'</p></div></div>';$('ambImg').className='';
+  }
+}
+function renderAula(){
+  var l=cur();if(!l)return;var isDay=S.sel.d!=null,n=l.f.length,c=seen(l),f=l.f[S.idx];
+  renderPlayer();
+  $('dayInfo').textContent=n?(c+' de '+n+' aulas assistidas'):'Sem videoaula';
+  $('dayLine').style.setProperty('--p',n?c/n:0);
+  var on=f&&S.w[f[0]],m=$('mark');m.disabled=!f;m.classList.toggle('done',!!on);m.innerHTML=on?check()+' Assistida':'Marcar como assistida';
+  $('prevLesson').disabled=!f||(S.idx===0&&(!isDay||!hasPrev(l.d)));
+  $('nextLesson').disabled=!f||(S.idx===n-1&&(!isDay||!hasNext(l.d)));
+  $('lTitle').textContent=f?pretty(f[1]):(isDay?'Dia '+l.d:l.name);
+  var desc='';if(f&&isDay){var rem=n-c;desc='Aula '+(S.idx+1)+' de '+n+' do dia '+l.d+'. '+(rem?('Faltam '+plural(rem,'aula','aulas')+' para concluir o dia.'):'Dia concluído.')}
+  else if(f)desc=l.old?'Aula da versão antiga do curso, guardada no seu Drive.':'Aula extra de Conhecimentos Específicos.';
+  $('lDesc').textContent=desc;
+  $('mIcon').innerHTML=ICON[isDay?sk(l.s)[1]:'x'];
+  $('mDay').textContent=isDay?'Dia '+l.d+' de 80':(l.old?'Versão antiga':'Aulas extras');
+  $('mSubj').textContent=isDay?l.s:l.name;
+  $('mScore').innerHTML=n?(c===n?'<span class="tag ok">Dia concluído</span>':'<b>'+c+'</b>/'+n+' assistidas'):'';
+  $('lCount').textContent=n?plural(n,'aula','aulas'):'';
+  $('lessons').innerHTML=l.f.map(function(x,i){var w=S.w[x[0]],cu=i===S.idx;
+    return '<li class="lesson glass'+(cu?' cur':'')+(w?' seen':'')+'" data-i="'+i+'"><span class="ic'+(cu?' w':'')+'">'+(i+1)+'</span>'+
+      '<span class="tx"><b>'+esc(pretty(x[1]))+'</b><small>'+(cu?(S.playing?'Tocando agora':'Próxima a assistir'):(w?'Assistida':'Aula '+(i+1)))+'</small></span>'+
+      '<button class="chk'+(w?' on':'')+'" data-c="'+i+'" aria-label="'+(w?'Desmarcar':'Marcar')+' aula '+(i+1)+' como assistida">'+check()+'</button></li>'}).join('');
+  renderStrips();
+}
+function renderStrips(){
+  var b=S.block,from=b*8+1,to=from+7,sd=S.sel&&S.sel.d;
+  var h='<div class="strip-head"><button data-b="-1" '+(b===0?'disabled':'')+' aria-label="Dias anteriores"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>'+
+    '<h3>Dias '+from+'<span>–'+to+'</span></h3><button data-b="1" '+(b===9?'disabled':'')+' aria-label="Próximos dias"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="rings">';
+  for(var d=from;d<=to;d++){var x=dayOf(d);h+='<div class="col'+(d===sd?' sel':'')+'"><div class="lbl">'+sk(x.s)[0]+'</div>'+ring(x,d===sd)+'</div>'}
+  h+='</div>';$('stripD').innerHTML=h;$('stripM').innerHTML=h;
+}
+function renderSide(){
+  var nd=nextDay(),list=[],v=vdays();for(var i=0;i<v.length&&list.length<3;i++)if(v[i].d>=nd)list.push(v[i]);
+  $('agHead').innerHTML='Próximos dias <span>a partir do dia '+nd+'</span>';
+  $('agD').innerHTML=list.map(function(d,i){var n=d.f.length,c=seen(d),k=sk(d.s);
+    return '<button class="agc'+(i===0?' now':'')+'" data-d="'+d.d+'"><div class="r1"><span class="ic'+(i===0?' w':'')+'">'+ICON[k[1]]+'</span><span class="tx"><b>'+d.s+'</b><small>'+(i===0?'Seu próximo dia':(i===1?'Depois':'Em seguida'))+'</small></span><span class="pct"><i>'+check(11)+'</i>'+Math.round(c/n*100)+'%</span></div>'+
+      '<div class="r2"><span class="tag'+(i===0?' w':'')+'">Dia '+d.d+'</span><span>'+plural(n,'aula','aulas')+' '+CHEV+'</span></div></button>'}).join('');
+}
+function renderMapa(){
+  var h='';for(var b=0;b<10;b++){var from=b*8+1,to=from+7,full=0,tot=0,d,x;for(d=from;d<=to;d++){x=dayOf(d);if(x.f.length){tot++;if(seen(x)===x.f.length)full++}}
+    h+='<div class="cycle glass"><div class="cl"><b>Dias '+from+'–'+to+'</b><small>'+full+' de '+tot+' concluídos</small></div><div class="rings">';
+    for(d=from;d<=to;d++){x=dayOf(d);var s=!!(S.sel&&S.sel.d===d);h+='<div class="col'+(s?' sel':'')+'">'+ring(x,s)+'<div class="lbl">'+sk(x.s)[0]+'</div></div>'}
+    h+='</div></div>'}
+  $('cycles').innerHTML=h;
+  var cu=S.extras.filter(function(x){return !x.old}),old=S.extras.filter(function(x){return x.old});
+  function block(t,a){if(!a.length)return'';return '<h4>'+t+'</h4>'+a.map(function(x){var xi=S.extras.indexOf(x);
+    return '<button class="rrow" data-x="'+xi+'"><span class="ic">'+ICON.x+'</span><span class="tx"><b>'+esc(x.name)+'</b><small>'+seen(x)+' de '+x.f.length+' assistidas</small></span>'+CHEV+'</button>'}).join('')}
+  $('extras').innerHTML=block('Aulas extras',cu)+block('Versão antiga do curso',old);
+}
+function setSub(s){S.sub=s;$('vAula').hidden=s!=='aula';$('vMapa').hidden=s!=='mapa';[].forEach.call($('aulasSeg').children,function(b){b.classList.toggle('on',b.dataset.s===s)});if(s==='mapa')renderMapa()}
+
+/* ---------- SIMULADOS ---------- */
+function renderSimList(){
+  $('quizBox').hidden=true;$('simList').hidden=false;
+  var h='<h2 class="sec">Simulados <span>no formato da IBGP, 4 alternativas</span></h2><div class="sims">';
+  SIMULADOS.forEach(function(s){var st=simStats(s),tot=s.q.length,mix={};s.q.forEach(function(q){mix[q.m]=(mix[q.m]||0)+1});
+    var done=st.n===tot,started=st.n>0;
+    h+='<div class="glass sim"><div class="top2"><div><h3>'+s.nome+'</h3><p>'+tot+' questões comentadas</p></div>'+
+      (started?'<span class="bigring" style="--p:'+st.n/tot+'">'+(done?Math.round(st.ok/tot*100)+'%':st.n+'/'+tot)+'</span>':'<span class="ic">'+ICON.sm+'</span>')+'</div>'+
+      '<div class="mix">'+Object.keys(mix).map(function(m){return '<span class="tag">'+MAT[m]+' '+mix[m]+'</span>'}).join('')+'</div>'+
+      (started?'<div><div class="dline" style="--p:'+st.n/tot+'"><i></i></div><p>'+(done?'Concluído: '+st.ok+' acertos de '+tot+'.':st.n+' respondidas, '+st.ok+' certas.')+'</p></div>':'')+
+      '<div class="btns">'+(done?'<button class="wbtn" data-res="'+s.id+'">Ver resultado</button><button class="gbtn" data-reset="'+s.id+'">Refazer</button>':
+        '<button class="wbtn" data-start="'+s.id+'">'+(started?'Continuar':'Começar')+'</button>'+(started?'<button class="gbtn" data-reset="'+s.id+'">Recomeçar</button>':''))+'</div></div>'});
+  h+='</div><p class="note">Questões inéditas, escritas para este site com base nos temas do curso. Ao responder, você vê na hora se acertou e o comentário. As que você errar vão para o Caderno de erros. Legislação Municipal ficou de fora porque os textos das leis de Paracatu não estavam acessíveis.</p>';
+  $('simList').innerHTML=h;
+}
+function startQuiz(mode,keys,i){S.quiz={mode:mode,keys:keys,i:i||0,fresh:{}};
+  if(mode!=='erros'){var first=keys.findIndex(function(k){return !S.ans[k]});S.quiz.i=i!=null?i:(first<0?0:first)}
+  if(mode==='erros'){if(S.view!=='erros')setView('erros');else renderQuiz()}else{if(S.view!=='simulados')setView('simulados');else renderQuiz()}}
+function qAns(key){return S.quiz.mode==='erros'?S.quiz.fresh[key]:S.ans[key]}
+function quizHost(){return S.quiz.mode==='erros'?$('vErr'):$('quizBox')}
+function renderQuiz(){
+  var Q=S.quiz,key=Q.keys[Q.i],g=qget(key),q=g.q,a=qAns(key),host=quizHost();
+  if(Q.mode!=='erros'){$('simList').hidden=true;$('quizBox').hidden=false}
+  var title=Q.mode==='erros'?'Caderno de erros':g.s.nome;
+  var h='<div class="quiz"><div class="glass qcard"><div class="qhead"><button class="rbtn" id="qBack" aria-label="Voltar">'+ARR_L+'</button><div class="tx"><small>'+title+', questão '+(Q.i+1)+' de '+Q.keys.length+'</small><b>'+MAT[q.m]+'</b></div><span class="ic">'+ICON[MATIC[q.m]]+'</span></div>';
+  if(q.tx)h+='<details class="qtext"'+(a?'':' open')+'><summary>Texto de apoio</summary><p>'+esc(g.s.textos[q.tx])+'</p></details>';
+  h+='<p class="qe">'+esc(q.e)+'</p><div class="opts">';
+  q.o.forEach(function(o,k){var cls='opt';if(a){if(k===q.a)cls+=' right';else if(k===a.c)cls+=' wrong';else cls+=' dim'}
+    h+='<button class="'+cls+'" data-o="'+k+'"'+(a?' disabled':'')+'><span class="l">'+'ABCD'[k]+'</span><span>'+esc(o)+'</span></button>'});
+  h+='</div>';
+  if(a){var ok=a.c===q.a;h+='<div class="fb"><b class="'+(ok?'ok':'no')+'">'+(ok?'Você acertou.':'Resposta certa: letra '+'ABCD'[q.a]+'.')+'</b><p>'+esc(q.c)+'</p></div>'}
+  h+='<div class="qnav"><button class="gbtn" id="qPrev" '+(Q.i===0?'disabled':'')+'>'+ARR_L+'<span>Anterior</span></button><span class="sp"></span>'+
+    (Q.i<Q.keys.length-1?'<button class="wbtn" id="qNext">Próxima '+ARR_R+'</button>':'<button class="wbtn" id="qEnd">Ver resultado</button>')+'</div></div>';
+  var answered=Q.keys.filter(function(k){return qAns(k)}).length,right=Q.keys.filter(function(k){var x=qAns(k);return x&&x.c===qget(k).q.a}).length;
+  h+='<div class="glass qside"><h4>'+(Q.mode==='erros'?'Refazendo erros':'Mapa do simulado')+'</h4><p>'+answered+' de '+Q.keys.length+' respondidas, '+right+' certas</p><div class="qgrid">';
+  Q.keys.forEach(function(k,j){var x=qAns(k),cls='qn';if(x)cls+=x.c===qget(k).q.a?' r':' w';if(j===Q.i)cls+=' c';h+='<button class="'+cls+'" data-j="'+j+'" aria-label="Questão '+(j+1)+'">'+(j+1)+'</button>'});
+  h+='</div><button class="wbtn" id="qFin">Finalizar e ver resultado</button></div></div>';
+  host.innerHTML=h;
+  host.querySelector('.opts').onclick=function(e){var b=e.target.closest('.opt');if(!b||b.disabled)return;answer(+b.dataset.o)};
+  host.querySelector('.qgrid').onclick=function(e){var b=e.target.closest('.qn');if(b){Q.i=+b.dataset.j;renderQuiz()}};
+  $('qBack').onclick=function(){S.quiz=null;if(Q.mode==='erros')renderErros();else renderSimList()};
+  $('qPrev').onclick=function(){Q.i--;renderQuiz()};
+  if($('qNext'))$('qNext').onclick=function(){Q.i++;renderQuiz();host.scrollIntoView({block:'start'})};
+  if($('qEnd'))$('qEnd').onclick=function(){renderResult()};
+  $('qFin').onclick=function(){renderResult()};
+}
+function answer(k){var Q=S.quiz,key=Q.keys[Q.i],rec={c:k,t:Date.now()};
+  if(Q.mode==='erros')Q.fresh[key]=rec;S.ans[key]=rec;saveAns();updateBadges();renderQuiz()}
+function renderResult(){
+  var Q=S.quiz,host=quizHost(),tot=Q.keys.length,ok=0,n=0,by={};
+  Q.keys.forEach(function(k){var x=qAns(k),q=qget(k).q;by[q.m]=by[q.m]||{t:0,ok:0};by[q.m].t++;if(x){n++;if(x.c===q.a){ok++;by[q.m].ok++}}});
+  var pct=Math.round(ok/tot*100),wk=wrongKeys().length;
+  var h='<div class="glass result"><div class="big">'+pct+'<span>%</span></div><div><h3>'+(Q.mode==='erros'?'Revisão do caderno de erros':qget(Q.keys[0]).s.nome)+'</h3><p>'+ok+' acertos de '+tot+' questões'+(n<tot?' ('+(tot-n)+' sem resposta)':'')+'.</p><div class="btns">'+
+    '<button class="wbtn" id="rBack">'+(Q.mode==='erros'?'Voltar ao caderno':'Voltar aos simulados')+'</button>'+(wk?'<button class="gbtn" id="rErr">Refazer meus erros ('+wk+')</button>':'')+'</div></div></div>';
+  h+='<div class="glass subj">'+Object.keys(by).map(function(m){var p=by[m].ok/by[m].t;return '<div class="srow"><span class="ic">'+ICON[MATIC[m]]+'</span><div><b>'+MAT[m]+'</b><div class="dline" style="--p:'+p+'"><i></i></div></div><span class="pc">'+by[m].ok+'/'+by[m].t+'</span></div>'}).join('')+'</div>';
+  host.innerHTML='<div class="view">'+h+'</div>';
+  $('rBack').onclick=function(){S.quiz=null;if(Q.mode==='erros')renderErros();else renderSimList()};
+  if($('rErr'))$('rErr').onclick=function(){startQuiz('erros',wrongKeys(),0)};
+}
+$('simList').onclick=function(e){var b=e.target.closest('button');if(!b)return;
+  var s=b.dataset.start||b.dataset.res||b.dataset.reset;if(!s)return;var sim=SIMULADOS.filter(function(x){return x.id===s})[0],keys=sim.q.map(function(_,i){return qkey(s,i)});
+  if(b.dataset.reset){keys.forEach(function(k){delete S.ans[k]});saveAns();updateBadges();startQuiz('sim',keys,0);return}
+  if(b.dataset.res){S.quiz={mode:'sim',keys:keys,i:0,fresh:{}};$('simList').hidden=true;$('quizBox').hidden=false;renderResult();return}
+  startQuiz('sim',keys)};
+
+/* ---------- RESUMOS ---------- */
+function renderResumos(){
+  var f=S.resF,q=fold($('rq').value.trim()),mats=['todos','ce','pt','rl','in'];
+  $('resChips').innerHTML=mats.map(function(m){return '<button class="chip'+(m===f?' on':'')+'" data-f="'+m+'">'+(m==='todos'?'Todos':MAT[m])+'</button>'}).join('');
+  var list=RESUMOS.filter(function(r){return (f==='todos'||r.m===f)&&(q.length<2||fold(r.t+' '+r.p.join(' ')).indexOf(q)>-1)});
+  $('resCount').textContent=plural(list.length,'tema','temas');
+  function hl(t){var s=esc(t);if(q.length<2)return s;var src=fold(s),out='',i=0,j;while((j=src.indexOf(q,i))>-1){out+=s.slice(i,j)+'<mark>'+s.slice(j,j+q.length)+'</mark>';i=j+q.length}return out+s.slice(i)}
+  $('resCards').innerHTML=list.length?list.map(function(r){return '<div class="glass card"><div class="h"><span class="ic">'+ICON[MATIC[r.m]]+'</span><div><b>'+hl(r.t)+'</b><small>'+MAT[r.m]+'</small></div></div><ul>'+r.p.map(function(p){return '<li>'+hl(p)+'</li>'}).join('')+'</ul></div>'}).join('')
+    :'<p class="empty">Nenhum resumo com esse termo. Tente uma palavra mais curta.</p>';
+}
+$('resChips').onclick=function(e){var b=e.target.closest('.chip');if(b){S.resF=b.dataset.f;renderResumos()}};
+$('rq').addEventListener('input',renderResumos);
+
+/* ---------- CADERNO DE ERROS ---------- */
+function renderErros(){
+  var ks=wrongKeys(),host=$('vErr');
+  var h='<div class="glass errhead"><span class="ic">'+ICON.alert+'</span><div class="tx"><b>'+plural(ks.length,'questão','questões')+'</b><small>'+(ks.length?'Erros guardados dos simulados. Acertou ao refazer, a questão sai do caderno.':'Quando você errar uma questão nos simulados, ela aparece aqui para revisar.')+'</small></div>'+
+    (ks.length?'<button class="wbtn" id="eGo">Refazer todas</button>':'<button class="wbtn" id="eSim">Ir para simulados</button>')+'</div>';
+  if(ks.length){var groups={};ks.forEach(function(k){var m=qget(k).q.m;(groups[m]=groups[m]||[]).push(k)});
+    Object.keys(groups).forEach(function(m){h+='<h2 class="sec">'+MAT[m]+' <span>'+groups[m].length+'</span></h2><div class="results">'+groups[m].map(function(k){var g=qget(k);
+      return '<button class="rrow" data-k="'+k+'"><span class="ic">'+ICON[MATIC[g.q.m]]+'</span><span class="tx"><b>'+esc(g.q.e)+'</b><small>'+g.s.nome+', questão '+(g.i+1)+'</small></span>'+CHEV+'</button>'}).join('')+'</div>'})}
+  host.innerHTML=h;
+  if($('eGo'))$('eGo').onclick=function(){startQuiz('erros',ks,0)};
+  if($('eSim'))$('eSim').onclick=function(){setView('simulados')};
+  host.onclick=function(e){var b=e.target.closest('[data-k]');if(b&&!S.quiz)startQuiz('erros',ks,ks.indexOf(b.dataset.k))};
+}
+function updateBadges(){var n=wrongKeys().length;[$('errBadge'),$('errBadgeM')].forEach(function(b){b.hidden=!n;b.textContent=n})}
+
+/* ---------- navegação ---------- */
+function setView(v){S.view=v;$('app').dataset.view=v;
+  $('vInicio').hidden=v!=='inicio';$('vAulas').hidden=v!=='aulas';$('vSim').hidden=v!=='simulados';$('vRes').hidden=v!=='resumos';$('vErr').hidden=v!=='erros';
+  [].forEach.call(document.querySelectorAll('#seg button,#nav button'),function(b){b.classList.toggle('on',b.dataset.v===v)});
+  if(v==='inicio')renderInicio();
+  if(v==='aulas'){renderAula();renderSide();setSub(S.sub)}
+  if(v==='simulados'){if(S.quiz&&S.quiz.mode!=='erros')renderQuiz();else{S.quiz=S.quiz&&S.quiz.mode==='erros'?null:S.quiz;renderSimList()}}
+  if(v==='resumos')renderResumos();
+  if(v==='erros'){if(S.quiz&&S.quiz.mode==='erros')renderQuiz();else{if(S.quiz)S.quiz=null;renderErros()}}
+  window.scrollTo(0,0)}
+function openDay(d,idx,play){var l=dayOf(d);S.sel={d:d};S.block=Math.floor((d-1)/8);S.idx=idx==null?firstUnseen(l):idx;S.playing=!!play&&l.f.length>0;S.sub='aula';
+  if(S.view!=='aulas')setView('aulas');else{setSub('aula');renderAula()}if(play)$('player').scrollIntoView({behavior:'smooth',block:'center'})}
+function openExtra(xi,idx){S.sel={x:xi};S.idx=idx||0;S.playing=false;S.sub='aula';if(S.view!=='aulas')setView('aulas');else{setSub('aula');renderAula()}}
+function go(i,play){S.idx=i;S.playing=!!play;renderAula()}
+function toggle(id){var on=!S.w[id];if(on)S.w[id]=Date.now();else delete S.w[id];store.set('a80w',S.w);
+  var l=cur(),full=l.f.length&&l.f.every(function(x){return S.w[x[0]]});renderAula();renderSide();if(on&&full&&S.sel.d!=null)toast('Dia '+S.sel.d+' concluído')}
+
+$('mark').onclick=function(){var l=cur(),f=l&&l.f[S.idx];if(!f)return;var was=S.w[f[0]];toggle(f[0]);if(!was&&S.idx<l.f.length-1)go(S.idx+1,false)};
+$('nextLesson').onclick=function(){var l=cur();if(S.idx<l.f.length-1){go(S.idx+1,true);return}if(S.sel.d!=null)for(var d=S.sel.d+1;d<=80;d++)if(dayOf(d).f.length){openDay(d,0,true);return}};
+$('prevLesson').onclick=function(){var l=cur();if(S.idx>0){go(S.idx-1,true);return}if(S.sel.d!=null)for(var d=S.sel.d-1;d>=1;d--){var x=dayOf(d);if(x.f.length){openDay(d,x.f.length-1,true);return}}};
+$('lessons').onclick=function(e){var c=e.target.closest('.chk');if(c){toggle(cur().f[+c.dataset.c][0]);return}var li=e.target.closest('.lesson');if(li){go(+li.dataset.i,true);$('player').scrollIntoView({behavior:'smooth',block:'center'})}};
+function stripClick(e){var b=e.target.closest('[data-b]');if(b){S.block=Math.max(0,Math.min(9,S.block+(+b.dataset.b)));renderStrips();return}var r=e.target.closest('.ring[data-d]');if(r)openDay(+r.dataset.d,null,false)}
+$('stripD').onclick=stripClick;$('stripM').onclick=stripClick;
+$('cycles').onclick=function(e){var r=e.target.closest('.ring[data-d]');if(r)openDay(+r.dataset.d,null,false)};
+$('extras').onclick=function(e){var b=e.target.closest('[data-x]');if(b)openExtra(+b.dataset.x,0)};
+$('agD').onclick=function(e){var b=e.target.closest('.agc');if(b)openDay(+b.dataset.d,null,true)};
+$('aulasSeg').onclick=function(e){var b=e.target.closest('button[data-s]');if(b)setSub(b.dataset.s)};
+$('seg').onclick=$('nav').onclick=function(e){var b=e.target.closest('button[data-v]');if(b){if(b.dataset.v===S.view&&S.quiz){S.quiz=null}setView(b.dataset.v)}};
+$('train').onclick=function(e){var b=e.target.closest('[data-go]');if(b)setView(b.dataset.go)};
+$('brand').onclick=function(){setView('inicio')};
+$('searchBtn').onclick=function(){S.sub='mapa';setView('aulas');$('q').focus()};
+var hits=[];
+$('q').addEventListener('input',function(){var q=fold(this.value.trim());if(q.length<2){$('results').hidden=true;$('mapBody').hidden=false;return}
+  hits=[];S.days.forEach(function(d){d.f.forEach(function(x,i){if(fold(x[1]).indexOf(q)>-1)hits.push({d:d.d,i:i,s:d.s,t:x[1]})})});
+  S.extras.forEach(function(x,xi){x.f.forEach(function(y,i){if(fold(y[1]).indexOf(q)>-1)hits.push({x:xi,i:i,s:x.name,t:y[1]})})});
+  $('mapBody').hidden=true;$('results').hidden=false;
+  $('results').innerHTML=hits.length?'<h4>'+plural(hits.length,'aula encontrada','aulas encontradas')+'</h4>'+hits.slice(0,60).map(function(a,k){
+    return '<button class="rrow" data-k="'+k+'"><span class="ic">'+ICON[a.d?sk(a.s)[1]:'x']+'</span><span class="tx"><b>'+esc(pretty(a.t))+'</b><small>'+(a.d?'Dia '+a.d+', '+a.s:esc(a.s))+'</small></span>'+CHEV+'</button>'}).join('')
+    :'<p class="empty">Nenhuma aula com esse termo. Tente uma palavra mais curta, como "SUS" ou "crase".</p>'});
+$('results').onclick=function(e){var b=e.target.closest('[data-k]');if(!b)return;var a=hits[+b.dataset.k];if(a.d)openDay(a.d,a.i,true);else openExtra(a.x,a.i)};
+document.addEventListener('keydown',function(e){if(/INPUT|TEXTAREA/.test(e.target.tagName))return;
+  if(S.quiz&&(S.view==='simulados'||S.view==='erros')){var k=e.key.toLowerCase();var ix='abcd'.indexOf(k);if(ix>-1&&!qAns(S.quiz.keys[S.quiz.i])){answer(ix);return}
+    if(e.key==='ArrowRight'&&$('qNext'))$('qNext').click();if(e.key==='ArrowLeft'&&!$('qPrev').disabled)$('qPrev').click();return}
+  if(S.view==='aulas'){if(e.key==='m')$('mark').click();else if(e.key==='ArrowRight'&&e.shiftKey)$('nextLesson').click();else if(e.key==='ArrowLeft'&&e.shiftKey)$('prevLesson').click()}
+  if(e.key==='/'){e.preventDefault();$('searchBtn').click()}});
+
+/* ---------- desbloqueio (PIN conferido no servidor) ---------- */
+function start(data){S.days=data.days;S.extras=data.extras||[];$('gate').hidden=true;$('app').hidden=false;
+  $('brandSub').textContent=COURSE.nome+', '+COURSE.orgao;
+  var found=null;if(S.last)S.days.forEach(function(d){d.f.forEach(function(x,i){if(x[0]===S.last&&seen(d)<d.f.length)found={d:d.d,i:i}})});
+  var d=found?found.d:nextDay();S.sel={d:d};S.block=Math.floor((d-1)/8);S.idx=found?found.i:firstUnseen(dayOf(d));S.playing=false;
+  updateBadges();setView('inicio')}
+function showGate(msg){$('gate').hidden=false;$('app').hidden=true;$('pinErr').textContent=msg||'';$('pin').disabled=false;$('pinBtn').disabled=false;setTimeout(function(){$('pin').focus()},50)}
+var API='https://script.google.com/macros/s/AKfycbzun46yqrr2eSUCpxfc4nEgmlK5lbNVjco9dd3jc9jDZxglvsdHj6B8td3rLRVsQBO5kw/exec';
+function callApi(secret,ok,fail){
+  if(window.google&&google.script&&google.script.run){google.script.run.withSuccessHandler(ok).withFailureHandler(fail).getData(secret);return}
+  fetch(API,{method:'POST',body:JSON.stringify({s:secret}),credentials:'omit',redirect:'follow'})
+    .then(function(r){if(!r.ok)throw new Error('http');return r.text()})
+    .then(function(t){t=(t||'').trim();ok(!t||t==='null'?null:t==='"locked"'?'locked':t)})
+    .catch(fail)}
+function fetchData(secret,silent){
+  if(!silent){$('pinBtn').disabled=true;$('pinErr').textContent=''}
+  callApi(secret,function(r){
+    $('pinBtn').disabled=false;
+    if(r==='locked'){if(!S.days.length)showGate('Muitas tentativas erradas. Espere 15 minutos e tente de novo.');return}
+    if(!r){store.del('a80t');if(silent){if(!S.days.length)showGate()}else{$('pinErr').textContent='PIN incorreto. Confira e tente de novo.';$('pin').select()}return}
+    r=JSON.parse(r);store.set('a80t',r.token);
+    var fresh=JSON.stringify(r.data),old=JSON.stringify(store.get('a80d',null));store.set('a80d',r.data);
+    if(!S.days.length)start(r.data);
+    else if(fresh!==old&&!S.playing&&!S.quiz){S.days=r.data.days;S.extras=r.data.extras||[];setView(S.view)}
+  },function(){
+    $('pinBtn').disabled=false;
+    if(!S.days.length)showGate('Não foi possível conectar. Verifique a internet e tente de novo.');
+  })}
+$('gateForm').onsubmit=function(e){e.preventDefault();var pin=$('pin').value.trim();if(pin)fetchData(pin,false)};
+(function boot(){
+  var t=store.get('a80t',null),d=store.get('a80d',null);
+  if(t&&d){start(d);fetchData(t,true);return}
+  if(t){$('gate').hidden=false;$('pin').disabled=true;$('pinErr').textContent='Carregando suas aulas…';fetchData(t,true);return}
+  showGate();
+})();
+</script>
+</body>
+</html>
