@@ -868,13 +868,15 @@ var IS_MOBILE=/Android|iPhone|iPod|Mobi/i.test(navigator.userAgent||'');
 /* forma de encaixar o player móvel do Drive: A = quadro 16:9 comum; C = quadro do tamanho da tela, mostrando a faixa do meio;
    T = tamanho da tela, faixa de cima; D = tela deitada; W = largura da tela em 16:9 (com os controles do Drive);
    M = largura da tela, um pouco mais alto que 16:9; X = tamanho da tela com o recorte ajustado à mão na página teste.html;
-   R (padrão) = tamanho da tela, recorte com o vídeo e os controles do Drive (ajuste do celular do Juniu: posição 308, altura 364 numa tela 412×915). */
+   R (padrão) = quadro fixo de 412×915, recorte com o vídeo e os controles do Drive (ajuste feito no celular do Juniu: posição 308, altura 364). */
 var PV=(function(){try{return localStorage.getItem('a80pv')||'R'}catch(e){return 'R'}})();
 function frameGeom(w,h){
   if(IS_MOBILE&&PV!=='A'){var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
     if(PV==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
-    if(PV==='X'){var cr=null;try{cr=JSON.parse(localStorage.getItem('a80crop'))}catch(e){}if(cr&&cr.h)return{fw:a,fh:b,cx:0,cy:cr.y,cw:a,ch:cr.h}}
-    if(PV==='R'||PV==='X'){var hv=a*9/16,u=a/412;return{fw:a,fh:b,cx:0,cy:Math.round((b-hv)/2-34*u),cw:a,ch:Math.round(hv+132*u)}}
+    if(PV==='X'){var cr=null;try{cr=JSON.parse(localStorage.getItem('a80crop'))}catch(e){}if(cr&&cr.h){var fa=cr.a||412,fb=cr.b||915;return{fw:fa,fh:fb,cx:0,cy:cr.y,cw:fa,ch:cr.h}}}
+    /* padrão: o quadro do Drive tem sempre 412×915 (um celular de referência), em qualquer aparelho ou navegador; o site só reduz ou amplia.
+       Assim o Drive monta o player sempre do mesmo jeito e o recorte (vídeo + controles) fica certo em qualquer tela. */
+    if(PV==='R'||PV==='X')return{fw:412,fh:915,cx:0,cy:308,cw:412,ch:364};
     if(PV==='W'){var h1=Math.round(a*9/16);return{fw:a,fh:h1,cx:0,cy:0,cw:a,ch:h1}}
     if(PV==='M'){var h2=Math.round(a*9/16)+56;return{fw:a,fh:h2,cx:0,cy:0,cw:a,ch:h2}}
     var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:PV==='T'?0:(b-ch)/2,cw:a,ch:ch}}

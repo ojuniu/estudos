@@ -40,13 +40,14 @@ p{margin:0;color:var(--muted)}
 var main=document.getElementById('main');
 function get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
 var data=get('a80d'),saved=get('a80crop');
-var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
-document.getElementById('info').textContent='Tela '+a+'×'+b+' · janela '+innerWidth+'×'+innerHeight+' · '+((navigator.userAgent.match(/(SamsungBrowser|Chrome|Firefox|Version)\/[\d.]+/)||[''])[0]);
+var sa=Math.min(screen.width,screen.height),sb=Math.max(screen.width,screen.height);
+var a=412,b=915; /* quadro de referência, o mesmo que o site usa em qualquer aparelho */
+document.getElementById('info').textContent='Tela '+sa+'×'+sb+' · janela '+innerWidth+'×'+innerHeight+' · '+((navigator.userAgent.match(/(SamsungBrowser|Chrome|Firefox|Version)\/[\d.]+/)||[''])[0]);
 var id=null;if(data&&data.days)for(var i=0;i<data.days.length&&!id;i++)if(data.days[i].f.length)id=data.days[i].f[0][0];
 if(!id){main.innerHTML='<div class="msg">Abra o site, entre com o PIN e depois volte para esta página.</div>'}
 else{
   var src='https://drive.google.com/file/d/'+id+'/preview';
-  var hv=a*9/16,u=a/412,y=saved&&saved.h?saved.y:Math.round((b-hv)/2-34*u),h=saved&&saved.h?saved.h:Math.round(hv+132*u);
+  var same=saved&&saved.h&&saved.a===a&&saved.b===b,y=same?saved.y:308,h=same?saved.h:364;
   main.innerHTML='<div class="box" id="box"><iframe id="f" src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+a+'px;height:'+b+'px"></iframe></div>'+
     '<div class="ctl">'+
     '<div class="row"><label>Posição</label><button data-d="y" data-s="-4">−</button><input type="range" id="ry" min="0" max="'+b+'" step="1"><button data-d="y" data-s="4">+</button></div>'+
