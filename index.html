@@ -1053,7 +1053,7 @@ function vpBuild(){
   /* eventos do vídeo */
   v.addEventListener('loadedmetadata',function(){VP.ok=true;clearInterval(VP.to);
     if(v.videoWidth&&v.videoHeight){VP.ar=v.videoWidth+'/'+v.videoHeight;document.body.style.setProperty('--par',VP.ar)}
-    VP.fails=0;var p=VP.resume||VP.pos[VP.id];if(p&&p>15&&v.duration&&p<v.duration-20){v.currentTime=p;if(!VP.resume)toast('Continuando de '+fmt(p))}VP.resume=0;
+    VP.fails=0;var p=VP.resume||VP.pos[VP.id];if(p&&p>15&&v.duration&&p<v.duration-20){v.currentTime=p;if(!VP.resume&&!VP.warm)toast('Continuando de '+fmt(p))}VP.resume=0;
     v.playbackRate=VP.rate;vpTime()});
   v.addEventListener('error',function(){if(!VP.id)return;if(!VP.ok){vpFail();return}vpEnd('err')});
   v.addEventListener('play',vpState);v.addEventListener('pause',function(){vpState();vpSave(true)});
@@ -1101,7 +1101,7 @@ function vpOpen(f,l,play){
   if(play){S.fg=null;document.body.style.setProperty('--par',VP.ar||'16/9')}
   var el=VP.el,v=VP.v;
   if(VP.id===f[0]){
-    if(play&&VP.warm){VP.warm=false;v.preload='auto';vpMeta(f,l);vpPlay();vpTime();vpState()}
+    if(play&&VP.warm){VP.warm=false;v.preload='auto';vpMeta(f,l);vpPlay();vpTime();vpState();if(v.currentTime>15)toast('Continuando de '+fmt(v.currentTime))}
     else if(!play&&!VP.warm){VP.warm=true;v.pause()}
     return}
   vpSave(true);VP.id=f[0];VP.ok=false;VP.marked=!!S.w[f[0]];VP.resume=0;VP.warm=!play;
