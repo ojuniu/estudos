@@ -28,7 +28,7 @@ p{margin:0;color:var(--muted)}
 <body>
 <header>
   <h1>Teste do player no celular</h1>
-  <p>Dê play em cada opção. Na que o vídeo ficar certo (sem ficar torto e sem borda preta), toque em "Usar esta no site".</p>
+  <p>Dê play em cada opção e toque no vídeo para aparecerem os controles. Na que ficar certa (sem ficar torta, sem borda preta e com a barra para avançar e voltar), toque em "Usar esta no site".</p>
   <div class="info" id="info"></div>
 </header>
 <main id="main"></main>
@@ -43,17 +43,18 @@ if(!id){main.innerHTML='<div class="msg">Abra o site, entre com o PIN e depois v
 else{
   var src='https://drive.google.com/file/d/'+id+'/preview';
   var V=[
-    ['A','Quadro 16:9 comum (como era antes)'],
-    ['C','Quadro do tamanho da tela, mostrando a faixa do meio'],
-    ['T','Quadro do tamanho da tela, mostrando a faixa de cima'],
-    ['D','Quadro da tela deitada']];
+    ['C','A que você aprovou (sem a barra de avançar)'],
+    ['W','Largura da tela em 16:9, com os controles do Drive'],
+    ['M','Largura da tela, um pouco mais alta, com os controles do Drive']];
   function geom(v,W){
-    if(v==='A')return{fw:W,fh:W*9/16,cx:0,cy:0,cw:W};
-    if(v==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw}}
-    var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:v==='T'?0:(b-ch)/2,cw:a}}
+    if(v==='A')return{fw:W,fh:W*9/16,cx:0,cy:0,cw:W,ch:W*9/16};
+    if(v==='W'){var h1=Math.round(a*9/16);return{fw:a,fh:h1,cx:0,cy:0,cw:a,ch:h1}}
+    if(v==='M'){var h2=Math.round(a*9/16)+56;return{fw:a,fh:h2,cx:0,cy:0,cw:a,ch:h2}}
+    if(v==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
+    var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:v==='T'?0:(b-ch)/2,cw:a,ch:ch}}
   main.innerHTML=V.map(function(x){return '<section class="card"><div class="lab"><b>'+x[0]+'</b><span>'+x[1]+'</span></div><div class="box" data-v="'+x[0]+'"></div><button class="use'+(cur===x[0]?' on':'')+'" data-v="'+x[0]+'">'+(cur===x[0]?'Em uso no site':'Usar esta no site')+'</button></section>'}).join('')+
-    '<section class="card"><div class="lab"><b>E</b><span>Visão completa do quadro do tamanho da tela (reduzida), só para diagnóstico</span></div><div class="full" id="full"></div></section>';
-  [].forEach.call(document.querySelectorAll('.box'),function(el){var W=el.clientWidth,g=geom(el.dataset.v,W),k=W/g.cw;
+    '<section class="card"><div class="lab"><b>E</b><span>Visão completa do quadro do tamanho da tela (reduzida). Se nenhuma opção acima servir, dê play aqui, toque no vídeo e me mande um print</span></div><div class="full" id="full"></div></section>';
+  [].forEach.call(document.querySelectorAll('.box'),function(el){var W=el.clientWidth,g=geom(el.dataset.v,W),k=W/g.cw;el.style.aspectRatio=g.cw+'/'+g.ch;
     el.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+g.fw+'px;height:'+g.fh+'px;transform:translate('+(-g.cx*k)+'px,'+(-g.cy*k)+'px) scale('+k+')"></iframe>'});
   var full=document.getElementById('full'),fk=full.clientWidth/a;full.style.height=(b*fk)+'px';
   full.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;left:0;top:0;border:0;transform-origin:0 0;width:'+a+'px;height:'+b+'px;transform:scale('+fk+')"></iframe>';

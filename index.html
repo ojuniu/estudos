@@ -138,7 +138,7 @@ h2.sec span{color:var(--muted)}
   -webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px));mask:radial-gradient(farthest-side,transparent calc(100% - 4px),#000 calc(100% - 3.5px))}
 
 /* aulas: player */
-.player{position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#141218;border:1px solid var(--hair);box-shadow:0 50px 100px -50px rgba(0,0,0,.9)}
+.player{position:relative;aspect-ratio:var(--par,16/9);border-radius:32px;overflow:hidden;background:#141218;border:1px solid var(--hair);box-shadow:0 50px 100px -50px rgba(0,0,0,.9)}
 .poster{position:absolute;inset:0;width:100%;border:0;padding:0;color:var(--text);text-align:left;
   background:radial-gradient(70% 90% at 25% 10%,rgba(184,98,140,.55),transparent 70%),radial-gradient(60% 80% at 85% 30%,rgba(110,72,150,.6),transparent 70%),radial-gradient(60% 70% at 60% 110%,rgba(226,140,90,.35),transparent 70%),#17131C}
 .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
@@ -167,7 +167,7 @@ h2.sec span{color:var(--muted)}
 .pbtn{width:36px;height:36px;flex:none;border-radius:50%;border:0;display:grid;place-items:center;background:rgba(12,11,16,.72);color:#F4F3F6;cursor:pointer;pointer-events:auto}
 .pbtn:hover{background:rgba(12,11,16,.9)}
 /* mini player: aparece ao sair da aula com o vídeo tocando */
-body.pm-mini .pbox{position:fixed;inset:auto 24px 24px auto;width:380px;height:auto;aspect-ratio:16/9;z-index:40;border-radius:16px;overflow:hidden;
+body.pm-mini .pbox{position:fixed;inset:auto 24px 24px auto;width:380px;height:auto;aspect-ratio:var(--par,16/9);z-index:40;border-radius:16px;overflow:hidden;
   box-shadow:0 24px 70px -16px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.14)}
 body.pm-mini .pctl{display:flex;position:absolute;z-index:3;left:8px;right:8px;top:8px;justify-content:space-between;pointer-events:none}
 @media (hover:hover){body.pm-mini .pctl{opacity:0;transition:opacity .2s}body.pm-mini .pbox:hover .pctl{opacity:1}}
@@ -866,11 +866,14 @@ function thumb(id){return 'https://drive.google.com/thumbnail?id='+id+'&sz=w1600
 /* no celular o Drive entrega outro player (versão móvel), que só fica certo ocupando a tela toda, como na página do Drive */
 var IS_MOBILE=/Android|iPhone|iPod|Mobi/i.test(navigator.userAgent||'');
 /* forma de encaixar o player móvel do Drive: A = quadro 16:9 comum; C = quadro do tamanho da tela, mostrando a faixa do meio;
-   T = tamanho da tela, faixa de cima; D = tela deitada. Escolhida na página de teste (teste.html). */
+   T = tamanho da tela, faixa de cima; D = tela deitada; W = largura da tela em 16:9 (com os controles do Drive);
+   M = largura da tela, um pouco mais alto que 16:9. Escolhida na página de teste (teste.html). */
 var PV=(function(){try{return localStorage.getItem('a80pv')||'C'}catch(e){return 'C'}})();
 function frameGeom(w,h){
   if(IS_MOBILE&&PV!=='A'){var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
     if(PV==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
+    if(PV==='W'){var h1=Math.round(a*9/16);return{fw:a,fh:h1,cx:0,cy:0,cw:a,ch:h1}}
+    if(PV==='M'){var h2=Math.round(a*9/16)+56;return{fw:a,fh:h2,cx:0,cy:0,cw:a,ch:h2}}
     var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:PV==='T'?0:(b-ch)/2,cw:a,ch:ch}}
   w=Math.round(w)||960;h=Math.round(h)||540;return{fw:w,fh:h,cx:0,cy:0,cw:w,ch:h}}
 function layoutFrame(){var fr=$('pframe'),ifr=fr&&fr.querySelector('iframe'),g=S.fg;if(!ifr||!g)return;var W=fr.clientWidth;if(!W)return;var k=W/g.cw;
@@ -945,11 +948,11 @@ function renderPlayer(){
   if(f&&S.playing){
     var src='https://drive.google.com/file/d/'+f[0]+'/preview',ifr=fr.querySelector('iframe');
     $('player').classList.add('on');box.hidden=false;
-    if(!ifr||ifr.getAttribute('src')!==src){S.fg=frameGeom(fr.clientWidth,fr.clientHeight);
+    if(!ifr||ifr.getAttribute('src')!==src){S.fg=frameGeom(fr.clientWidth,fr.clientHeight);document.body.style.setProperty('--par',S.fg.cw+'/'+S.fg.ch);
       fr.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen title="'+esc(pretty(f[1]))+'" style="width:'+S.fg.fw+'px;height:'+S.fg.fh+'px"></iframe>';layoutFrame()}
     ph.innerHTML='';
   } else {
-    if(fr.firstChild)fr.innerHTML='';box.hidden=true;S.fg=null;$('player').classList.remove('on');
+    if(fr.firstChild)fr.innerHTML='';box.hidden=true;S.fg=null;$('player').classList.remove('on');document.body.style.removeProperty('--par');
     if(f){ph.innerHTML='<button class="poster" id="poster" aria-label="Assistir aula '+(S.idx+1)+'"><img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">'+
       '<span class="corner"><span class="rbtn" aria-hidden="true">'+ICON[l.d?sk(l.s)[1]:'x']+'</span><span class="tag w">Aula '+(S.idx+1)+' de '+n+'</span></span>'+
       '<span class="bar"><span class="play">'+PLAY+'</span><b>Assistir</b><span class="line" style="--p:'+(S.idx+.5)/n+'"><i></i></span><small>'+(l.d?'Dia '+l.d:'Extra')+'</small></span></button>';
