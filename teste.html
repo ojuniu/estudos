@@ -47,7 +47,7 @@ var id=null;if(data&&data.days)for(var i=0;i<data.days.length&&!id;i++)if(data.d
 if(!id){main.innerHTML='<div class="msg">Abra o site, entre com o PIN e depois volte para esta página.</div>'}
 else{
   var src='https://drive.google.com/file/d/'+id+'/preview';
-  var same=saved&&saved.h&&saved.a===a&&saved.b===b,y=same?saved.y:308,h=same?saved.h:364;
+  var same=saved&&saved.h&&saved.a===a&&saved.b===b,y=same?saved.y:342,h=same?saved.h:366;
   main.innerHTML='<div class="box" id="box"><iframe id="f" src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+a+'px;height:'+b+'px"></iframe></div>'+
     '<div class="ctl">'+
     '<div class="row"><label>Posição</label><button data-d="y" data-s="-4">−</button><input type="range" id="ry" min="0" max="'+b+'" step="1"><button data-d="y" data-s="4">+</button></div>'+
