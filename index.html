@@ -250,7 +250,7 @@ body.pm-mini .vp-end button{height:36px;padding:0 14px;font-size:13px}
 .actions{display:flex;align-items:center;gap:10px;padding:8px;border-radius:999px}
 .actions .info{flex:1;min-width:0;padding:0 10px;display:flex;flex-direction:column;gap:6px}
 .actions .info span{font-size:13px;color:var(--muted)}
-.lhead h1{margin:0;font:300 clamp(28px,3.2vw,42px)/1.08 var(--font);letter-spacing:-.025em;max-width:26ch}
+.lhead h1{margin:0;font:300 clamp(26px,2.6vw,36px)/1.1 var(--font);letter-spacing:-.025em;max-width:30ch}
 .lhead p{margin:12px 0 0;color:var(--muted);max-width:60ch}
 .meta{display:flex;align-items:center;gap:12px;margin-top:20px}
 .meta .who{flex:1;min-width:0}
@@ -272,6 +272,39 @@ body.pm-mini .vp-end button{height:36px;padding:0 14px;font-size:13px}
 .chk.on{background:var(--acc);border-color:var(--acc);color:#14160A}
 .lesson.cur{border-color:rgba(255,255,255,.22);background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06))}
 .lesson.seen .tx b{color:var(--muted)}
+/* seletor de dia (topo da página da aula) */
+.daybar{display:flex;align-items:center;gap:8px;padding:8px;border-radius:999px}
+.dmid{flex:1;min-width:0;border:0;background:none;color:var(--text);text-align:center;padding:4px 8px;border-radius:999px;cursor:pointer}
+.dmid:hover{background:rgba(255,255,255,.06)}
+.dmid small{display:block;font-size:13px;color:var(--muted)}
+.dmid b{display:inline-flex;align-items:center;gap:6px;max-width:100%;font:500 18px/1.3 var(--font)}
+.dmid b span{min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dmid b svg{flex:none;color:var(--muted)}
+.lhead{display:flex;flex-direction:column;align-items:flex-start;gap:10px}
+.allbtn{width:100%}
+/* lista de dias (lateral e "Todos os dias") */
+.dlist{display:flex;flex-direction:column;gap:2px}
+.drow{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:7px 12px 7px 7px;border-radius:999px;border:1px solid transparent;background:none;color:var(--text);cursor:pointer;font:inherit}
+.drow:hover{background:rgba(255,255,255,.07)}
+.drow.sel{background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.06));border-color:rgba(255,255,255,.18)}
+.drow .ring{width:38px;height:38px;flex:none;margin:0;font-size:12px}
+.drow .tx{flex:1;min-width:0}
+.drow .tx b{display:block;font:500 14px/1.3 var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow .tx small{display:block;font-size:12.5px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.drow.off .tx b{color:var(--muted);font-weight:400}
+.drow .tag{height:22px;padding:0 9px;font-size:11.5px}
+.drow>svg{flex:none;color:var(--faint)}
+.wk2 .strip-head{margin-bottom:10px}
+.wk2 .sub{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin:-6px 0 12px}
+.cyc{padding:16px 14px 12px;border-radius:26px}
+.cyc .chead{display:flex;align-items:center;gap:10px;padding:4px 8px;cursor:pointer;list-style:none}
+.cyc .chead::-webkit-details-marker{display:none}
+.cyc .chead b{flex:1;font:500 16px var(--font)}
+.cyc .chead small{font-size:13px;color:var(--muted)}
+.cyc .chead svg{flex:none;color:var(--muted);transition:transform .2s}
+.cyc[open] .chead{padding-bottom:10px}
+.cyc[open] .chead svg{transform:rotate(180deg)}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:2px 12px}
 
 /* anéis */
 .strip{padding:20px 18px 18px}
@@ -446,6 +479,9 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
   .view{gap:16px}
   .home-top,.two,.train,.sims{grid-template-columns:1fr}
   .cont{min-height:280px;padding:22px;border-radius:28px}
+  .cont .row{flex-wrap:wrap;gap:10px}
+  .cont .row .dline,.cont .row span{display:none}
+  .cont .row .wbtn,.cont .row .gbtn{flex:1}
   .tr{flex-direction:row;align-items:center;padding:16px}
   .tr .r{flex-direction:row-reverse;gap:14px;align-items:center;flex:1}
   .tr .r>div{flex:1}
@@ -461,7 +497,12 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
   .actions .info{display:none}
   .actions{padding:6px}
   .actions .wbtn{flex:1}
-  .lhead h1{font-size:30px}
+  .lhead h1{font-size:26px}
+  .dgrid{grid-template-columns:1fr}
+  #mapChips{flex-wrap:nowrap;overflow-x:auto;margin:0 -14px;padding:0 14px;scrollbar-width:none}
+  #mapChips::-webkit-scrollbar{display:none}
+  #mapChips .chip{flex:none}
+  .dmid b{font-size:16px}
   .lesson{border-radius:24px}
   .lesson .tx b{white-space:normal;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
   .strip{padding:18px 10px 16px}
@@ -527,8 +568,13 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
 
     <!-- aulas -->
     <section class="view" id="vAulas" hidden>
-      <div class="subseg glass" id="aulasSeg"><button data-s="aula" class="on">Aula</button><button data-s="mapa">Mapa dos 80 dias</button></div>
+      <div class="subseg glass" id="aulasSeg"><button data-s="aula" class="on">Aulas do dia</button><button data-s="mapa">Todos os dias</button></div>
       <div class="view" id="vAula">
+        <div class="daybar glass">
+          <button class="rbtn" id="prevDay" aria-label="Dia anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>
+          <button class="dmid" id="dayMid" aria-label="Ver todos os dias"></button>
+          <button class="rbtn" id="nextDay" aria-label="Próximo dia"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
+        </div>
         <div class="player" id="player">
           <div class="pholder" id="pholder"></div>
           <div class="pbox" id="pbox" hidden>
@@ -536,24 +582,21 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
             <div class="pctl"><button class="pbtn" id="pMin" aria-label="Voltar para a aula"></button><button class="pbtn" id="pClose" aria-label="Fechar aula"></button></div>
           </div>
         </div>
+        <div class="lhead"><span class="tag" id="lNum"></span><h1 id="lTitle"></h1></div>
         <div class="actions glass">
           <button class="rbtn" id="prevLesson" aria-label="Aula anterior"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
           <div class="info"><span id="dayInfo"></span><div class="dline" id="dayLine"><i></i></div></div>
           <button class="wbtn" id="mark"></button>
           <button class="rbtn" id="nextLesson" aria-label="Próxima aula"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
         </div>
-        <div class="lhead">
-          <h1 id="lTitle"></h1>
-          <p id="lDesc"></p>
-          <div class="meta"><span class="ic" id="mIcon"></span><div class="who"><small id="mDay"></small><b id="mSubj"></b></div><div class="score" id="mScore"></div></div>
-        </div>
-        <div class="glass strip only-m" id="stripM"></div>
-        <div class="lsthead"><span>Aulas do dia</span><span id="lCount"></span></div>
+        <div class="lsthead"><span id="lHead">Aulas do dia</span><span id="lCount"></span></div>
         <ul class="lessons" id="lessons"></ul>
+        <button class="gbtn allbtn" id="allDays">Ver todos os 80 dias <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button>
       </div>
       <div class="view" id="vMapa" hidden>
         <label class="searchw"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
           <input class="search" id="q" type="search" placeholder="Buscar aula por assunto" autocomplete="off" aria-label="Buscar aula"></label>
+        <div class="chips" id="mapChips"></div>
         <div id="mapBody"><div class="cycles" id="cycles"></div><div class="xlist" id="extras"></div></div>
         <div class="results" id="results" hidden></div>
       </div>
@@ -579,8 +622,7 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
   </main>
 
   <aside class="side">
-    <div class="glass strip" id="stripD"></div>
-    <div class="ag-head" id="agHead"></div>
+    <div class="glass strip wk2" id="stripD"></div>
     <div class="ag" id="agD"></div>
   </aside>
 
@@ -955,8 +997,9 @@ function layoutFrame(){var fr=$('pframe'),ifr=fr&&fr.querySelector('iframe'),g=S
 function plural(n,a,b){return n+' '+(n===1?a:b)}
 
 /* ---------- player próprio ----------
-   O vídeo vem direto do Drive (API do Google Drive com a chave guardada no Apps Script, DRIVE_KEY) e toca num <video> com os controles do site.
-   Sem chave, ou se o vídeo não abrir, o site volta sozinho para o player do Drive embutido. */
+   O vídeo vem direto do Drive pela API, com o acesso de uma conta de serviço (SA_KEY no Apps Script), e toca num <video> com os controles do site.
+   O navegador não deixa o <video> mandar o acesso no cabeçalho, então quem busca o vídeo é o service worker (sw.js), no endereço v/ID.
+   Sem conta de serviço, ou se o vídeo não abrir, o site usa o player do Drive embutido na hora. */
 var VI={
   play:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.6v12.8a1 1 0 0 0 1.5.86l10.6-6.4a1 1 0 0 0 0-1.72L9.5 4.74A1 1 0 0 0 8 5.6z"/></svg>',
   pause:'<svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="5" width="4.2" height="14" rx="1.2"/><rect x="13.8" y="5" width="4.2" height="14" rx="1.2"/></svg>',
@@ -970,9 +1013,21 @@ var VI={
 function fmt(t){t=Math.max(0,Math.floor(t||0));var h=Math.floor(t/3600),m=Math.floor(t%3600/60),s=t%60;return (h?h+':'+(m<10?'0':''):'')+m+':'+(s<10?'0':'')+s}
 function rateTxt(r){return String(r).replace('.',',')+'x'}
 var RATES=[.75,1,1.25,1.5,1.75,2];
-var VP={el:null,v:null,id:null,key:store.get('a80k',''),dead:false,force:{},rate:+store.get('a80rate',1)||1,vol:store.get('a80vol',1),pos:store.get('a80pos',{}),touch:IS_MOBILE};
-function vpSrc(id){return VP.key?'https://www.googleapis.com/drive/v3/files/'+id+'?alt=media&key='+encodeURIComponent(VP.key):''}
-function vpUse(id){return !!vpSrc(id)&&!VP.dead&&!VP.force[id]}
+var VP={el:null,v:null,id:null,tok:store.get('a80vt',null),dead:false,force:{},rate:+store.get('a80rate',1)||1,vol:store.get('a80vol',1),pos:store.get('a80pos',{}),touch:IS_MOBILE};
+store.del('a80k');
+var SWC=navigator.serviceWorker;
+if(SWC&&window.isSecureContext){try{SWC.register('sw.js').catch(function(){})}catch(e){}
+  /* o service worker pede o acesso quando precisa (ele não guarda nada entre uma visita e outra) */
+  SWC.addEventListener('message',function(e){var d=e.data||{};if(d.q==='tok'&&e.ports&&e.ports[0])vpTok(function(t){e.ports[0].postMessage(t||{})},d.force)})}
+function vpSrc(id){return 'v/'+id}
+function vpUse(id){return !!(SWC&&SWC.controller&&VP.tok)&&!VP.dead&&!VP.force[id]}
+function vpSetTok(t){if(!t||!t.t){VP.tok=null;store.del('a80vt');return}VP.tok=t;store.set('a80vt',t);try{if(SWC&&SWC.controller)SWC.controller.postMessage({tok:t})}catch(e){}}
+function vpTok(cb,force){var t=VP.tok;if(!force&&t&&t.e-Date.now()>120000){cb(t);return}
+  var s=store.get('a80t',null);if(!s){cb(null);return}
+  callApi(s,function(r){var j=null;try{j=r&&r!=='locked'?JSON.parse(r):null}catch(e){}if(j&&j.vt)vpSetTok(j.vt);cb(j&&j.vt?VP.tok:null)},function(){cb(null)},{a:'vt'})}
+/* com dados móveis econômicos não adianta carregar o começo do vídeo antes do play */
+function vpWarmOK(){var c=navigator.connection;return !(c&&(c.saveData||/2g/.test(c.effectiveType||'')))}
+function vpPlay(){var el=VP.el,p=VP.v.play();if(p&&p.catch)p.catch(function(){el.classList.remove('wait');vpState()})}
 function vpQ(s){return VP.el.querySelector(s)}
 function vpBuild(){
   var el=document.createElement('div');el.className='vp'+(VP.touch?' touch':'');el.id='vp';
@@ -996,7 +1051,7 @@ function vpBuild(){
   vpQ('.vp-vol input').value=v.muted?0:v.volume;
   if(document.pictureInPictureEnabled&&!v.disablePictureInPicture)vpQ('[data-a="pip"]').hidden=false;
   /* eventos do vídeo */
-  v.addEventListener('loadedmetadata',function(){VP.ok=true;clearTimeout(VP.to);
+  v.addEventListener('loadedmetadata',function(){VP.ok=true;clearInterval(VP.to);
     if(v.videoWidth&&v.videoHeight){VP.ar=v.videoWidth+'/'+v.videoHeight;document.body.style.setProperty('--par',VP.ar)}
     VP.fails=0;var p=VP.resume||VP.pos[VP.id];if(p&&p>15&&v.duration&&p<v.duration-20){v.currentTime=p;if(!VP.resume)toast('Continuando de '+fmt(p))}VP.resume=0;
     v.playbackRate=VP.rate;vpTime()});
@@ -1039,26 +1094,34 @@ function vpBuild(){
   function up(e){if(!VP.drag)return;VP.drag=false;sk.classList.remove('drag');v.currentTime=at(e)*v.duration;vpTime();vpPoke()}
   sk.addEventListener('pointerup',up);sk.addEventListener('pointercancel',function(){VP.drag=false;sk.classList.remove('drag');vpTime()});
   return el}
-function vpOpen(f,l){
+/* play=true: toca; play=false: só deixa o começo do vídeo carregado enquanto a pessoa olha a aula (o play fica instantâneo) */
+function vpOpen(f,l,play){
   var fr=$('pframe');
-  if(!VP.el||VP.el.parentNode!==fr){fr.innerHTML='';fr.appendChild(vpBuild())}
-  S.fg=null;document.body.style.setProperty('--par',VP.ar||'16/9');
-  if(VP.id===f[0])return;
-  vpSave(true);VP.id=f[0];VP.ok=false;VP.marked=!!S.w[f[0]];VP.resume=0;
-  var el=VP.el,v=VP.v;el.classList.remove('started','playing');el.classList.add('wait');vpQ('.vp-end').hidden=true;vpMenu(false);
+  if(!VP.el||VP.el.parentNode!==fr){var old=fr.querySelector('iframe');if(old)old.remove();fr.appendChild(vpBuild())}
+  if(play){S.fg=null;document.body.style.setProperty('--par',VP.ar||'16/9')}
+  var el=VP.el,v=VP.v;
+  if(VP.id===f[0]){
+    if(play&&VP.warm){VP.warm=false;v.preload='auto';vpMeta(f,l);vpPlay();vpTime();vpState()}
+    else if(!play&&!VP.warm){VP.warm=true;v.pause()}
+    return}
+  vpSave(true);VP.id=f[0];VP.ok=false;VP.marked=!!S.w[f[0]];VP.resume=0;VP.warm=!play;
+  el.classList.remove('started','playing');el.classList.add('wait');vpQ('.vp-end').hidden=true;vpMenu(false);
   var po=vpQ('.vp-poster');po.style.display='';po.onerror=function(){po.style.display='none'};po.src=thumb(f[0]);
-  v.src=vpSrc(f[0]);v.playbackRate=VP.rate;var p=v.play();if(p&&p.catch)p.catch(function(){el.classList.remove('wait');vpState()});
-  clearTimeout(VP.to);VP.to=setTimeout(function(){if(!VP.ok)vpFail()},20000);
+  v.preload=play?'auto':'metadata';v.src=vpSrc(f[0]);v.playbackRate=VP.rate;
+  if(play){vpMeta(f,l);vpPlay()}
+  /* se o vídeo não começar em 10 s com a página aberta, troca para o player do Drive */
+  clearInterval(VP.to);VP.wt=0;VP.to=setInterval(function(){if(VP.ok){clearInterval(VP.to);return}
+    if(!VP.warm&&document.visibilityState==='visible')VP.wt++;if(VP.wt>=10){clearInterval(VP.to);vpFail()}},1000);
   vpTime();vpState();vpIdle(false);
-  if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:pretty(f[1]),artist:l.d?'Dia '+l.d+', '+l.s:(l.name||'Aula extra'),album:COURSE.nome,artwork:[{src:thumb(f[0]),sizes:'1600x900'}]})}catch(e){}}
 }
-/* o vídeo não abriu pela API: volta para o player do Drive nesta sessão */
-function vpFail(){if(!VP.id)return;VP.force[VP.id]=true;VP.fails=(VP.fails||0)+1;if(VP.fails>=2)VP.dead=true;vpKill();toast('Usando o player do Drive');renderPlayer()}
-function vpKill(){clearTimeout(VP.to);clearTimeout(VP.ht);if(!VP.el)return;var v=VP.v;vpSave(true);
+function vpMeta(f,l){if('mediaSession' in navigator){try{navigator.mediaSession.metadata=new MediaMetadata({title:pretty(f[1]),artist:l.d?'Dia '+l.d+', '+l.s:(l.name||'Aula extra'),album:COURSE.nome,artwork:[{src:thumb(f[0]),sizes:'1600x900'}]})}catch(e){}}}
+/* o vídeo não abriu: esta aula vai pelo player do Drive; depois de 2 falhas seguidas, todas vão (até recarregar a página) */
+function vpFail(){if(!VP.id)return;var warm=VP.warm;VP.force[VP.id]=true;VP.fails=(VP.fails||0)+1;if(VP.fails>=2)VP.dead=true;vpKill();if(!warm){toast('Usando o player do Drive');renderPlayer()}}
+function vpKill(){clearInterval(VP.to);clearTimeout(VP.ht);if(!VP.el)return;var v=VP.v;vpSave(true);
   if(document.fullscreenElement===VP.el&&document.exitFullscreen)document.exitFullscreen().catch(function(){});
   if(document.pictureInPictureElement===v)document.exitPictureInPicture().catch(function(){});
   try{v.pause();v.removeAttribute('src');v.load()}catch(e){}
-  if(VP.el.parentNode)VP.el.parentNode.removeChild(VP.el);VP.el=null;VP.v=null;VP.id=null;VP.ar=null}
+  if(VP.el.parentNode)VP.el.parentNode.removeChild(VP.el);VP.el=null;VP.v=null;VP.id=null;VP.ar=null;VP.warm=false}
 function vpToggle(){var v=VP.v;if(!v)return;if(v.paused||v.ended){vpQ('.vp-end').hidden=true;var p=v.play();if(p&&p.catch)p.catch(function(){})}else v.pause()}
 function vpSkip(s,tap){var v=VP.v;if(!v||!v.duration)return;v.currentTime=Math.max(0,Math.min(v.duration-.2,v.currentTime+s));vpTime();
   if(tap){var t=vpQ('.vp-tap.'+(s<0?'l':'r'));VP.acc=(VP.accSide===s<0?VP.acc:0)+Math.abs(s);VP.accSide=s<0;t.querySelector('b').textContent=VP.acc+' s';
@@ -1146,8 +1209,9 @@ function renderInicio(){
   $('cont').innerHTML=(f?'<img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">':'')+
     '<span class="tag w">'+(cs.c?'Continue de onde parou':'Comece por aqui')+'</span>'+
     '<small>Dia '+d.d+', '+esc(d.s)+', aula '+(i+1)+' de '+d.f.length+'</small><h1>'+esc(f?pretty(f[1]):'Dia '+d.d)+'</h1>'+
-    '<div class="row"><button class="wbtn" id="contGo">'+PLAY+' Continuar aula</button><div class="dline" style="--p:'+(cs.tot?cs.c/cs.tot:0)+'"><i></i></div><span>'+Math.round(cs.tot?cs.c/cs.tot*100:0)+'% do curso</span></div>';
+    '<div class="row"><button class="wbtn" id="contGo">'+PLAY+' Continuar aula</button><button class="gbtn" id="contAll">Escolher outra aula</button><div class="dline" style="--p:'+(cs.tot?cs.c/cs.tot:0)+'"><i></i></div><span>'+Math.round(cs.tot?cs.c/cs.tot*100:0)+'% do curso</span></div>';
   $('contGo').onclick=function(){openDay(d.d,i,true)};
+  $('contAll').onclick=function(){S.sub='mapa';setView('aulas')};
   var acc=qs.n?Math.round(qs.ok/qs.n*100)+'%':'–';
   var T=[[ICON.play,cs.c+'/'+cs.tot,'aulas assistidas'],[ICON.flame,plural(st.cur,'dia','dias'),'sequência atual'],[ICON.sm,qs.n,'questões respondidas'],[ICON.target,acc,'de acerto nas questões']];
   $('tiles').innerHTML=T.map(function(t){return '<div class="glass tile"><span class="ic">'+t[0]+'</span><b>'+t[1]+'</b><small>'+t[2]+'</small></div>'}).join('');
@@ -1174,13 +1238,14 @@ function renderPlayer(){
   var l=cur(),f=l&&l.f[S.idx],ph=$('pholder'),box=$('pbox'),fr=$('pframe'),n=l?l.f.length:0;
   if(f&&S.playing){
     $('player').classList.add('on');box.hidden=false;
-    if(vpUse(f[0]))vpOpen(f,l);
+    if(vpUse(f[0]))vpOpen(f,l,true);
     else{var src='https://drive.google.com/file/d/'+f[0]+'/preview',ifr=fr.querySelector('iframe');vpKill();
       if(!ifr||ifr.getAttribute('src')!==src){S.fg=frameGeom(fr.clientWidth,fr.clientHeight);document.body.style.setProperty('--par',S.fg.cw+'/'+S.fg.ch);
         fr.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen title="'+esc(pretty(f[1]))+'" style="width:'+S.fg.fw+'px;height:'+S.fg.fh+'px"></iframe>';layoutFrame()}}
     ph.innerHTML='';
   } else {
-    vpKill();if(fr.firstChild)fr.innerHTML='';box.hidden=true;S.fg=null;$('player').classList.remove('on');document.body.style.removeProperty('--par');
+    if(f&&vpUse(f[0])&&vpWarmOK())vpOpen(f,l,false);else vpKill();
+    var oldf=fr.querySelector('iframe');if(oldf)oldf.remove();box.hidden=true;S.fg=null;$('player').classList.remove('on');document.body.style.removeProperty('--par');
     if(f){ph.innerHTML='<button class="poster" id="poster" aria-label="Assistir aula '+(S.idx+1)+'"><img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">'+
       '<span class="corner"><span class="rbtn" aria-hidden="true">'+ICON[l.d?sk(l.s)[1]:'x']+'</span><span class="tag w">Aula '+(S.idx+1)+' de '+n+'</span></span>'+
       '<span class="bar"><span class="play">'+PLAY+'</span><b>Assistir</b><span class="line" style="--p:'+(S.idx+.5)/n+'"><i></i></span><small>'+(l.d?'Dia '+l.d:'Extra')+'</small></span></button>';
@@ -1213,41 +1278,54 @@ function renderAula(){
   var on=f&&S.w[f[0]],m=$('mark');m.disabled=!f;m.classList.toggle('done',!!on);m.innerHTML=on?check()+' Assistida':'Marcar como assistida';
   $('prevLesson').disabled=!f||(S.idx===0&&(!isDay||!hasPrev(l.d)));
   $('nextLesson').disabled=!f||(S.idx===n-1&&(!isDay||!hasNext(l.d)));
-  $('lTitle').textContent=f?pretty(f[1]):(isDay?'Dia '+l.d:l.name);
-  var desc='';if(f&&isDay){var rem=n-c;desc='Aula '+(S.idx+1)+' de '+n+' do dia '+l.d+'. '+(rem?('Faltam '+plural(rem,'aula','aulas')+' para concluir o dia.'):'Dia concluído.')}
-  else if(f)desc=l.old?'Aula da versão antiga do curso, guardada no seu Drive.':'Aula extra de Conhecimentos Específicos.';
-  $('lDesc').textContent=desc;
-  $('mIcon').innerHTML=ICON[isDay?sk(l.s)[1]:'x'];
-  $('mDay').textContent=isDay?'Dia '+l.d+' de 80':(l.old?'Versão antiga':'Aulas extras');
-  $('mSubj').textContent=isDay?l.s:l.name;
-  $('mScore').innerHTML=n?(c===n?'<span class="tag ok">Dia concluído</span>':'<b>'+c+'</b>/'+n+' assistidas'):'';
-  $('lCount').textContent=n?plural(n,'aula','aulas'):'';
+  /* seletor de dia: qual dia está aberto, quanto falta, e setas para o dia anterior/seguinte */
+  $('dayMid').innerHTML='<small>'+(isDay?'Dia '+l.d+' de 80':(l.old?'Versão antiga do curso':'Aulas extras'))+(n?' · '+(c===n?'concluído':c+' de '+n+' assistidas'):'')+'</small>'+
+    '<b><span>'+esc(isDay?l.s:l.name)+'</span>'+ICO_DOWN+'</b>';
+  $('prevDay').disabled=!isDay||l.d<=1;$('nextDay').disabled=!isDay||l.d>=80;
+  $('lNum').textContent=f?'Aula '+(S.idx+1)+' de '+n:(isDay?'Dia '+l.d:'Aulas extras');
+  $('lNum').hidden=!f;
+  $('lTitle').textContent=f?pretty(f[1]):(isDay?l.s:l.name);
+  $('lHead').textContent=isDay?'Aulas do dia '+l.d:'Aulas desta pasta';
+  $('lCount').textContent=n?plural(n,'aula','aulas'):'Sem videoaula';
   $('lessons').innerHTML=l.f.map(function(x,i){var w=S.w[x[0]],cu=i===S.idx;
     return '<li class="lesson glass'+(cu?' cur':'')+(w?' seen':'')+'" data-i="'+i+'"><span class="ic'+(cu?' w':'')+'">'+(i+1)+'</span>'+
       '<span class="tx"><b>'+esc(pretty(x[1]))+'</b><small>'+(cu?(S.playing?'Tocando agora':'Próxima a assistir'):(w?'Assistida':'Aula '+(i+1)))+'</small></span>'+
       '<button class="chk'+(w?' on':'')+'" data-c="'+i+'" aria-label="'+(w?'Desmarcar':'Marcar')+' aula '+(i+1)+' como assistida">'+check()+'</button></li>'}).join('');
   renderStrips();
 }
+/* uma linha por dia: anel com o número do dia (ou ✓), matéria por extenso e quantas aulas */
+function dayRow(x,nd){var n=x.f.length,c=seen(x),sel=!!(S.sel&&S.sel.d===x.d),full=n&&c===n;
+  var sub='Dia '+x.d+' · '+(n?(full?'concluído':(c?c+' de '+n+' assistidas':plural(n,'aula','aulas'))):(/Simulado/.test(x.s)?'faça um simulado':'revisão, sem videoaula'));
+  return '<button class="drow'+(sel?' sel':'')+(n?'':' off')+'" data-d="'+x.d+'" aria-label="Dia '+x.d+', '+esc(x.s)+'">'+
+    '<span class="ring'+(n?(full?' full':''):' none')+'" style="--p:'+(n?c/n:0)+'">'+(full?check(13):x.d)+'</span>'+
+    '<span class="tx"><b>'+esc(x.s)+'</b><small>'+sub+'</small></span>'+(x.d===nd&&!full?'<span class="tag w">Próximo</span>':'')+CHEV+'</button>'}
 function renderStrips(){
-  var b=S.block,from=b*8+1,to=from+7,sd=S.sel&&S.sel.d;
-  var h='<div class="strip-head"><button data-b="-1" '+(b===0?'disabled':'')+' aria-label="Dias anteriores"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>'+
-    '<h3>Dias '+from+'<span>–'+to+'</span></h3><button data-b="1" '+(b===9?'disabled':'')+' aria-label="Próximos dias"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div><div class="rings">';
-  for(var d=from;d<=to;d++){var x=dayOf(d);h+='<div class="col'+(d===sd?' sel':'')+'"><div class="lbl">'+sk(x.s)[0]+'</div>'+ring(x,d===sd)+'</div>'}
-  h+='</div>';$('stripD').innerHTML=h;$('stripM').innerHTML=h;
+  var b=S.block,from=b*8+1,to=from+7,nd=nextDay(),full=0,tot=0,h,d,x;
+  for(d=from;d<=to;d++){x=dayOf(d);if(x.f.length){tot++;if(seen(x)===x.f.length)full++}}
+  h='<div class="strip-head"><button data-b="-1" '+(b===0?'disabled':'')+' aria-label="Dias anteriores"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg></button>'+
+    '<h3>Dias '+from+'<span>–'+to+'</span></h3><button data-b="1" '+(b===9?'disabled':'')+' aria-label="Próximos dias"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg></button></div>'+
+    '<span class="sub">'+full+' de '+tot+' dias concluídos</span><div class="dlist">';
+  for(d=from;d<=to;d++)h+=dayRow(dayOf(d),nd);
+  $('stripD').innerHTML=h+'</div>';
 }
 function renderSide(){
-  var nd=nextDay(),list=[],v=vdays();for(var i=0;i<v.length&&list.length<3;i++)if(v[i].d>=nd)list.push(v[i]);
-  $('agHead').innerHTML='Próximos dias <span>a partir do dia '+nd+'</span>';
+  var nd=nextDay(),list=[dayOf(nd)];
+  renderStrips();
   $('agD').innerHTML=list.map(function(d,i){var n=d.f.length,c=seen(d),k=sk(d.s);
     return '<button class="agc'+(i===0?' now':'')+'" data-d="'+d.d+'"><div class="r1"><span class="ic'+(i===0?' w':'')+'">'+ICON[k[1]]+'</span><span class="tx"><b>'+d.s+'</b><small>'+(i===0?'Seu próximo dia':(i===1?'Depois':'Em seguida'))+'</small></span><span class="pct"><i>'+check(11)+'</i>'+Math.round(c/n*100)+'%</span></div>'+
       '<div class="r2"><span class="tag'+(i===0?' w':'')+'">Dia '+d.d+'</span><span>'+plural(n,'aula','aulas')+' '+CHEV+'</span></div></button>'}).join('');
 }
+var MAPF=[['todos','Todas'],['Língua Portuguesa','Português'],['Raciocínio Lógico','Raciocínio Lógico'],['Noções de Informática','Informática'],['Conhecimentos Específicos','Específicos'],['Legislação Municipal','Legislação'],['outros','Revisões e simulados']];
 function renderMapa(){
-  var h='';for(var b=0;b<10;b++){var from=b*8+1,to=from+7,full=0,tot=0,d,x;for(d=from;d<=to;d++){x=dayOf(d);if(x.f.length){tot++;if(seen(x)===x.f.length)full++}}
-    h+='<div class="cycle glass"><div class="cl"><b>Dias '+from+'–'+to+'</b><small>'+full+' de '+tot+' concluídos</small></div><div class="rings">';
-    for(d=from;d<=to;d++){x=dayOf(d);var s=!!(S.sel&&S.sel.d===d);h+='<div class="col'+(s?' sel':'')+'">'+ring(x,s)+'<div class="lbl">'+sk(x.s)[0]+'</div></div>'}
-    h+='</div></div>'}
-  $('cycles').innerHTML=h;
+  var F=S.mapF||'todos',nd=nextDay(),h='';
+  $('mapChips').innerHTML=MAPF.map(function(m){return '<button class="chip'+(m[0]===F?' on':'')+'" data-f="'+m[0]+'">'+m[1]+'</button>'}).join('');
+  for(var b=0;b<10;b++){var from=b*8+1,to=from+7,full=0,tot=0,d,x,rows='';
+    for(d=from;d<=to;d++){x=dayOf(d);if(x.f.length){tot++;if(seen(x)===x.f.length)full++}
+      var ok=F==='todos'||(F==='outros'?(!x.f.length||!SUBJ[x.s]||/Revis|Simulado/.test(x.s)):x.s===F);if(ok)rows+=dayRow(x,nd)}
+    /* blocos de 8 dias: abertos o bloco do dia escolhido e o do próximo dia (com filtro, todos abertos) */
+    var open=F!=='todos'||(S.sel&&S.sel.d>=from&&S.sel.d<=to)||(nd>=from&&nd<=to)||(S.mapOpen&&S.mapOpen[b]);
+    if(rows)h+='<details class="cyc glass" data-b="'+b+'"'+(open?' open':'')+'><summary class="chead"><b>Dias '+from+'–'+to+'</b><small>'+full+' de '+tot+' concluídos</small>'+ICO_DOWN+'</summary><div class="dgrid">'+rows+'</div></details>'}
+  $('cycles').innerHTML=h||'<p class="empty">Nenhum dia com essa matéria.</p>';
   var cu=S.extras.filter(function(x){return !x.old}),old=S.extras.filter(function(x){return x.old});
   function block(t,a){if(!a.length)return'';return '<h4>'+t+'</h4>'+a.map(function(x){var xi=S.extras.indexOf(x);
     return '<button class="rrow" data-x="'+xi+'"><span class="ic">'+ICON.x+'</span><span class="tx"><b>'+esc(x.name)+'</b><small>'+seen(x)+' de '+x.f.length+' assistidas</small></span>'+CHEV+'</button>'}).join('')}
@@ -1373,9 +1451,14 @@ $('mark').onclick=function(){var l=cur(),f=l&&l.f[S.idx];if(!f)return;var was=S.
 $('nextLesson').onclick=function(){var l=cur();if(S.idx<l.f.length-1){go(S.idx+1,true);return}if(S.sel.d!=null)for(var d=S.sel.d+1;d<=80;d++)if(dayOf(d).f.length){openDay(d,0,true);return}};
 $('prevLesson').onclick=function(){var l=cur();if(S.idx>0){go(S.idx-1,true);return}if(S.sel.d!=null)for(var d=S.sel.d-1;d>=1;d--){var x=dayOf(d);if(x.f.length){openDay(d,x.f.length-1,true);return}}};
 $('lessons').onclick=function(e){var c=e.target.closest('.chk');if(c){toggle(cur().f[+c.dataset.c][0]);return}var li=e.target.closest('.lesson');if(li){go(+li.dataset.i,true);$('player').scrollIntoView({behavior:'smooth',block:'center'})}};
-function stripClick(e){var b=e.target.closest('[data-b]');if(b){S.block=Math.max(0,Math.min(9,S.block+(+b.dataset.b)));renderStrips();return}var r=e.target.closest('.ring[data-d]');if(r)openDay(+r.dataset.d,null,false)}
-$('stripD').onclick=stripClick;$('stripM').onclick=stripClick;
-$('cycles').onclick=function(e){var r=e.target.closest('.ring[data-d]');if(r)openDay(+r.dataset.d,null,false)};
+function stripClick(e){var b=e.target.closest('[data-b]');if(b){S.block=Math.max(0,Math.min(9,S.block+(+b.dataset.b)));renderStrips();return}var r=e.target.closest('[data-d]');if(r)openDay(+r.dataset.d,null,false)}
+$('stripD').onclick=stripClick;
+$('cycles').onclick=function(e){var r=e.target.closest('[data-d]');if(r){openDay(+r.dataset.d,null,false);window.scrollTo(0,0)}};
+$('cycles').addEventListener('toggle',function(e){var d=e.target;if(d.dataset&&d.dataset.b!=null){S.mapOpen=S.mapOpen||{};S.mapOpen[d.dataset.b]=d.open}},true);
+$('mapChips').onclick=function(e){var c=e.target.closest('[data-f]');if(c){S.mapF=c.dataset.f;renderMapa()}};
+$('prevDay').onclick=function(){var l=cur();if(l&&l.d>1)openDay(l.d-1,null,false)};
+$('nextDay').onclick=function(){var l=cur();if(l&&l.d<80)openDay(l.d+1,null,false)};
+$('dayMid').onclick=$('allDays').onclick=function(){setSub('mapa');window.scrollTo(0,0)};
 $('extras').onclick=function(e){var b=e.target.closest('[data-x]');if(b)openExtra(+b.dataset.x,0)};
 $('agD').onclick=function(e){var b=e.target.closest('.agc');if(b)openDay(+b.dataset.d,null,true)};
 $('aulasSeg').onclick=function(e){var b=e.target.closest('button[data-s]');if(b)setSub(b.dataset.s)};
@@ -1384,10 +1467,10 @@ $('train').onclick=function(e){var b=e.target.closest('[data-go]');if(b)setView(
 $('brand').onclick=function(){setView('inicio')};
 $('searchBtn').onclick=function(){S.sub='mapa';setView('aulas');$('q').focus()};
 var hits=[];
-$('q').addEventListener('input',function(){var q=fold(this.value.trim());if(q.length<2){$('results').hidden=true;$('mapBody').hidden=false;return}
+$('q').addEventListener('input',function(){var q=fold(this.value.trim());if(q.length<2){$('results').hidden=true;$('mapBody').hidden=false;$('mapChips').hidden=false;return}
   hits=[];S.days.forEach(function(d){d.f.forEach(function(x,i){if(fold(x[1]).indexOf(q)>-1)hits.push({d:d.d,i:i,s:d.s,t:x[1]})})});
   S.extras.forEach(function(x,xi){x.f.forEach(function(y,i){if(fold(y[1]).indexOf(q)>-1)hits.push({x:xi,i:i,s:x.name,t:y[1]})})});
-  $('mapBody').hidden=true;$('results').hidden=false;
+  $('mapBody').hidden=true;$('mapChips').hidden=true;$('results').hidden=false;
   $('results').innerHTML=hits.length?'<h4>'+plural(hits.length,'aula encontrada','aulas encontradas')+'</h4>'+hits.slice(0,60).map(function(a,k){
     return '<button class="rrow" data-k="'+k+'"><span class="ic">'+ICON[a.d?sk(a.s)[1]:'x']+'</span><span class="tx"><b>'+esc(pretty(a.t))+'</b><small>'+(a.d?'Dia '+a.d+', '+a.s:esc(a.s))+'</small></span>'+CHEV+'</button>'}).join('')
     :'<p class="empty">Nenhuma aula com esse termo. Tente uma palavra mais curta, como "SUS" ou "crase".</p>'});
@@ -1411,9 +1494,9 @@ function start(data){S.days=data.days;S.extras=data.extras||[];$('gate').hidden=
   updateBadges();setView('inicio')}
 function showGate(msg){$('gate').hidden=false;$('app').hidden=true;$('pinErr').textContent=msg||'';$('pin').disabled=false;$('pinBtn').disabled=false;setTimeout(function(){$('pin').focus()},50)}
 var API='https://script.google.com/macros/s/AKfycbzun46yqrr2eSUCpxfc4nEgmlK5lbNVjco9dd3jc9jDZxglvsdHj6B8td3rLRVsQBO5kw/exec';
-function callApi(secret,ok,fail){
-  if(window.google&&google.script&&google.script.run){google.script.run.withSuccessHandler(ok).withFailureHandler(fail).getData(secret);return}
-  fetch(API,{method:'POST',body:JSON.stringify({s:secret}),credentials:'omit',redirect:'follow'})
+function callApi(secret,ok,fail,extra){
+  if(window.google&&google.script&&google.script.run){if(extra){fail();return}google.script.run.withSuccessHandler(ok).withFailureHandler(fail).getData(secret);return}
+  fetch(API,{method:'POST',body:JSON.stringify(Object.assign({s:secret},extra||{})),credentials:'omit',redirect:'follow'})
     .then(function(r){if(!r.ok)throw new Error('http');return r.text()})
     .then(function(t){t=(t||'').trim();ok(!t||t==='null'?null:t==='"locked"'?'locked':t)})
     .catch(fail)}
@@ -1424,7 +1507,7 @@ function fetchData(secret,silent){
     if(r==='locked'){if(!S.days.length)showGate('Muitas tentativas erradas. Espere 15 minutos e tente de novo.');return}
     if(!r){store.del('a80t');if(silent){if(!S.days.length)showGate()}else{$('pinErr').textContent='PIN incorreto. Confira e tente de novo.';$('pin').select()}return}
     r=JSON.parse(r);store.set('a80t',r.token);
-    var nk=r.key||'';if(nk!==VP.key){VP.key=nk;store.set('a80k',nk);VP.dead=false}
+    vpSetTok(r.vt);
     var fresh=JSON.stringify(r.data),old=JSON.stringify(store.get('a80d',null));store.set('a80d',r.data);
     if(!S.days.length)start(r.data);
     else if(fresh!==old&&!S.playing&&!S.quiz){S.days=r.data.days;S.extras=r.data.extras||[];setView(S.view)}
