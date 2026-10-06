@@ -4,62 +4,67 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex">
-<title>Teste do player</title>
+<title>Ajuste do player</title>
 <style>
 :root{--bg:#09090C;--text:#F4F3F6;--muted:rgba(244,243,246,.62);--acc:#E4F06E}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-header{padding:20px 16px 8px}
+header{padding:20px 16px 10px}
 h1{margin:0 0 6px;font-size:22px;font-weight:500}
+h2{margin:0;font-size:17px;font-weight:500}
 p{margin:0;color:var(--muted)}
-.info{margin-top:10px;font-size:12px;color:var(--muted)}
-.card{margin:22px 0 0;padding:0 0 4px}
-.lab{display:flex;align-items:center;gap:12px;padding:0 16px 10px}
-.lab b{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--text);color:#0B0B0E;font-size:18px;flex:none}
-.lab span{flex:1;color:var(--muted);font-size:14px}
-.box{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000}
+.info{margin-top:8px;font-size:12px;color:var(--muted)}
+.box{position:relative;width:100%;overflow:hidden;background:#000;outline:1px solid rgba(228,240,110,.55)}
 .box iframe{position:absolute;left:0;top:0;border:0;display:block;transform-origin:0 0}
-.use{margin:10px 16px 0;height:42px;padding:0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:none;color:var(--text);font:inherit;cursor:pointer}
-.use.on{background:var(--acc);color:#0B0B0E;border-color:var(--acc)}
-.full{width:50%;margin:0 16px;overflow:hidden;position:relative;background:#000;outline:1px dashed rgba(255,255,255,.3)}
+.ctl{padding:16px}
+.row{display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.row label{width:92px;flex:none;font-size:14px;color:var(--muted)}
+.row input{flex:1;accent-color:var(--acc)}
+.row button{width:40px;height:40px;flex:none;border-radius:50%;border:1px solid rgba(255,255,255,.2);background:none;color:var(--text);font-size:18px}
+.vals{font-size:13px;color:var(--muted);margin:2px 0 14px}
+.use{height:46px;padding:0 22px;border-radius:999px;border:0;background:var(--acc);color:#0B0B0E;font:500 15px system-ui,sans-serif}
+.ok{margin-top:10px;color:var(--acc);font-size:14px;min-height:20px}
+.sec{padding:24px 16px 8px}
+.full{width:50%;margin:0 16px 30px;overflow:hidden;position:relative;background:#000;outline:1px dashed rgba(255,255,255,.3)}
 .msg{padding:40px 16px;color:var(--muted)}
 </style>
 </head>
 <body>
 <header>
-  <h1>Teste do player no celular</h1>
-  <p>Dê play em cada opção e toque no vídeo para aparecerem os controles. Na que ficar certa (sem ficar torta, sem borda preta e com a barra para avançar e voltar), toque em "Usar esta no site".</p>
+  <h1>Ajuste do player no celular</h1>
+  <p>1. Dê play no vídeo abaixo e toque nele para aparecerem os controles.<br>2. Use os controles "Posição" e "Altura" até aparecer o vídeo inteiro com a barra de avançar e voltar, sem faixas pretas sobrando.<br>3. Toque em "Usar no site".</p>
   <div class="info" id="info"></div>
 </header>
 <main id="main"></main>
 <script>
 var main=document.getElementById('main');
 function get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
-var data=get('a80d'),cur=(function(){try{return localStorage.getItem('a80pv')||'C'}catch(e){return 'C'}})();
+var data=get('a80d'),saved=get('a80crop');
 var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
 document.getElementById('info').textContent='Tela '+a+'×'+b+' · janela '+innerWidth+'×'+innerHeight+' · '+((navigator.userAgent.match(/(SamsungBrowser|Chrome|Firefox|Version)\/[\d.]+/)||[''])[0]);
 var id=null;if(data&&data.days)for(var i=0;i<data.days.length&&!id;i++)if(data.days[i].f.length)id=data.days[i].f[0][0];
 if(!id){main.innerHTML='<div class="msg">Abra o site, entre com o PIN e depois volte para esta página.</div>'}
 else{
   var src='https://drive.google.com/file/d/'+id+'/preview';
-  var V=[
-    ['C','A que você aprovou (sem a barra de avançar)'],
-    ['W','Largura da tela em 16:9, com os controles do Drive'],
-    ['M','Largura da tela, um pouco mais alta, com os controles do Drive']];
-  function geom(v,W){
-    if(v==='A')return{fw:W,fh:W*9/16,cx:0,cy:0,cw:W,ch:W*9/16};
-    if(v==='W'){var h1=Math.round(a*9/16);return{fw:a,fh:h1,cx:0,cy:0,cw:a,ch:h1}}
-    if(v==='M'){var h2=Math.round(a*9/16)+56;return{fw:a,fh:h2,cx:0,cy:0,cw:a,ch:h2}}
-    if(v==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
-    var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:v==='T'?0:(b-ch)/2,cw:a,ch:ch}}
-  main.innerHTML=V.map(function(x){return '<section class="card"><div class="lab"><b>'+x[0]+'</b><span>'+x[1]+'</span></div><div class="box" data-v="'+x[0]+'"></div><button class="use'+(cur===x[0]?' on':'')+'" data-v="'+x[0]+'">'+(cur===x[0]?'Em uso no site':'Usar esta no site')+'</button></section>'}).join('')+
-    '<section class="card"><div class="lab"><b>E</b><span>Visão completa do quadro do tamanho da tela (reduzida). Se nenhuma opção acima servir, dê play aqui, toque no vídeo e me mande um print</span></div><div class="full" id="full"></div></section>';
-  [].forEach.call(document.querySelectorAll('.box'),function(el){var W=el.clientWidth,g=geom(el.dataset.v,W),k=W/g.cw;el.style.aspectRatio=g.cw+'/'+g.ch;
-    el.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+g.fw+'px;height:'+g.fh+'px;transform:translate('+(-g.cx*k)+'px,'+(-g.cy*k)+'px) scale('+k+')"></iframe>'});
+  var H0=Math.round(a*9/16),y=saved&&saved.h?saved.y:Math.round((b-H0)/2),h=saved&&saved.h?saved.h:H0;
+  main.innerHTML='<div class="box" id="box"><iframe id="f" src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+a+'px;height:'+b+'px"></iframe></div>'+
+    '<div class="ctl">'+
+    '<div class="row"><label>Posição</label><button data-d="y" data-s="-4">−</button><input type="range" id="ry" min="0" max="'+b+'" step="1"><button data-d="y" data-s="4">+</button></div>'+
+    '<div class="row"><label>Altura</label><button data-d="h" data-s="-4">−</button><input type="range" id="rh" min="120" max="'+b+'" step="1"><button data-d="h" data-s="4">+</button></div>'+
+    '<div class="vals" id="vals"></div>'+
+    '<button class="use" id="use">Usar no site</button><div class="ok" id="ok"></div></div>'+
+    '<div class="sec"><h2>Visão completa</h2><p>O quadro inteiro do Drive, reduzido. A parte dentro da moldura amarela de cima é a que aparece no site.</p></div><div class="full" id="full"></div>';
+  var box=document.getElementById('box'),f=document.getElementById('f'),ry=document.getElementById('ry'),rh=document.getElementById('rh');
+  function draw(){h=Math.max(120,Math.min(b,h));y=Math.max(0,Math.min(b-h,y));ry.value=y;rh.value=h;
+    var k=box.clientWidth/a;box.style.height=(h*k)+'px';f.style.transform='translate(0,'+(-y*k)+'px) scale('+k+')';
+    document.getElementById('vals').textContent='posição '+y+' · altura '+h+' (quadro '+a+'×'+b+')';document.getElementById('ok').textContent=''}
+  ry.oninput=function(){y=+ry.value;draw()};rh.oninput=function(){h=+rh.value;draw()};
+  main.addEventListener('click',function(e){var t=e.target.closest('button[data-d]');if(!t)return;if(t.dataset.d==='y')y+=+t.dataset.s;else h+=+t.dataset.s;draw()});
+  document.getElementById('use').onclick=function(){try{localStorage.setItem('a80crop',JSON.stringify({y:y,h:h,a:a,b:b}));localStorage.setItem('a80pv','X')}catch(err){}
+    document.getElementById('ok').textContent='Pronto. O site neste celular agora usa posição '+y+' e altura '+h+'. Me mande esses dois números.'};
+  draw();
   var full=document.getElementById('full'),fk=full.clientWidth/a;full.style.height=(b*fk)+'px';
   full.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;left:0;top:0;border:0;transform-origin:0 0;width:'+a+'px;height:'+b+'px;transform:scale('+fk+')"></iframe>';
-  main.onclick=function(e){var t=e.target.closest('.use');if(!t)return;try{localStorage.setItem('a80pv',t.dataset.v)}catch(err){}
-    [].forEach.call(document.querySelectorAll('.use'),function(u){var on=u===t;u.classList.toggle('on',on);u.textContent=on?'Em uso no site':'Usar esta no site'})};
 }
 </script>
 </body>

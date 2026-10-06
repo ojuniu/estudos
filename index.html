@@ -867,11 +867,12 @@ function thumb(id){return 'https://drive.google.com/thumbnail?id='+id+'&sz=w1600
 var IS_MOBILE=/Android|iPhone|iPod|Mobi/i.test(navigator.userAgent||'');
 /* forma de encaixar o player móvel do Drive: A = quadro 16:9 comum; C = quadro do tamanho da tela, mostrando a faixa do meio;
    T = tamanho da tela, faixa de cima; D = tela deitada; W = largura da tela em 16:9 (com os controles do Drive);
-   M = largura da tela, um pouco mais alto que 16:9. Escolhida na página de teste (teste.html). */
+   M = largura da tela, um pouco mais alto que 16:9; X = tamanho da tela com o recorte ajustado à mão na página teste.html. */
 var PV=(function(){try{return localStorage.getItem('a80pv')||'C'}catch(e){return 'C'}})();
 function frameGeom(w,h){
   if(IS_MOBILE&&PV!=='A'){var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
     if(PV==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
+    if(PV==='X'){var cr=null;try{cr=JSON.parse(localStorage.getItem('a80crop'))}catch(e){}if(cr&&cr.h)return{fw:a,fh:b,cx:0,cy:cr.y,cw:a,ch:cr.h}}
     if(PV==='W'){var h1=Math.round(a*9/16);return{fw:a,fh:h1,cx:0,cy:0,cw:a,ch:h1}}
     if(PV==='M'){var h2=Math.round(a*9/16)+56;return{fw:a,fh:h2,cx:0,cy:0,cw:a,ch:h2}}
     var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:PV==='T'?0:(b-ch)/2,cw:a,ch:ch}}
