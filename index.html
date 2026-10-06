@@ -16,7 +16,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --th-h:calc(100vh - 130px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   --bg:#09090C;
   --text:#F4F3F6; --muted:rgba(244,243,246,.56); --faint:rgba(244,243,246,.32); --hair:rgba(255,255,255,.09); --hair2:rgba(255,255,255,.16);
   --acc:#E4F06E; --acc-dim:rgba(228,240,110,.5); --bad:#FF8A7A;
@@ -140,7 +139,6 @@ h2.sec span{color:var(--muted)}
 
 /* aulas: player */
 .player{position:relative;aspect-ratio:16/9;border-radius:32px;overflow:hidden;background:#141218;border:1px solid var(--hair);box-shadow:0 50px 100px -50px rgba(0,0,0,.9)}
-.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
 .poster{position:absolute;inset:0;width:100%;border:0;padding:0;color:var(--text);text-align:left;
   background:radial-gradient(70% 90% at 25% 10%,rgba(184,98,140,.55),transparent 70%),radial-gradient(60% 80% at 85% 30%,rgba(110,72,150,.6),transparent 70%),radial-gradient(60% 70% at 60% 110%,rgba(226,140,90,.35),transparent 70%),#17131C}
 .poster img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
@@ -160,56 +158,21 @@ h2.sec span{color:var(--muted)}
 .rest h3{margin:0 0 8px;font:300 34px/1.05 var(--font);letter-spacing:-.02em}
 .rest p{margin:0;color:var(--muted);max-width:42ch}
 .pholder{position:absolute;inset:0}
-.pbox{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;background:#000}
+.pbox{position:absolute;inset:0;z-index:2;background:#000}
 .pbox[hidden]{display:none}
-.pframe{position:relative;flex:1;min-height:0;background:#000}
-.pframe iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:block}
-.phead,.pfoot,.pmini{display:none}
-.pbtn{width:40px;height:40px;flex:none;border-radius:50%;border:0;display:grid;place-items:center;background:rgba(255,255,255,.1);color:#F4F3F6;cursor:pointer}
-.pbtn:hover{background:rgba(255,255,255,.18)}
-.pbtn:disabled{opacity:.35;cursor:default}
-.ptx{flex:1;min-width:0}
-.ptx b{display:block;font:500 15px var(--font);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.ptx small{display:block;font-size:12px;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.phead{align-items:center;gap:10px;padding:10px 10px 10px 16px;background:#0E0D12}
-.pfoot{align-items:center;gap:10px;padding:12px 14px;background:#0E0D12}
-.pfoot .wbtn{flex:1}
-.pmini{position:relative;align-items:center;gap:12px;height:100%;padding:0 8px 0 8px;cursor:pointer}
-.pmini img{width:72px;height:44px;flex:none;border-radius:10px;object-fit:cover;background:#1b1822}
-.nowp{position:absolute;inset:0;display:grid;place-items:center;text-align:center;border:0;width:100%;padding:24px;color:var(--text);cursor:pointer;
-  background:radial-gradient(60% 80% at 30% 0%,rgba(110,72,150,.5),transparent 70%),#141218}
-.nowp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.28}
-.nowp span{position:relative;display:grid;gap:12px;justify-items:center;font:500 15px var(--font)}
-.nowp .play{width:52px;height:52px;border-radius:50%;display:grid;place-items:center;background:#F4F3F6;color:#0B0B0E}
-/* mini player (computador): aparece ao sair da aula com o vídeo tocando */
-body.pm-mini .pbox{position:fixed;inset:auto 24px 24px auto;width:min(400px,calc(100vw - 32px));z-index:40;border-radius:20px;overflow:hidden;
-  border:1px solid var(--hair2);box-shadow:0 30px 80px -20px rgba(0,0,0,.95);background:#0E0D12}
-body.pm-mini .phead{display:flex;padding:8px 8px 8px 14px}
-body.pm-mini .pframe{flex:none;aspect-ratio:16/9}
-body.pm-mini .pbtn{width:34px;height:34px}
-/* celular: player em tela cheia (mesmo formato da página do Drive no celular) */
-body.pm-theater{overflow:hidden}
-body.pm-theater .pbox{position:fixed;inset:0;z-index:60;background:#000;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-body.pm-theater .phead,body.pm-theater .pfoot{display:flex}
-body.pm-theater .phead{height:60px}
-body.pm-theater .pfoot{height:70px}
-@supports (height:100dvh){:root{--th-h:calc(100dvh - 130px - env(safe-area-inset-top) - env(safe-area-inset-bottom))}}
-@media (orientation:landscape) and (max-height:520px){
-  :root{--th-h:100vh}
-  @supports (height:100dvh){:root{--th-h:100dvh}}
-  body.pm-theater .pbox{padding:0}
-  body.pm-theater .pfoot,body.pm-theater .phead .ptx,body.pm-theater #pClose{display:none}
-  body.pm-theater .phead{position:absolute;z-index:3;top:8px;left:max(8px,env(safe-area-inset-left));height:auto;padding:0;background:none}
-  body.pm-theater #pMin{background:rgba(0,0,0,.45)}
-}
-body.pm-theater .pframe,body.pm-mbar .pframe{flex:none;width:100vw;height:var(--th-h)}
-body.pm-theater .nav,body.pm-theater .amb,body.pm-mbar .amb img{display:none}
-/* celular: barra mini acima do menu; o vídeo continua tocando com o mesmo tamanho, fora da tela */
-body.pm-mbar .pbox{position:fixed;left:10px;right:10px;top:auto;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 70px);height:62px;z-index:40;
-  border-radius:18px;border:1px solid var(--hair2);background:rgba(24,21,29,.96);box-shadow:0 20px 50px -12px rgba(0,0,0,.9);overflow:visible}
-body.pm-mbar .pmini{display:flex}
-body.pm-mbar .pframe{position:fixed;left:0;top:0;transform:translateY(-300vh);pointer-events:none}
-body.pm-mbar .app{padding-bottom:200px}
+.pframe{position:absolute;inset:0;overflow:hidden;background:#000}
+/* o quadro do Drive nunca muda de tamanho depois de carregar: só é ampliado/reduzido (evita bordas pretas e player torto) */
+.pframe iframe{position:absolute;left:0;top:0;border:0;display:block;transform-origin:0 0}
+.pctl{display:none}
+.pbtn{width:36px;height:36px;flex:none;border-radius:50%;border:0;display:grid;place-items:center;background:rgba(12,11,16,.72);color:#F4F3F6;cursor:pointer;pointer-events:auto}
+.pbtn:hover{background:rgba(12,11,16,.9)}
+/* mini player: aparece ao sair da aula com o vídeo tocando */
+body.pm-mini .pbox{position:fixed;inset:auto 24px 24px auto;width:380px;height:auto;aspect-ratio:16/9;z-index:40;border-radius:16px;overflow:hidden;
+  box-shadow:0 24px 70px -16px rgba(0,0,0,.95),0 0 0 1px rgba(255,255,255,.14)}
+body.pm-mini .pctl{display:flex;position:absolute;z-index:3;left:8px;right:8px;top:8px;justify-content:space-between;pointer-events:none}
+@media (hover:hover){body.pm-mini .pctl{opacity:0;transition:opacity .2s}body.pm-mini .pbox:hover .pctl{opacity:1}}
+/* celular: vídeo de ponta a ponta na página da aula */
+body.is-m .player.on{margin:0 -14px;border-radius:0;border-left:0;border-right:0;box-shadow:none}
 /* sair da página da aula sem parar o vídeo: mantém só o player */
 body.p-away #vAulas[hidden],body.p-away #vAula{display:contents!important}
 body.p-away #vAulas[hidden]>:not(#vAula){display:none!important}
@@ -421,7 +384,7 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
   .tr .go span{display:none}
   .tr b{font-size:18px}
   .player{border-radius:26px}
-  body.pm-mini .pbox{bottom:96px;right:16px}
+  body.pm-mini .pbox{right:12px;bottom:calc(max(16px,env(safe-area-inset-bottom)) + 74px);width:min(62vw,300px)}
   .poster .bar{left:10px;right:10px;bottom:10px;height:54px;gap:10px}
   .poster .play{width:38px;height:38px}
   .poster .bar small{display:none}
@@ -501,10 +464,8 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
         <div class="player" id="player">
           <div class="pholder" id="pholder"></div>
           <div class="pbox" id="pbox" hidden>
-            <div class="phead"><button class="pbtn" id="pMin" aria-label="Minimizar"></button><div class="ptx"><b id="phTitle"></b><small id="phSub"></small></div><button class="pbtn" id="pClose" aria-label="Fechar aula"></button></div>
             <div class="pframe" id="pframe"></div>
-            <div class="pfoot"><button class="pbtn" id="pfPrev" aria-label="Aula anterior"></button><button class="wbtn" id="pfMark"></button><button class="pbtn" id="pfNext" aria-label="Próxima aula"></button></div>
-            <div class="pmini" id="pmini"><img id="pmThumb" alt="" referrerpolicy="no-referrer"><div class="ptx"><b id="pmTitle"></b><small id="pmSub"></small></div><button class="pbtn" id="pmOpen" aria-label="Abrir player"></button><button class="pbtn" id="pmClose" aria-label="Fechar aula"></button></div>
+            <div class="pctl"><button class="pbtn" id="pMin" aria-label="Voltar para a aula"></button><button class="pbtn" id="pClose" aria-label="Fechar aula"></button></div>
           </div>
         </div>
         <div class="actions glass">
@@ -904,6 +865,16 @@ function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clear
 function thumb(id){return 'https://drive.google.com/thumbnail?id='+id+'&sz=w1600'}
 /* no celular o Drive entrega outro player (versão móvel), que só fica certo ocupando a tela toda, como na página do Drive */
 var IS_MOBILE=/Android|iPhone|iPod|Mobi/i.test(navigator.userAgent||'');
+/* forma de encaixar o player móvel do Drive: A = quadro 16:9 comum; C = quadro do tamanho da tela, mostrando a faixa do meio;
+   T = tamanho da tela, faixa de cima; D = tela deitada. Escolhida na página de teste (teste.html). */
+var PV=(function(){try{return localStorage.getItem('a80pv')||'C'}catch(e){return 'C'}})();
+function frameGeom(w,h){
+  if(IS_MOBILE&&PV!=='A'){var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
+    if(PV==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw,ch:a}}
+    var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:PV==='T'?0:(b-ch)/2,cw:a,ch:ch}}
+  w=Math.round(w)||960;h=Math.round(h)||540;return{fw:w,fh:h,cx:0,cy:0,cw:w,ch:h}}
+function layoutFrame(){var fr=$('pframe'),ifr=fr&&fr.querySelector('iframe'),g=S.fg;if(!ifr||!g)return;var W=fr.clientWidth;if(!W)return;var k=W/g.cw;
+  ifr.style.width=g.fw+'px';ifr.style.height=g.fh+'px';ifr.style.transform='translate('+(-g.cx*k)+'px,'+(-g.cy*k)+'px) scale('+k+')'}
 function plural(n,a,b){return n+' '+(n===1?a:b)}
 
 /* ---------- dados das aulas ---------- */
@@ -973,16 +944,12 @@ function renderPlayer(){
   var l=cur(),f=l&&l.f[S.idx],ph=$('pholder'),box=$('pbox'),fr=$('pframe'),n=l?l.f.length:0;
   if(f&&S.playing){
     var src='https://drive.google.com/file/d/'+f[0]+'/preview',ifr=fr.querySelector('iframe');
-    if(!ifr||ifr.getAttribute('src')!==src){fr.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen title="'+esc(pretty(f[1]))+'"></iframe>';if(IS_MOBILE)openTheater(true)}
-    box.hidden=false;
-    var sub=(l.d?'Dia '+l.d+', ':'')+'aula '+(S.idx+1)+' de '+n;
-    $('phTitle').textContent=$('pmTitle').textContent=pretty(f[1]);$('phSub').textContent=$('pmSub').textContent=sub;
-    if($('pmThumb').getAttribute('src')!==thumb(f[0]))$('pmThumb').setAttribute('src',thumb(f[0]));
-    ph.innerHTML=IS_MOBILE?'<button class="nowp" id="nowp"><img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'"><span><span class="play">'+PLAY+'</span>Tocando agora. Toque para abrir.</span></button>':'';
-    if($('nowp'))$('nowp').onclick=function(){openTheater()};
+    $('player').classList.add('on');box.hidden=false;
+    if(!ifr||ifr.getAttribute('src')!==src){S.fg=frameGeom(fr.clientWidth,fr.clientHeight);
+      fr.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen title="'+esc(pretty(f[1]))+'" style="width:'+S.fg.fw+'px;height:'+S.fg.fh+'px"></iframe>';layoutFrame()}
+    ph.innerHTML='';
   } else {
-    if(fr.firstChild)fr.innerHTML='';box.hidden=true;
-    if(S.theater)closeTheater();
+    if(fr.firstChild)fr.innerHTML='';box.hidden=true;S.fg=null;$('player').classList.remove('on');
     if(f){ph.innerHTML='<button class="poster" id="poster" aria-label="Assistir aula '+(S.idx+1)+'"><img alt="" referrerpolicy="no-referrer" src="'+thumb(f[0])+'" onload="this.className=\'ok\'" onerror="this.remove()">'+
       '<span class="corner"><span class="rbtn" aria-hidden="true">'+ICON[l.d?sk(l.s)[1]:'x']+'</span><span class="tag w">Aula '+(S.idx+1)+' de '+n+'</span></span>'+
       '<span class="bar"><span class="play">'+PLAY+'</span><b>Assistir</b><span class="line" style="--p:'+(S.idx+.5)/n+'"><i></i></span><small>'+(l.d?'Dia '+l.d:'Extra')+'</small></span></button>';
@@ -997,18 +964,16 @@ function renderPlayer(){
     if(S.last!==f[0]){S.last=f[0];store.set('a80l',f[0])}}
   playerMode();
 }
-/* modos do player: na página (computador), mini (computador, em outra página), tela cheia e barra mini (celular) */
+/* modos do player: na página da aula, ou mini player quando a pessoa vai para outra página */
 function playerMode(){
   var l=cur(),on=!!(S.playing&&l&&l.f[S.idx]),atAula=S.view==='aulas'&&S.sub==='aula',b=document.body;
-  var m=!on?'':IS_MOBILE?(S.theater?'theater':'mbar'):(atAula?'':'mini');
-  b.classList.toggle('pm-mini',m==='mini');b.classList.toggle('pm-theater',m==='theater');b.classList.toggle('pm-mbar',m==='mbar');
-  b.classList.toggle('p-away',on&&!atAula);
-  $('pMin').innerHTML=m==='mini'?ICO_EXPAND:ICO_DOWN;$('pMin').setAttribute('aria-label',m==='mini'?'Voltar para a aula':'Minimizar');
+  b.classList.toggle('pm-mini',on&&!atAula);b.classList.toggle('p-away',on&&!atAula);
+  requestAnimationFrame(layoutFrame);
 }
-function openTheater(fromPlay){if(!IS_MOBILE)return;S.theater=true;try{if(!(history.state&&history.state.th))history.pushState({th:1},'')}catch(e){}if(!fromPlay)playerMode()}
-function closeTheater(){if(!S.theater)return;S.theater=false;try{if(history.state&&history.state.th)history.back()}catch(e){}playerMode()}
 function stopPlayer(){S.playing=false;if(S.view==='aulas')renderAula();else renderPlayer()}
-window.addEventListener('popstate',function(){if(S.theater){S.theater=false;playerMode()}});
+window.addEventListener('resize',layoutFrame);
+window.addEventListener('orientationchange',function(){setTimeout(layoutFrame,300)});
+if(window.ResizeObserver)new ResizeObserver(layoutFrame).observe($('pframe'));
 function renderAula(){
   var l=cur();if(!l)return;var isDay=S.sel.d!=null,n=l.f.length,c=seen(l),f=l.f[S.idx];
   renderPlayer();
@@ -1017,8 +982,6 @@ function renderAula(){
   var on=f&&S.w[f[0]],m=$('mark');m.disabled=!f;m.classList.toggle('done',!!on);m.innerHTML=on?check()+' Assistida':'Marcar como assistida';
   $('prevLesson').disabled=!f||(S.idx===0&&(!isDay||!hasPrev(l.d)));
   $('nextLesson').disabled=!f||(S.idx===n-1&&(!isDay||!hasNext(l.d)));
-  $('pfPrev').disabled=$('prevLesson').disabled;$('pfNext').disabled=$('nextLesson').disabled;
-  var pm=$('pfMark');pm.classList.toggle('done',!!on);pm.innerHTML=on?check()+' Assistida':'Marcar como assistida';
   $('lTitle').textContent=f?pretty(f[1]):(isDay?'Dia '+l.d:l.name);
   var desc='';if(f&&isDay){var rem=n-c;desc='Aula '+(S.idx+1)+' de '+n+' do dia '+l.d+'. '+(rem?('Faltam '+plural(rem,'aula','aulas')+' para concluir o dia.'):'Dia concluído.')}
   else if(f)desc=l.old?'Aula da versão antiga do curso, guardada no seu Drive.':'Aula extra de Conhecimentos Específicos.';
@@ -1171,13 +1134,10 @@ function go(i,play){S.idx=i;S.playing=!!play;renderAula()}
 function toggle(id){var on=!S.w[id];if(on)S.w[id]=Date.now();else delete S.w[id];store.set('a80w',S.w);
   var l=cur(),full=l.f.length&&l.f.every(function(x){return S.w[x[0]]});renderAula();renderSide();if(on&&full&&S.sel.d!=null)toast('Dia '+S.sel.d+' concluído')}
 
-$('pMin').onclick=function(){if(document.body.classList.contains('pm-mini')){if(S.view!=='aulas')setView('aulas');else setSub('aula')}else closeTheater()};
-$('pClose').onclick=$('pmClose').onclick=function(e){e.stopPropagation();stopPlayer()};
-$('pmini').onclick=$('pmOpen').onclick=function(e){e.stopPropagation();openTheater()};
-$('pfPrev').onclick=function(){$('prevLesson').click()};
-$('pfNext').onclick=function(){$('nextLesson').click()};
-$('pfMark').onclick=function(){var l=cur(),f=l&&l.f[S.idx];if(f)toggle(f[0])};
-$('pClose').innerHTML=$('pmClose').innerHTML=ICO_X;$('pmOpen').innerHTML=ICO_UP;$('pfPrev').innerHTML=ARR_L;$('pfNext').innerHTML=ARR_R;
+$('pMin').onclick=function(){if(S.view!=='aulas')setView('aulas');else setSub('aula')};
+$('pClose').onclick=function(e){e.stopPropagation();stopPlayer()};
+$('pClose').innerHTML=ICO_X;$('pMin').innerHTML=ICO_EXPAND;
+if(IS_MOBILE)document.body.classList.add('is-m');
 $('mark').onclick=function(){var l=cur(),f=l&&l.f[S.idx];if(!f)return;var was=S.w[f[0]];toggle(f[0]);if(!was&&S.idx<l.f.length-1)go(S.idx+1,false)};
 $('nextLesson').onclick=function(){var l=cur();if(S.idx<l.f.length-1){go(S.idx+1,true);return}if(S.sel.d!=null)for(var d=S.sel.d+1;d<=80;d++)if(dayOf(d).f.length){openDay(d,0,true);return}};
 $('prevLesson').onclick=function(){var l=cur();if(S.idx>0){go(S.idx-1,true);return}if(S.sel.d!=null)for(var d=S.sel.d-1;d>=1;d--){var x=dayOf(d);if(x.f.length){openDay(d,x.f.length-1,true);return}}};

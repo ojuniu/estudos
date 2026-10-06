@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex">
+<title>Teste do player</title>
+<style>
+:root{--bg:#09090C;--text:#F4F3F6;--muted:rgba(244,243,246,.62);--acc:#E4F06E}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.45 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{padding:20px 16px 8px}
+h1{margin:0 0 6px;font-size:22px;font-weight:500}
+p{margin:0;color:var(--muted)}
+.info{margin-top:10px;font-size:12px;color:var(--muted)}
+.card{margin:22px 0 0;padding:0 0 4px}
+.lab{display:flex;align-items:center;gap:12px;padding:0 16px 10px}
+.lab b{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;background:var(--text);color:#0B0B0E;font-size:18px;flex:none}
+.lab span{flex:1;color:var(--muted);font-size:14px}
+.box{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000}
+.box iframe{position:absolute;left:0;top:0;border:0;display:block;transform-origin:0 0}
+.use{margin:10px 16px 0;height:42px;padding:0 18px;border-radius:999px;border:1px solid rgba(255,255,255,.2);background:none;color:var(--text);font:inherit;cursor:pointer}
+.use.on{background:var(--acc);color:#0B0B0E;border-color:var(--acc)}
+.full{width:50%;margin:0 16px;overflow:hidden;position:relative;background:#000;outline:1px dashed rgba(255,255,255,.3)}
+.msg{padding:40px 16px;color:var(--muted)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Teste do player no celular</h1>
+  <p>Dê play em cada opção. Na que o vídeo ficar certo (sem ficar torto e sem borda preta), toque em "Usar esta no site".</p>
+  <div class="info" id="info"></div>
+</header>
+<main id="main"></main>
+<script>
+var main=document.getElementById('main');
+function get(k){try{return JSON.parse(localStorage.getItem(k))}catch(e){return null}}
+var data=get('a80d'),cur=(function(){try{return localStorage.getItem('a80pv')||'C'}catch(e){return 'C'}})();
+var a=Math.min(screen.width,screen.height),b=Math.max(screen.width,screen.height);
+document.getElementById('info').textContent='Tela '+a+'×'+b+' · janela '+innerWidth+'×'+innerHeight+' · '+((navigator.userAgent.match(/(SamsungBrowser|Chrome|Firefox|Version)\/[\d.]+/)||[''])[0]);
+var id=null;if(data&&data.days)for(var i=0;i<data.days.length&&!id;i++)if(data.days[i].f.length)id=data.days[i].f[0][0];
+if(!id){main.innerHTML='<div class="msg">Abra o site, entre com o PIN e depois volte para esta página.</div>'}
+else{
+  var src='https://drive.google.com/file/d/'+id+'/preview';
+  var V=[
+    ['A','Quadro 16:9 comum (como era antes)'],
+    ['C','Quadro do tamanho da tela, mostrando a faixa do meio'],
+    ['T','Quadro do tamanho da tela, mostrando a faixa de cima'],
+    ['D','Quadro da tela deitada']];
+  function geom(v,W){
+    if(v==='A')return{fw:W,fh:W*9/16,cx:0,cy:0,cw:W};
+    if(v==='D'){var cw=a*16/9;return{fw:b,fh:a,cx:(b-cw)/2,cy:0,cw:cw}}
+    var ch=a*9/16;return{fw:a,fh:b,cx:0,cy:v==='T'?0:(b-ch)/2,cw:a}}
+  main.innerHTML=V.map(function(x){return '<section class="card"><div class="lab"><b>'+x[0]+'</b><span>'+x[1]+'</span></div><div class="box" data-v="'+x[0]+'"></div><button class="use'+(cur===x[0]?' on':'')+'" data-v="'+x[0]+'">'+(cur===x[0]?'Em uso no site':'Usar esta no site')+'</button></section>'}).join('')+
+    '<section class="card"><div class="lab"><b>E</b><span>Visão completa do quadro do tamanho da tela (reduzida), só para diagnóstico</span></div><div class="full" id="full"></div></section>';
+  [].forEach.call(document.querySelectorAll('.box'),function(el){var W=el.clientWidth,g=geom(el.dataset.v,W),k=W/g.cw;
+    el.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="width:'+g.fw+'px;height:'+g.fh+'px;transform:translate('+(-g.cx*k)+'px,'+(-g.cy*k)+'px) scale('+k+')"></iframe>'});
+  var full=document.getElementById('full'),fk=full.clientWidth/a;full.style.height=(b*fk)+'px';
+  full.innerHTML='<iframe src="'+src+'" allow="autoplay; fullscreen" allowfullscreen style="position:absolute;left:0;top:0;border:0;transform-origin:0 0;width:'+a+'px;height:'+b+'px;transform:scale('+fk+')"></iframe>';
+  main.onclick=function(e){var t=e.target.closest('.use');if(!t)return;try{localStorage.setItem('a80pv',t.dataset.v)}catch(err){}
+    [].forEach.call(document.querySelectorAll('.use'),function(u){var on=u===t;u.classList.toggle('on',on);u.textContent=on?'Em uso no site':'Usar esta no site'})};
+}
+</script>
+</body>
+</html>
