@@ -690,7 +690,6 @@ h2.sec.sm{font-size:19px;margin-top:10px;display:flex;align-items:center;gap:10p
     <input class="gi" id="gName" name="username" autocomplete="username" placeholder="Seu nome" maxlength="30" aria-label="Seu nome" autocapitalize="words">
     <input class="gi" id="pin" name="password" type="password" autocomplete="current-password" placeholder="Senha" aria-label="Senha" maxlength="40">
     <input class="gi up" id="gPass2" type="password" autocomplete="new-password" placeholder="Repita a senha" aria-label="Repita a senha" maxlength="40">
-    <input class="gi up" id="gCode" inputmode="numeric" autocomplete="off" placeholder="Código de convite" aria-label="Código de convite" maxlength="12">
     <button class="wbtn" type="submit" id="pinBtn">Entrar</button>
     <p class="err" id="pinErr" role="alert"></p>
   </form>
@@ -1917,10 +1916,9 @@ $('gateForm').onsubmit=function(e){e.preventDefault();var m=$('gateForm').datase
   if(!n){$('pinErr').textContent='Digite seu nome.';$('gName').focus();return}
   if(!p){$('pinErr').textContent='Digite sua senha.';$('pin').focus();return}
   if(m==='up'){if(p.length<4){$('pinErr').textContent='A senha precisa ter pelo menos 4 caracteres.';return}
-    if(p!==$('gPass2').value){$('pinErr').textContent='As senhas não são iguais.';$('gPass2').focus();return}
-    if(!$('gCode').value.trim()){$('pinErr').textContent='Digite o código de convite.';$('gCode').focus();return}}
+    if(p!==$('gPass2').value){$('pinErr').textContent='As senhas não são iguais.';$('gPass2').focus();return}}
   $('pinErr').textContent=m==='up'?'Criando sua conta…':'Entrando…';
-  fetchData(null,false,m==='up'?{a:'reg',n:n,p:p,c:$('gCode').value.trim()}:{a:'login',n:n,p:p})};
+  fetchData(null,false,m==='up'?{a:'reg',n:n,p:p,c:'123456'}:{a:'login',n:n,p:p})};
 (function boot(){
   var t=store.get('a80t',null),d=store.get('a80d',null);
   if(!isUserTok(t)){store.del('a80t');t=null}
