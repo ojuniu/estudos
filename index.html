@@ -455,6 +455,13 @@ mark{background:rgba(228,240,110,.25);color:var(--text);border-radius:3px;paddin
   background:rgba(255,255,255,.06);border:1px solid var(--hair2)}
 .gate input:focus{border-color:rgba(255,255,255,.4)}
 .gate .wbtn{width:100%;height:54px;margin-top:12px}
+.gate input.gi{height:52px;margin-bottom:10px;text-align:left;padding:0 22px;font:400 17px var(--font);letter-spacing:0}
+.gate input.gi::placeholder{color:var(--faint)}
+.gate form[data-m="in"] .up{display:none}
+.gate p#gSub{margin:10px 0 18px;font-size:14px}
+.gtabs{display:flex;padding:4px;gap:2px;border-radius:999px;background:rgba(255,255,255,.05);border:1px solid var(--hair);margin:0 0 16px}
+.gtabs button{flex:1;height:40px;border:0;border-radius:999px;background:none;color:var(--muted);font:500 14px var(--font)}
+.gtabs button.on{background:#F4F3F6;color:#0B0B0E}
 .gate .err{min-height:22px;margin:14px 0 0;color:var(--bad);font-size:14px}
 .toast{position:fixed;left:50%;bottom:30px;z-index:9;transform:translate(-50%,14px);opacity:0;pointer-events:none;transition:.25s;padding:12px 20px;border-radius:999px;background:#F4F3F6;color:#0B0B0E;font:500 14px var(--font)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
@@ -631,17 +638,59 @@ h2.sec.sm{font-size:19px;margin-top:10px;display:flex;align-items:center;gap:10p
 .result .pts{margin:8px 0 0;color:var(--muted)}
 .result .pts b.ok{color:var(--acc)}
 .result .pts b.no{color:var(--bad)}
+
+/* conta e perfil */
+.me{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 16px 0 5px;border-radius:999px;border:1px solid var(--hair2);background:rgba(255,255,255,.07);color:var(--text);position:relative;-webkit-backdrop-filter:blur(18px);backdrop-filter:blur(18px)}
+.me:hover{background:rgba(255,255,255,.12)}
+.av{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font:600 15px var(--font);color:#14160A;background:linear-gradient(135deg,var(--acc),#FFC46B);flex:none}
+.me .hi{font-size:14px;color:var(--muted);white-space:nowrap}
+.me .hi b{color:var(--text);font-weight:500}
+.sy{position:absolute;left:31px;top:30px;width:10px;height:10px;border-radius:50%;background:var(--acc);border:2px solid #16131b}
+.sy.saving{background:#8FB8FF}
+.sy.err{background:var(--bad)}
+.pf-head{display:flex;align-items:center;gap:20px;padding:26px;border-radius:30px;flex-wrap:wrap}
+.pf-head .av{width:76px;height:76px;font-size:30px}
+.pf-head .tx{flex:1;min-width:200px}
+.pf-head h1{margin:0;font:300 34px/1.05 var(--font);letter-spacing:-.025em}
+.pf-head small{display:block;color:var(--muted);margin-top:6px}
+.pf-tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.pf-tiles .tile{padding:18px 20px;border-radius:24px}
+.pf-tiles b{display:block;font:300 30px/1 var(--font);letter-spacing:-.02em}
+.pf-tiles small{color:var(--muted);font-size:13px}
+.recs{display:flex;flex-direction:column;gap:10px}
+.rec{display:flex;align-items:center;gap:14px;padding:14px 16px 14px 14px;border-radius:22px;border:1px solid var(--hair);background:linear-gradient(180deg,rgba(255,255,255,.07),rgba(255,255,255,.025));text-align:left;color:var(--text);width:100%}
+.rec:hover{background:linear-gradient(180deg,rgba(255,255,255,.11),rgba(255,255,255,.04))}
+.rec .ic{color:var(--mc,var(--acc))}
+.rec .tx{flex:1;min-width:0}
+.rec b{display:block;font:500 15px/1.3 var(--font)}
+.rec small{display:block;color:var(--muted);font-size:13px;margin-top:2px}
+.pf-sims{padding:18px 20px;border-radius:24px}
+.pf-sims h4{margin:0 0 10px;font:500 15px var(--font)}
+.pf-sims .row{display:flex;justify-content:space-between;gap:10px;padding:8px 0;border-top:1px solid var(--hair);font-size:14px}
+.pf-sims .row:first-of-type{border-top:0}
+.pf-sims .row span{color:var(--muted)}
+@media (max-width:899px){
+  .me{padding:0 12px 0 4px;gap:8px;height:44px}
+  .me .av{width:34px;height:34px}
+  body.logged .brand>div:not(.mark){display:none}
+  .pf-tiles{grid-template-columns:1fr 1fr}
+  .pf-head{padding:20px}
+}
 </style>
 </head>
 <body>
 <div class="amb" aria-hidden="true"><i class="b1"></i><i class="b2"></i><i class="b3"></i><i class="b4"></i><img id="ambImg" alt=""></div>
 
 <div class="gate" id="gate" hidden>
-  <form class="glass" id="gateForm" autocomplete="off">
+  <form class="glass" id="gateForm" autocomplete="on" data-m="in">
     <div class="mark"><span>80</span></div>
-    <h1>Seus estudos</h1>
-    <p>Digite o seu PIN para abrir as aulas.</p>
-    <input id="pin" type="password" inputmode="numeric" maxlength="12" aria-label="PIN" placeholder="••••">
+    <h1 id="gTitle">Seus estudos</h1>
+    <p id="gSub">Entre com seu nome e sua senha. Seu progresso fica salvo na sua conta, em qualquer aparelho.</p>
+    <div class="gtabs" role="tablist"><button type="button" data-m="in" class="on" role="tab">Entrar</button><button type="button" data-m="up" role="tab">Criar conta</button></div>
+    <input class="gi" id="gName" name="username" autocomplete="username" placeholder="Seu nome" maxlength="30" aria-label="Seu nome" autocapitalize="words">
+    <input class="gi" id="pin" name="password" type="password" autocomplete="current-password" placeholder="Senha" aria-label="Senha" maxlength="40">
+    <input class="gi up" id="gPass2" type="password" autocomplete="new-password" placeholder="Repita a senha" aria-label="Repita a senha" maxlength="40">
+    <input class="gi up" id="gCode" inputmode="numeric" autocomplete="off" placeholder="Código de convite" aria-label="Código de convite" maxlength="12">
     <button class="wbtn" type="submit" id="pinBtn">Entrar</button>
     <p class="err" id="pinErr" role="alert"></p>
   </form>
@@ -653,7 +702,7 @@ h2.sec.sm{font-size:19px;margin-top:10px;display:flex;align-items:center;gap:10p
     <nav class="seg glass" id="seg" aria-label="Seções">
       <button data-v="inicio" class="on">Início</button><button data-v="aulas">Aulas</button><button data-v="simulados">Simulados</button><button data-v="resumos">Dicas</button><button data-v="cards">Flashcards<sup id="fcBadge" hidden></sup></button><button data-v="erros">Caderno de erros<sup id="errBadge" hidden></sup></button>
     </nav>
-    <div class="right"><button class="rbtn" id="searchBtn" aria-label="Buscar aula"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div>
+    <div class="right"><button class="me" id="meBtn" hidden aria-label="Seu perfil"><span class="av" id="meAv"></span><span class="hi">Olá, <b id="meName"></b></span><i class="sy" id="meSync" title="Progresso salvo"></i></button><button class="rbtn" id="searchBtn" aria-label="Buscar aula"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button></div>
   </header>
 
   <main class="main">
@@ -726,6 +775,9 @@ h2.sec.sm{font-size:19px;margin-top:10px;display:flex;align-items:center;gap:10p
 
     <!-- flashcards -->
     <section class="view" id="vCards" hidden></section>
+
+    <!-- perfil -->
+    <section class="view" id="vPerfil" hidden></section>
 
     <!-- erros -->
     <section class="view" id="vErr" hidden></section>
@@ -1079,6 +1131,41 @@ var ICO_DOWN=ico('<path d="m6 9 6 6 6-6"/>',20),ICO_UP=ico('<path d="m6 15 6-6 6
 function sk(s){return SUBJ[s]||['Extra','x']}
 var $=function(id){return document.getElementById(id)};
 var store={get:function(k,d){try{var v=localStorage.getItem(k);return v==null?d:JSON.parse(v)}catch(e){return d}},set:function(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}},del:function(k){try{localStorage.removeItem(k)}catch(e){}}};
+/* ---------- conta: o progresso fica no navegador e é copiado para a conta (Apps Script) a cada mudança ---------- */
+var SYNC=['a80w','a80q','a80att','a80fav','a80rev','a80fc','a80pos','a80l'];
+var SY={busy:0,h:0,state:'ok',at:0,quiet:0};
+(function(){var set0=store.set;store.set=function(k,v){set0(k,v);if(!SY.quiet&&SYNC.indexOf(k)>-1){set0('a80upd',Date.now());syncLater()}}})();
+function isUserTok(t){return typeof t==='string'&&t.indexOf('u.')===0}
+function snapProg(){var o={u:store.get('a80upd',0)||Date.now()};SYNC.forEach(function(k){o[k]=store.get(k,null)});return o}
+function syncLater(ms){clearTimeout(SY.h);SY.h=setTimeout(pushProg,ms||2500);syncDot('saving')}
+function syncDot(st){SY.state=st;var d=$('meSync');if(d){d.className='sy'+(st==='ok'?'':' '+st);d.title=st==='ok'?'Progresso salvo na sua conta':st==='err'?'Sem conexão: o progresso será salvo quando a internet voltar':'Salvando…'}}
+function pushProg(){var t=store.get('a80t',null);if(!isUserTok(t))return;if(SY.busy){syncLater(1500);return}SY.busy=1;var snap=snapProg();
+  callApi(t,function(r){SY.busy=0;if(!r){sessionLost();return}SY.at=Date.now();if(store.get('a80upd',0)<=snap.u)syncDot('ok');else syncLater()},
+    function(){SY.busy=0;syncDot('err');clearTimeout(SY.h);SY.h=setTimeout(pushProg,30000)},{a:'save',d:JSON.stringify(snap)})}
+/* ao sair da página com algo por salvar, manda na hora */
+document.addEventListener('visibilitychange',function(){if(document.visibilityState!=='hidden'||SY.state==='ok')return;var t=store.get('a80t',null);if(!isUserTok(t))return;
+  try{fetch(API,{method:'POST',body:JSON.stringify({s:t,a:'save',d:JSON.stringify(snapProg())}),keepalive:true,mode:'no-cors',credentials:'omit'})}catch(e){}});
+function applyProg(p){SY.quiet=1;SYNC.forEach(function(k){if(p[k]!=null)store.set(k,p[k]);else store.del(k)});store.set('a80upd',p.u||Date.now());SY.quiet=0;
+  S.w=store.get('a80w',{});S.ans=store.get('a80q',{});S.att=store.get('a80att',{});S.fav=store.get('a80fav',{});S.rev=store.get('a80rev',{});S.fc=store.get('a80fc',{});S.last=store.get('a80l',null);
+  if(window.VP)VP.pos=store.get('a80pos',{})}
+function mergeObj(a,b){var o={};[a,b].forEach(function(x){if(x&&typeof x==='object')Object.keys(x).forEach(function(k){o[k]=x[k]})});return o}
+/* junta o progresso do servidor com o do aparelho */
+function syncIn(prog,user){var own=store.get('a80own',null),lu=store.get('a80upd',0),changed=false;
+  if(own&&own!==user.id){SY.quiet=1;SYNC.concat(['a80upd']).forEach(function(k){store.del(k)});SY.quiet=0;lu=0;own=null}
+  if(!own){/* aparelho sem dono: o que foi feito antes do login entra na conta */
+    var loc=snapProg(),hasLoc=SYNC.some(function(k){var v=loc[k];return v&&(typeof v!=='object'||Object.keys(v).length)});
+    if(prog){if(hasLoc){var m={u:Date.now()};SYNC.forEach(function(k){var a=loc[k],b=prog[k];m[k]=(a&&typeof a==='object'&&b&&typeof b==='object')?mergeObj(a,b):(b!=null?b:a)});applyProg(m);syncLater(500)}else applyProg(prog);changed=true}
+    else if(hasLoc)syncLater(500);
+    store.set('a80own',user.id)}
+  else if(prog&&(prog.u||0)>lu){applyProg(prog);changed=true}
+  else if(!prog||lu>(prog.u||0))syncLater(500);
+  return changed}
+function setUser(u){S.user=u;store.set('a80u',u);var on=!!u;$('meBtn').hidden=!on;document.body.classList.toggle('logged',on);
+  if(u){var first=String(u.n).trim().split(/\s+/)[0];$('meName').textContent=first;$('meAv').textContent=first.charAt(0).toUpperCase()}}
+function sessionLost(){store.del('a80t');showGate('Sua sessão expirou. Entre de novo.')}
+function logout(){var t=store.get('a80t',null),fin=function(){if(isUserTok(t))callApi(t,function(){},function(){},{a:'logout'});
+    SYNC.concat(['a80upd','a80own','a80t','a80u','a80d','a80vt']).forEach(function(k){store.del(k)});location.reload()};
+  if(SY.state!=='ok'&&isUserTok(t)){toast('Salvando seu progresso…');callApi(t,fin,function(){if(confirm('Sem internet: o que você fez agora não foi salvo na conta. Sair assim mesmo?'))fin()},{a:'save',d:JSON.stringify(snapProg())})}else fin()}
 var S={days:[],extras:[],w:store.get('a80w',{}),last:store.get('a80l',null),ans:store.get('a80q',{}),sel:null,idx:0,playing:false,view:'inicio',sub:'aula',block:0,quiz:null,resF:'todos',att:store.get('a80att',{}),fav:store.get('a80fav',{}),rev:store.get('a80rev',{}),fc:store.get('a80fc',{}),fcDeck:'todos'};
 
 function esc(s){return String(s).replace(/[&<>"]/g,function(c){return{'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
@@ -1700,12 +1787,13 @@ function updateBadges(){var n=wrongKeys().length;[$('errBadge'),$('errBadgeM')].
 
 /* ---------- navegação ---------- */
 function setView(v){S.view=v;$('app').dataset.view=v;
-  $('vInicio').hidden=v!=='inicio';$('vAulas').hidden=v!=='aulas';$('vSim').hidden=v!=='simulados';$('vRes').hidden=v!=='resumos';$('vCards').hidden=v!=='cards';$('vErr').hidden=v!=='erros';
+  $('vInicio').hidden=v!=='inicio';$('vAulas').hidden=v!=='aulas';$('vSim').hidden=v!=='simulados';$('vRes').hidden=v!=='resumos';$('vPerfil').hidden=v!=='perfil';$('vCards').hidden=v!=='cards';$('vErr').hidden=v!=='erros';
   [].forEach.call(document.querySelectorAll('#seg button,#nav button'),function(b){b.classList.toggle('on',b.dataset.v===v)});
   if(v==='inicio')renderInicio();
   if(v==='aulas'){renderAula();renderSide();setSub(S.sub)}
   if(v==='simulados'){if(S.quiz&&S.quiz.mode!=='erros')renderQuiz();else{S.quiz=null;renderSimList()}}
   if(v==='resumos')renderResumos();
+  if(v==='perfil')renderPerfil();
   if(v==='cards')renderCards();
   if(v==='erros'){if(S.quiz&&S.quiz.mode==='erros')renderQuiz();else{if(S.quiz)S.quiz=null;renderErros()}}
   if(v!=='simulados'&&v!=='erros')clearInterval(tick.h);
@@ -1737,6 +1825,35 @@ $('extras').onclick=function(e){var b=e.target.closest('[data-x]');if(b)openExtr
 $('agD').onclick=function(e){var b=e.target.closest('.agc');if(b)openDay(+b.dataset.d,null,true)};
 $('aulasSeg').onclick=function(e){var b=e.target.closest('button[data-s]');if(b)setSub(b.dataset.s)};
 $('seg').onclick=$('nav').onclick=function(e){var b=e.target.closest('button[data-v]');if(b){if(b.dataset.v===S.view&&S.quiz){S.quiz=null}setView(b.dataset.v)}};
+$('meBtn').onclick=function(){S.quiz=null;setView('perfil')};
+function renderPerfil(){var u=S.user||{n:''},host=$('vPerfil'),first=String(u.n).split(/\s+/)[0];
+  var cs=courseStats(),st=streaks(),qs=qstats(),wk=wrongKeys().length,fd=fcDueCount(),fix=Object.keys(S.fc).filter(function(k){return S.fc[k].b>=3}).length;
+  var simsDone=SIMS.filter(function(s){var x=simStats(s);return x.fin||(!x.exam&&x.n===s.keys.length)});
+  var by={};Object.keys(QB).forEach(function(k){var q=QB[k].q,a=S.ans[k];by[q.m]=by[q.m]||{t:0,n:0,ok:0};by[q.m].t++;if(a){by[q.m].n++;if(a.c===q.a)by[q.m].ok++}});
+  var D=new Date(u.at||Date.now()),h='<div class="glass pf-head"><span class="av">'+esc(first.charAt(0).toUpperCase())+'</span><div class="tx"><h1>Olá, '+esc(first)+'</h1><small>'+esc(u.n)+' · conta criada em '+D.toLocaleDateString('pt-BR')+'</small><small>'+(SY.state==='ok'?'Tudo salvo na sua conta.':SY.state==='err'?'Sem conexão agora: seu progresso será salvo quando a internet voltar.':'Salvando…')+'</small></div>'+examPill()+'<button class="gbtn" id="pfOut">Sair</button></div>';
+  var T=[[cs.c+'/'+cs.tot,'aulas assistidas'],[qs.n,'questões respondidas'],[qs.n?Math.round(qs.ok/qs.n*100)+'%':'–','de acerto'],[plural(st.cur,'dia','dias'),'sequência atual (recorde: '+st.best+')'],[simsDone.length,'simulados concluídos'],[fix,'flashcards bem fixados']];
+  h+='<div class="pf-tiles">'+T.map(function(t){return '<div class="glass tile"><b>'+t[0]+'</b><small>'+t[1]+'</small></div>'}).join('')+'</div>';
+  /* recomendações */
+  var R=[],mats=['pt','rl','in','lm','ce'],dte=daysToExam();
+  var g=SIMS.filter(function(s){return s.tipo==='g'}),gDone=g.filter(function(s){var x=simStats(s);return x.fin}),gNext=g.filter(function(s){var x=simStats(s);return !x.fin&&!x.n})[0];
+  if(gNext)R.push({ic:I_CLOCK,m:'ce',t:gDone.length?'Faça mais um simulado no tempo de prova':'Faça seu primeiro simulado no modo prova',d:(dte>=0?'Faltam '+plural(dte,'dia','dias')+' para a prova. ':'')+'30 questões em 3 h, com a nota pelos pesos do edital.',go:function(){S.quiz=null;var A=att(gNext.id);A._exam=1;A._t0=Date.now();saveAns();startQuiz('sim',gNext.keys,null,gNext.id)}});
+  var weak=mats.filter(function(m){return by[m]&&by[m].n>=5}).sort(function(a,b){return by[a].ok/by[a].n-by[b].ok/by[b].n})[0];
+  if(weak&&by[weak].ok/by[weak].n<.75)R.push({m:weak,t:'Reforce '+MAT[weak],d:'É onde você mais erra ('+Math.round(by[weak].ok/by[weak].n*100)+'% de acerto). Treine 20 questões que você ainda não fez.',go:function(){S.tr={m:weak,tp:'todos',n:20,f:'novas'};var ks=shuffle(poolKeys()).slice(0,20);if(!ks.length){S.tr.f='todas';ks=shuffle(poolKeys()).slice(0,20)}startQuiz('treino',ks,0)}});
+  var low=mats.filter(function(m){return by[m]&&m!==weak}).sort(function(a,b){return by[a].n/by[a].t-by[b].n/by[b].t})[0];
+  if(low&&by[low].n/by[low].t<.5)R.push({m:low,t:'Pratique mais '+MAT[low],d:'Você fez '+by[low].n+' de '+by[low].t+' questões dessa matéria.'+(low==='lm'?' Vale 15 pontos e não pode zerar.':''),go:function(){S.tr={m:low,tp:'todos',n:20,f:'novas'};startQuiz('treino',shuffle(poolKeys()).slice(0,20),0)}});
+  if(wk)R.push({ic:ICON.alert,m:'pt',t:'Refaça '+plural(wk,'questão errada','questões erradas'),d:'Acertou ao refazer, a questão sai do caderno.',go:function(){S.errTab='erros';S.quiz=null;setView('erros')}});
+  if(fd)R.push({m:'rl',t:'Revise '+plural(fd,'flashcard','flashcards')+' de hoje',d:'Leva poucos minutos e fixa o que você já estudou.',go:function(){setView('cards')}});
+  else if(!Object.keys(S.fc).length)R.push({m:'rl',t:'Comece os flashcards',d:CARDS.length+' cartões com os pontos que mais caem.',go:function(){setView('cards')}});
+  if(by.lm&&by.lm.n>=5&&by.lm.ok/by.lm.n<.6)R.push({m:'lm',t:'Revise as dicas de Legislação Municipal',d:'Pegadinhas da Lei Orgânica e das leis complementares de Paracatu.',go:function(){S.resF='lm';setView('resumos')}});
+  var nd=nextDay(),dd=dayOf(nd);if(cs.c<cs.tot&&dd)R.push({ic:ICON.play,m:'in',t:'Continue as aulas: dia '+nd,d:dd.s+', '+plural(dd.f.length-seen(dd),'aula restante','aulas restantes')+'.',go:function(){openDay(nd,firstUnseen(dd),false)}});
+  h+='<h2 class="sec sm">Recomendado para você</h2><div class="recs">'+(R.length?R.slice(0,5).map(function(r,i){return '<button class="rec" data-r="'+i+'" style="--mc:var(--m-'+r.m+')"><span class="ic">'+(r.ic||ICON[MATIC[r.m]])+'</span><span class="tx"><b>'+esc(r.t)+'</b><small>'+esc(r.d)+'</small></span>'+CHEV+'</button>'}).join(''):'<p class="empty">Tudo em dia. Faça um treino livre para manter o ritmo.</p>')+'</div>';
+  h+='<h2 class="sec sm">Desempenho por matéria</h2><div class="glass subj">'+mats.map(function(m){var b=by[m];if(!b)return '';var p=b.n?b.ok/b.n:0;
+    return '<div class="srow"><span class="ic">'+ICON[MATIC[m]]+'</span><div><b>'+MAT[m]+'</b><div class="dline" style="--p:'+p+'"><i></i></div><small>'+b.n+' de '+b.t+' feitas'+(b.n?', '+b.ok+' certas':'')+'</small></div><span class="pc">'+(b.n?Math.round(p*100)+'%':'–')+'</span></div>'}).join('')+'</div>';
+  if(simsDone.length)h+='<div class="glass pf-sims"><h4>Simulados concluídos</h4>'+simsDone.map(function(s){var x=simStats(s);return '<div class="row"><b>'+esc(s.nome)+'</b><span>'+x.ok+'/'+s.keys.length+' · '+Math.round(x.ok/s.keys.length*100)+'%</span></div>'}).join('')+'</div>';
+  host.innerHTML=h;
+  $('pfOut').onclick=function(){if(confirm('Sair da sua conta neste aparelho?'))logout()};
+  host.querySelector('.recs').onclick=function(e){var b=e.target.closest('[data-r]');if(b)R[+b.dataset.r].go()};
+}
 $('train').onclick=function(e){var b=e.target.closest('[data-go]');if(b)setView(b.dataset.go)};
 $('brand').onclick=function(){setView('inicio')};
 $('searchBtn').onclick=function(){S.sub='mapa';setView('aulas');$('q').focus()};
@@ -1766,7 +1883,12 @@ function start(data){S.days=data.days;S.extras=data.extras||[];$('gate').hidden=
   var found=null;if(S.last)S.days.forEach(function(d){d.f.forEach(function(x,i){if(x[0]===S.last&&seen(d)<d.f.length)found={d:d.d,i:i}})});
   var d=found?found.d:nextDay();S.sel={d:d};S.block=Math.floor((d-1)/8);S.idx=found?found.i:firstUnseen(dayOf(d));S.playing=false;
   updateBadges();setView('inicio')}
-function showGate(msg){$('gate').hidden=false;$('app').hidden=true;$('pinErr').textContent=msg||'';$('pin').disabled=false;$('pinBtn').disabled=false;setTimeout(function(){$('pin').focus()},50)}
+function showGate(msg){$('gate').hidden=false;$('app').hidden=true;$('pinErr').textContent=msg||'';$('pin').disabled=false;$('pinBtn').disabled=false;
+  var u=store.get('a80u',null);if(u&&!$('gName').value)$('gName').value=u.n;setTimeout(function(){($('gName').value?$('pin'):$('gName')).focus()},50)}
+function gateMode(m){var f=$('gateForm');f.dataset.m=m;[].forEach.call(f.querySelectorAll('.gtabs button'),function(b){b.classList.toggle('on',b.dataset.m===m)});
+  $('pinBtn').textContent=m==='up'?'Criar conta':'Entrar';$('pin').autocomplete=m==='up'?'new-password':'current-password';
+  $('gSub').textContent=m==='up'?'Escolha um nome e uma senha (mínimo de 4 caracteres). Para criar a conta, use o código de convite que você recebeu.':'Entre com seu nome e sua senha. Seu progresso fica salvo na sua conta, em qualquer aparelho.';$('pinErr').textContent=''}
+$('gateForm').querySelector('.gtabs').onclick=function(e){var b=e.target.closest('[data-m]');if(b)gateMode(b.dataset.m)};
 var API='https://script.google.com/macros/s/AKfycbzun46yqrr2eSUCpxfc4nEgmlK5lbNVjco9dd3jc9jDZxglvsdHj6B8td3rLRVsQBO5kw/exec';
 function callApi(secret,ok,fail,extra){
   if(window.google&&google.script&&google.script.run){if(extra){fail();return}google.script.run.withSuccessHandler(ok).withFailureHandler(fail).getData(secret);return}
@@ -1774,24 +1896,35 @@ function callApi(secret,ok,fail,extra){
     .then(function(r){if(!r.ok)throw new Error('http');return r.text()})
     .then(function(t){t=(t||'').trim();ok(!t||t==='null'?null:t==='"locked"'?'locked':t)})
     .catch(fail)}
-function fetchData(secret,silent){
+function fetchData(secret,silent,extra){
   if(!silent){$('pinBtn').disabled=true;$('pinErr').textContent=''}
   callApi(secret,function(r){
     $('pinBtn').disabled=false;
     if(r==='locked'){if(!S.days.length)showGate('Muitas tentativas erradas. Espere 15 minutos e tente de novo.');return}
-    if(!r){store.del('a80t');if(silent){if(!S.days.length)showGate()}else{$('pinErr').textContent='PIN incorreto. Confira e tente de novo.';$('pin').select()}return}
-    r=JSON.parse(r);store.set('a80t',r.token);
+    if(!r){store.del('a80t');if(silent){showGate('Sua sessão expirou. Entre de novo.')}else{$('pinErr').textContent='Não foi possível entrar. Tente de novo.'}return}
+    r=JSON.parse(r);
+    if(r.err){var M={login:'Nome ou senha incorretos.',code:'Código de convite incorreto.',exists:'Já existe uma conta com esse nome. Entre com ela ou escolha outro nome.',name:'Digite seu nome.',pass:'A senha precisa ter pelo menos 4 caracteres.'};$('pinErr').textContent=M[r.err]||'Não foi possível entrar.';return}
+    store.set('a80t',r.token);if(r.user){setUser(r.user);var ch=syncIn(r.prog,r.user)}
     vpSetTok(r.vt);
     var fresh=JSON.stringify(r.data),old=JSON.stringify(store.get('a80d',null));store.set('a80d',r.data);
     if(!S.days.length)start(r.data);
-    else if(fresh!==old&&!S.playing&&!S.quiz){S.days=r.data.days;S.extras=r.data.extras||[];setView(S.view)}
+    else if((fresh!==old||ch)&&!S.playing&&!S.quiz){S.days=r.data.days;S.extras=r.data.extras||[];updateBadges();setView(S.view)}
   },function(){
     $('pinBtn').disabled=false;
     if(!S.days.length)showGate('Não foi possível conectar. Verifique a internet e tente de novo.');
-  })}
-$('gateForm').onsubmit=function(e){e.preventDefault();var pin=$('pin').value.trim();if(pin)fetchData(pin,false)};
+  },extra)}
+$('gateForm').onsubmit=function(e){e.preventDefault();var m=$('gateForm').dataset.m,n=$('gName').value.trim(),p=$('pin').value;
+  if(!n){$('pinErr').textContent='Digite seu nome.';$('gName').focus();return}
+  if(!p){$('pinErr').textContent='Digite sua senha.';$('pin').focus();return}
+  if(m==='up'){if(p.length<4){$('pinErr').textContent='A senha precisa ter pelo menos 4 caracteres.';return}
+    if(p!==$('gPass2').value){$('pinErr').textContent='As senhas não são iguais.';$('gPass2').focus();return}
+    if(!$('gCode').value.trim()){$('pinErr').textContent='Digite o código de convite.';$('gCode').focus();return}}
+  $('pinErr').textContent=m==='up'?'Criando sua conta…':'Entrando…';
+  fetchData(null,false,m==='up'?{a:'reg',n:n,p:p,c:$('gCode').value.trim()}:{a:'login',n:n,p:p})};
 (function boot(){
   var t=store.get('a80t',null),d=store.get('a80d',null);
+  if(!isUserTok(t)){store.del('a80t');t=null}
+  var u=store.get('a80u',null);if(t&&u)setUser(u);
   if(t&&d){start(d);fetchData(t,true);return}
   if(t){$('gate').hidden=false;$('pin').disabled=true;$('pinErr').textContent='Carregando suas aulas…';fetchData(t,true);return}
   showGate();
